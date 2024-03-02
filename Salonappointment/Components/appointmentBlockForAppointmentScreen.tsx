@@ -89,7 +89,11 @@ export function AppointmentBlockTwo() {
         <Text style={{
             marginTop: 4
         }}>Price</Text>
+        <Text style={{
+            marginTop: 4
+        }}>Time</Text>
         </View>
+        
     </View>
   );
 }
