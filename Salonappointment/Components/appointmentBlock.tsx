@@ -7,11 +7,9 @@ export function AppointmentBlock() {
       style={{
         width: 175,
         height: 227.5,
-        backgroundColor: "white",
+        backgroundColor: "#EFEFEF",
         margin: 10,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: "black",
       }}
     >
       <View

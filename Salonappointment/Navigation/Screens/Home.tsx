@@ -72,8 +72,8 @@ export default function HomeScreen() {
           style={{
             backgroundColor: "white",
             width: "100%",
-            height: "75%",
-            bottom: 0,
+            height: "70%",
+            bottom: 45,
             position: "absolute",
             borderTopLeftRadius: 10,
             borderBottomRightRadius: 10,

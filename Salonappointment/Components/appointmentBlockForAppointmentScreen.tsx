@@ -7,11 +7,9 @@ export function AppointmentBlockTwo() {
       style={{  //Main container
         width: '90%',
         height: 'auto',
-        backgroundColor: "white",
+        backgroundColor: "#EFEFEF",
         margin: 10,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: "black",
         justifyContent: 'space-between',
         flexDirection: "row",
       }}
