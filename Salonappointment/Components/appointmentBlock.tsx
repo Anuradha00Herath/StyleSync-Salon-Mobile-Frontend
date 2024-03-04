@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 
-export function AppointmentBlock() {
+export function AppointmentBlock({ appointment }) {
+  const { customer, staff, service, gender } = appointment;
+
   return (
     <View
       style={{
@@ -40,7 +42,7 @@ export function AppointmentBlock() {
             paddingTop: 5,
           }}
         >
-          Staff Name
+          <Text>{staff.name}</Text>
         </Text>
       </View>
       <View
@@ -74,7 +76,6 @@ export function AppointmentBlock() {
               fontWeight: "bold",
             }}
           >
-            Customer
           </Text>
           <Text
             style={{
@@ -82,7 +83,7 @@ export function AppointmentBlock() {
               fontWeight: "bold",
             }}
           >
-            Name
+            <Text>{customer.name}</Text>
           </Text>
         </View>
         <View style={{
@@ -93,7 +94,9 @@ export function AppointmentBlock() {
         }}></View>
         <Text style={{
             marginTop: 3
-        }}>Service</Text>
+        }}>
+          <Text>{service.name}</Text>
+        </Text>
         <View style={{
             height: 1,
             width: '100%',
@@ -102,7 +105,9 @@ export function AppointmentBlock() {
         }}></View>
         <Text style={{
             marginTop: 3
-        }}>Gender</Text>
+        }}>
+          <Text>{gender}</Text>
+        </Text>
         <View style={{
             height: 1,
             width: '100%',
@@ -111,7 +116,9 @@ export function AppointmentBlock() {
         }}></View>
         <Text style={{
             marginTop: 3
-        }}>Price</Text>
+        }}>
+          <Text>LKR {service.price}</Text>
+        </Text>
       </View>
       <TouchableOpacity style={{
         width: '90%',

@@ -10,6 +10,8 @@ import {
 import Calendar from "../../Components/calenderInHome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../Components/appointmentSet";
+import mockAppointments from "../../GetDataFromBackend/AppointmentDetails";
+
 const { width, height } = Dimensions.get("screen");
 
 export default function HomeScreen() {
@@ -31,6 +33,18 @@ export default function HomeScreen() {
       setRefresh(false);
     }
   }, [refresh]);
+
+  // Group appointments by start time
+  const groupedAppointments = {};
+  mockAppointments.forEach((appointment) => {
+    const startTime = appointment.startTime;
+    if (groupedAppointments[startTime]) {
+      groupedAppointments[startTime].push(appointment);
+    } else {
+      groupedAppointments[startTime] = [appointment];
+    }
+  });
+
   return (
     <View
       style={{
@@ -121,8 +135,13 @@ export default function HomeScreen() {
             </Text>
           </View>
           <ScrollView>
-            <AppointmentSet />
-            <AppointmentSet />
+            {Object.keys(groupedAppointments).map((startTime, index) => (
+              <AppointmentSet
+                key={index}
+                startTime={startTime}
+                appointments={groupedAppointments[startTime]}
+              />
+            ))}
           </ScrollView>
         </View>
       </ImageBackground>
