@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import moment from 'moment';
-import { BlurView } from '@react-native-community/blur';
 
 interface CalendarProps {
   currentDate: Date;
