@@ -11,20 +11,20 @@ export function Page03Content(){
         <View style={[globaleStyles.back,{marginTop:200}]}>
             <Text style={globaleStyles.topic}> Your business Hours</Text>
             <Text style={globaleStyles.Stopic}>When can client book with you</Text>
-            <Day text='Monday' onPress={() =>navigation.navigate("Page02" )}/>
+            <Day text='Monday' onPress={() =>navigation.navigate("SetTime",{name:"Monday"})}/>
             <SeparatorLineWithText lineColor={"gray"}/>
-            <Day text='Tuesday'onPress={() =>navigation.navigate("Page02")}/>
+            <Day text='Tuesday'onPress={() =>navigation.navigate("SetTime",{name:"Tuesday"})}/>
             <SeparatorLineWithText lineColor={"gray"}/>
-            <Day text='Wednesday' onPress={() =>navigation.navigate("Page02")}/>
+            <Day text='Wednesday' onPress={() =>navigation.navigate("SetTime",{name:"Wednesday"})}/>
             <SeparatorLineWithText lineColor={"gray"}/>
-            <Day text='Thursday'onPress={() =>navigation.navigate("Page02")}/>
+            <Day text='Thursday'onPress={() =>navigation.navigate("SetTime",{name:"Thursday"})}/>
             <SeparatorLineWithText lineColor={"gray"}/>
-            <Day text='Friday'onPress={() =>navigation.navigate("Page02")}/>
+            <Day text='Friday'onPress={() =>navigation.navigate("SetTime",{name:"Friday"})}/>
             <SeparatorLineWithText lineColor={"gray"}/>
-            <Day text='Saturday'onPress={() =>navigation.navigate("Page02")}/>
+            <Day text='Saturday'onPress={() =>navigation.navigate("SetTime",{name:"Saturday"})}/>
             <SeparatorLineWithText lineColor={"gray"}/>
-            <Day text='sunday'onPress={() =>navigation.navigate("Page02")}/>
-            <FlatButton text='Continue' onPress={() =>navigation.navigate("Page04")} />
+            <Day text='sunday'onPress={() =>navigation.navigate("SetTime",{name:"Sunday"})}/>
+            <FlatButton text='Continue' onPress={() =>navigation.navigate("Page04")} /> 
         </View>
     );
 }

@@ -13,6 +13,8 @@ import Facials from "./P06/Facials";
 import AddMoreDetails from "./P06/AddMoreDetails";
 import Staff from "./P07/Staff";
 import AddStaff from "./P07/AddStaff";
+import SetTime from "./P03/SetTime";
+import SetBreakTime from "./P03/SetBreakTime";
 
 const Stack =createStackNavigator();
 
@@ -81,6 +83,17 @@ export default function App() {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
                 }/>
+                 <Stack.Screen name="SetTime" component={SetTime} options={
+                    {
+                        cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
+                    }
+                }/>
+                 <Stack.Screen name="SetBreakTime" component={SetBreakTime} options={
+                    {
+                        cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
+                    }
+                }/>
+
 
 
           </Stack.Navigator>
