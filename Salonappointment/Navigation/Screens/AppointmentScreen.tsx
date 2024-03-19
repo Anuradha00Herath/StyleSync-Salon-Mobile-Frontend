@@ -5,25 +5,29 @@ import {
   Text,
   Dimensions,
   StatusBar,
-  ScrollView,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  ScrollView,
 } from "react-native";
-import Calendar from "../../Components/calenderInHome";
+import Calender from "../../Components/calenderInHome";
+import CalenderExpand from "../../Components/calenderInAppointment";
 const { width, height } = Dimensions.get("screen");
 const EventStatus = {
-  ONGOING: 'ONGOING',
-  UPCOMING: 'UPCOMING',
-  PAST: 'PAST',
-  CANCELED: 'CANCELED',
+  ONGOING: "ONGOING",
+  UPCOMING: "UPCOMING",
+  PAST: "PAST",
+  CANCELED: "CANCELED",
 };
 
-
 import { AppointmentSetTwo } from "../../Components/appointmentSetForAppointmentScreen";
+import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
+
 
 export default function AppointmentScreen() {
   const [refresh, setRefresh] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState<string>(EventStatus.ONGOING);
+  const [selectedStatus, setSelectedStatus] = useState<string>(
+    EventStatus.ONGOING
+  );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -46,102 +50,169 @@ export default function AppointmentScreen() {
     setSelectedStatus(status);
   };
 
+  const groupedAppointments = {};
+  mockAppointments.forEach((appointment) => {
+    const staffName = appointment.staff.name;
+    if (groupedAppointments[staffName]) {
+      groupedAppointments[staffName].push(appointment);
+    } else {
+      groupedAppointments[staffName] = [appointment];
+    }
+  });
+
   return (
-      <View
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <StatusBar barStyle="light-content" backgroundColor="black" />
+      <ImageBackground
+        source={require("../../assets/background3.png")}
         style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          width: width,
+          height: height,
         }}
-        key={refresh ? "refreshed" : "initial"}
       >
-        <StatusBar barStyle="light-content" backgroundColor="black" />
-        <ImageBackground
-          source={require("../../assets/background3.png")}
+        <Text
           style={{
-            width: width,
-            height: height,
+            color: "white",
+            textAlign: "center",
+            top: StatusBar.currentHeight + 20,
+            fontSize: 20,
+            fontWeight: "bold",
           }}
         >
-          <Text
-            style={{
-              color: "white",
-              textAlign: "center",
-              top: StatusBar.currentHeight + 20,
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
-          >
-            StyleSync
-          </Text>
-          <View
-            style={{
-              position: "absolute",
-              alignSelf: "center",
-              marginTop: 82,
-            }}
-          >
-            <Calendar currentDate={new Date()} />
+          StyleSync
+        </Text>
+        <View
+          style={{
+            marginTop: 55,
+            marginHorizontal: 30,
+          }}
+        >
+          <CalenderExpand currentDate={undefined} />
+        </View>
+        <View
+          style={{
+            flex:1,
+            backgroundColor: "white",
+            width: "100%",
+            height: "auto",
+            position: "relative",
+            borderTopLeftRadius: 10,
+            borderBottomRightRadius: 10,
+            marginTop: 20,
+            marginBottom: 44
+          }}
+          key={refresh ? "refreshed" : "initial"}
+        >
+          <View style={styles.optionsContainer}>
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.ONGOING && styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.ONGOING)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.ONGOING && styles.selectedText,
+                ]}
+              >
+                Ongoing
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.UPCOMING &&
+                  styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.UPCOMING)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.UPCOMING &&
+                    styles.selectedText,
+                ]}
+              >
+                Upcoming
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.PAST && styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.PAST)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.PAST && styles.selectedText,
+                ]}
+              >
+                Past
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.CANCELED &&
+                  styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.CANCELED)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.CANCELED &&
+                    styles.selectedText,
+                ]}
+              >
+                Canceled
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              width: "100%",
-              height: "75%",
-              bottom: 0,
-              position: "absolute",
-              borderTopLeftRadius: 10,
-              borderBottomRightRadius: 10,
-            }}
-          >
-              <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            style={[styles.optionButton, selectedStatus === EventStatus.ONGOING && styles.selectedOption]}
-            onPress={() => handleStatusChange(EventStatus.ONGOING)}
-          >
-            <Text style={[styles.optionText, selectedStatus === EventStatus.ONGOING && styles.selectedText]}>Ongoing</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.optionButton, selectedStatus === EventStatus.UPCOMING && styles.selectedOption]}
-            onPress={() => handleStatusChange(EventStatus.UPCOMING)}
-          >
-            <Text style={[styles.optionText, selectedStatus === EventStatus.UPCOMING && styles.selectedText]}>Upcoming</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.optionButton, selectedStatus === EventStatus.PAST && styles.selectedOption]}
-            onPress={() => handleStatusChange(EventStatus.PAST)}
-          >
-            <Text style={[styles.optionText, selectedStatus === EventStatus.PAST && styles.selectedText]}>Past</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.optionButton, selectedStatus === EventStatus.CANCELED && styles.selectedOption]}
-            onPress={() => handleStatusChange(EventStatus.CANCELED)}
-          >
-            <Text style={[styles.optionText, selectedStatus === EventStatus.CANCELED && styles.selectedText]}>Canceled</Text>
-          </TouchableOpacity>
-          
+          {selectedStatus === EventStatus.ONGOING && (
+            <ScrollView>
+              {Object.keys(groupedAppointments).map((staffName, index) => (
+                <AppointmentSetTwo
+                  key={index}
+                  staffName={staffName}
+                  appointments={groupedAppointments[staffName]}
+                />
+              ))}
+            </ScrollView>
+          )}
+          {selectedStatus === EventStatus.UPCOMING && (
+            <ScrollView>
+              {Object.keys(groupedAppointments).map((staffName, index) => (
+                <AppointmentSetTwo
+                  key={index}
+                  staffName={staffName}
+                  appointments={groupedAppointments[staffName]}
+                />
+              ))}
+            </ScrollView>
+          )}
+          <View></View>
         </View>
-        {selectedStatus === EventStatus.ONGOING && (
-              <View>
-                <AppointmentSetTwo />
-                <AppointmentSetTwo />
-              </View>
-            )}
-        <View>
-          {/* Your event list component here */}
-          <Text>Events with status: {selectedStatus}</Text>
-        </View>
-          </View>  
-        </ImageBackground>
-      </View>
+      </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   optionsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
-    justifyContent: 'space-evenly'
+    justifyContent: "space-evenly",
   },
   optionButton: {
     paddingHorizontal: 10,
@@ -153,9 +224,9 @@ const styles = StyleSheet.create({
   },
   selectedOption: {
     borderBottomWidth: 2,
-    borderBottomColor: 'black',
+    borderBottomColor: "black",
   },
   selectedText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

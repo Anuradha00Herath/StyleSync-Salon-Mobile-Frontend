@@ -46,7 +46,6 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-
     borderRadius: 10,
     padding: 10,
     marginBottom: 20

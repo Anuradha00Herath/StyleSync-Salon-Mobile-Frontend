@@ -10,7 +10,7 @@ import {
 import Calendar from "../../Components/calenderInHome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../Components/appointmentSet";
-import mockAppointments from "../../GetDataFromBackend/AppointmentDetails";
+import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -84,7 +84,7 @@ export default function HomeScreen() {
         </View>
         <View
           style={{
-            backgroundColor: "white",
+            backgroundColor: "#FDFDFD",
             width: "100%",
             height: "70%",
             bottom: 45,

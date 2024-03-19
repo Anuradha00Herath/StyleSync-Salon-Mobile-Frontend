@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { AppointmentBlockTwo } from "./appointmentBlockForAppointmentScreen";
 
-export function AppointmentSetTwo() {
+export function AppointmentSetTwo({staffName, appointments}) {
   return (
     <View style={{
         alignItems: 'center'
@@ -30,7 +30,7 @@ export function AppointmentSetTwo() {
             fontSize: 12,
           }}
         >
-          Staff Name
+          {staffName}
         </Text>
         <View
           style={{
@@ -48,7 +48,10 @@ export function AppointmentSetTwo() {
             height: 'auto',
             flexDirection: 'row',
             flexWrap: 'wrap'
-        }}><AppointmentBlockTwo/>
+        }}> 
+        {appointments.map(appointment => (
+  <AppointmentBlockTwo key={appointment.id} appointment={appointment} />
+))}
         </View>
     </View>
   );
