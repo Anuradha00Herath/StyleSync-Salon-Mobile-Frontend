@@ -44,7 +44,8 @@ export function Page02Content({topic}){
                            data={data} 
                            save="value"
                            placeholder='choose Gender'
-                           inputStyles={{color:'gray',fontSize:12}}
+                           inputStyles={{ color: selected ? '#2E2528' : '#999999', 
+                                          fontSize: 12}}
                            boxStyles={{borderRadius:10,
                                        height:48,
                                        width:"100%",
