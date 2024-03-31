@@ -1,49 +1,49 @@
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators,createStackNavigator} from '@react-navigation/stack';
-import Page01 from "./P01/Page01";
-import Page02 from "./P02/Page02";
-import Page03 from "./P03/Page03";
-import Page04 from "./P04/Page04";
-import { Page05 } from "./P05/Page05";
-import HairService from "./P06/HairService";
-import NailService from "./P06/NailService";
-import Page06EditDetails from "./P06/Page06EditDetails";
-import Facials from "./P06/Facials";
-import AddMoreDetails from "./P06/AddMoreDetails";
-import Staff from "./P07/Staff";
-import AddStaff from "./P07/AddStaff";
-import SetTime from "./P03/SetTime";
-import SetBreakTime from "./P03/SetBreakTime";
+import SelectTeam from "./P01_Select_team_Page/SelectTeam";
+import PersanalInformation from "./P02_Personal_Information/PersonalInformation";
+import BusinessHours from "./P03_Business_Hours/BusinessHours";
+import SelectServices from "./P04_Select_Services/SelectServices";
+import { SalonServices} from "./P05_Salon_Services/SalonServices";
+import HairService from "./P06_Service_Type/HairService";
+import NailService from "./P06_Service_Type/NailService";
+import Page06EditDetails from "./P06_Service_Type/Page06EditDetails";
+import Facials from "./P06_Service_Type/Facials";
+import AddMoreDetails from "./P06_Service_Type/AddMoreDetails";
+import Staff from "./P07_Add_Staff/Staff";
+import AddStaff from "./P07_Add_Staff/AddStaff";
+import SetTime from "./P03_Business_Hours/SetTime";
+import SetBreakTime from "./P03_Business_Hours/SetBreakTime";
 
 const Stack =createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Page01" screenOptions={{
+        <Stack.Navigator initialRouteName="SelectTeam" screenOptions={{
           headerShown: false, }}>
-              <Stack.Screen name="Page01" component={Page01} options={
+              <Stack.Screen name="SelectTeam" component={SelectTeam} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
                 }/>
-                  <Stack.Screen name="Page02" component={Page02} options={
+                  <Stack.Screen name="PersanalInformation" component={PersanalInformation} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
                 }/>
-                <Stack.Screen name="Page03" component={Page03} options={
+                <Stack.Screen name="BusinessHours" component={BusinessHours} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
                 }/>
-                <Stack.Screen name="Page04" component={Page04} options={
+                <Stack.Screen name="SelectServices" component={SelectServices} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
                 }/>
-                <Stack.Screen name="Page05" component={Page05} options={
+                <Stack.Screen name="SalonServices" component={SalonServices} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
