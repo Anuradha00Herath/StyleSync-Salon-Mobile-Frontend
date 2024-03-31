@@ -13,7 +13,7 @@ export default function SetBreakTime({route}) {
     return (
     
         <ImageBackground source={backImg} style={imageStyles.container}>
-        <StatusBar style={imageStyles.Bar} />
+        <StatusBar />
            <AppName/>
            <View style={[globaleStyles.back,{marginTop:400}]}>
            <Text style={globaleStyles.topic}>Breaks-{name}</Text>

@@ -1,13 +1,15 @@
 import React ,{  useState } from 'react';
 import {  View ,Text,StyleSheet,TouchableOpacity} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import CircleCheckBox  from 'react-native-circle-checkbox';
 import { SeparatorLineWithText } from '../Component/line';
 import { FlatButton } from '../Component/FlatButton';
 import { globaleStyles } from '../Component/globaleStyles';
 
 export function Page04Content(){
-    const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
+    //const navigation = useNavigation();
  
     const Skills=[
         {id:1,  name:"Hair Service",},

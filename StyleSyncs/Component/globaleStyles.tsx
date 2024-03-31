@@ -7,7 +7,7 @@ export const imageStyles= StyleSheet.create({
     },
     Bar:{
         backgroundColor:"#FDFDFD" ,
-        barStyle:"dark-content",
+       // barStyle:"dark-content",
        },
 });
 export const globaleStyles=StyleSheet.create({

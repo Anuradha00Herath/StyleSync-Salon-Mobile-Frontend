@@ -9,7 +9,7 @@ const backImg=require("../assets/StyleSync.jpeg")
 export default function Page03() {
     return (
           <ImageBackground source={backImg} style={imageStyles.container}>
-            <StatusBar style={imageStyles.Bar}/>
+             <StatusBar/>
             <AppName/>
             <Page03Content/>
           </ImageBackground>

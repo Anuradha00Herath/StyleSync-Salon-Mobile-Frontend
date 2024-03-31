@@ -1,6 +1,7 @@
 import {View,StyleSheet,Text,StatusBar,ImageBackground} from 'react-native';
 import { globaleStyles ,imageStyles} from '../Component/globaleStyles';
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { SeparatorLineWithText } from '../Component/line';
 import { FlatButton } from '../Component/FlatButton';
@@ -9,7 +10,8 @@ import { AppName } from '../Component/AppName';
 const backImg=require("../assets/StyleSync.jpeg")
 
 export function Page05({ route }){
-    const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
+    //const navigation = useNavigation();
     const { selectedServices } = route.params;
     // Function to navigate to respective service pages
     const navigateToServicePage = (serviceName) => {
@@ -32,7 +34,7 @@ export function Page05({ route }){
 
     return(
     <ImageBackground source={backImg} style={imageStyles.container}>
-        <StatusBar style={imageStyles.Bar}/>
+        <StatusBar/>
         <AppName/>
         <View style={[globaleStyles.back,{marginTop:400}]}>
               <Text style={globaleStyles.topic}>Your Services</Text>

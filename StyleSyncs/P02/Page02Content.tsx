@@ -3,9 +3,11 @@ import { View ,StyleSheet,Text,TextInput,TouchableOpacity} from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list';
 import { globaleStyles } from "../Component/globaleStyles";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export function Page02Content({topic}){
-    const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
+    //const navigation = useNavigation();
     const [selected, setSelected] = React.useState("");
     const [name, setName] = React.useState("");
     const [contactNumber, setContactNumber] = React.useState("");
@@ -54,7 +56,7 @@ export function Page02Content({topic}){
                                        borderWidth:1,
                                        borderColor:"black",}}
                            search={false}
-                           closeicon={false}
+                           //closeicon={false}
                            dropdownStyles={{borderRadius:10,
                                             borderWidth:1,
                                             borderColor:"black",

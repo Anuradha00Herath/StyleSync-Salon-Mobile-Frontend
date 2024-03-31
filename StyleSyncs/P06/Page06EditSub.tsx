@@ -1,13 +1,14 @@
 import React ,{useState} from "react";
 import { View,StyleSheet,Text,TextInput} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { SeparatorLineWithText } from "../Component/line";
 import { Button } from "../Component/Button";
 import { globaleStyles } from "../Component/globaleStyles";
 
 export  function Page06Sub({ initialServiceName,initialDuration,initialPrice}){
-    
-    const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
+    //const navigation = useNavigation();
     const [serviceName, setServiceName] = useState( initialServiceName );
     const [duration, setDuration] = useState(initialDuration);
     const [price, setPrice] = useState(initialPrice);

@@ -12,7 +12,7 @@ export default function Page02({route}) {
     return (
       <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <ImageBackground source={backImg} style={imageStyles.container}>
-            <StatusBar style={imageStyles.Bar}/>
+          <StatusBar/>
             <AppName/>
             <Page02Content topic={name}/> 
           </ImageBackground>

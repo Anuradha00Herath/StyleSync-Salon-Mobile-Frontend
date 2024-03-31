@@ -45,7 +45,7 @@ export  function Page06Component({text,price,duration,onPress}) {
           flex:0.2,
           width:50,
           alignItems:"center",
-          alignItems:"flex-end"
+          //alignItems:"flex-end"
           
         },
     }

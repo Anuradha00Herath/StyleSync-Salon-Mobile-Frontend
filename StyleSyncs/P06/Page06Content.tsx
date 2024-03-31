@@ -1,13 +1,15 @@
 import React,{useState}from "react";
 import { View,StyleSheet,Text,FlatList,ScrollView} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Page06Component } from "./Page06Component";
 import { globaleStyles } from "../Component/globaleStyles";
 import { FlatButton } from "../Component/FlatButton";
 import { AddMore}  from "../Component/AddMore";
 
 export function Page06Content({Service,service}){
-    const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
+    //const navigation = useNavigation();
 
     return(
         
@@ -30,7 +32,7 @@ export function Page06Content({Service,service}){
                     />
                  )}
                  ListFooterComponent={() => (
-                    <View style={{ alignItems: "left", marginBottom: 20 }}>
+                    <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
                       <AddMore onPress={() => navigation.navigate("AddMoreDetails")} />
                     </View>
                   )}
