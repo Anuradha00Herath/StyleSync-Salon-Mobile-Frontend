@@ -5,7 +5,7 @@ import { globaleStyles } from "../Component/globaleStyles";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-export function Page02Content({topic}){
+export function PersanalInformationContent({topic}){
     const navigation = useNavigation<StackNavigationProp<any>>();
     const [selected, setSelected] = React.useState("");
     const [name, setName] = React.useState("");
@@ -29,7 +29,7 @@ export function Page02Content({topic}){
         }
     
         // Proceed with navigation or other actions here
-        navigation.navigate("Page03");
+        navigation.navigate("BusinessHours");
       };
     
     return(

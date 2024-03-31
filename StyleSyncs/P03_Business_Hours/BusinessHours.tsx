@@ -2,15 +2,15 @@ import React from "react";
 import { ImageBackground,StatusBar } from "react-native";
 import { imageStyles } from "../Component/globaleStyles";
 import { AppName } from "../Component/AppName";
-import { Page01Content} from "./Page01Content";
+import { BusinessHoursContent} from "./BusinessHoursContent";
 
 const backImg=require("../assets/StyleSync.jpeg")
 
-export default function Page01() {
+export default function BusinessHours() {
     return (
           <ImageBackground source={backImg} style={imageStyles.container}>
-            <StatusBar/>
+             <StatusBar/>
             <AppName/>
-            <Page01Content/>
+            <BusinessHoursContent/>
           </ImageBackground>
     );}

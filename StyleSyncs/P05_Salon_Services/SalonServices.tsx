@@ -9,7 +9,7 @@ import { AppName } from '../Component/AppName';
 
 const backImg=require("../assets/StyleSync.jpeg")
 
-export function Page05({ route }){
+export function SalonServices({ route }){
   const navigation = useNavigation<StackNavigationProp<any>>();
     //const navigation = useNavigation();
     const { selectedServices } = route.params;

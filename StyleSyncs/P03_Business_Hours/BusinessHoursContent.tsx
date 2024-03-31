@@ -7,7 +7,7 @@ import { SeparatorLineWithText} from "../Component/line";
 import { FlatButton } from '../Component/FlatButton';
 import { StackNavigationProp } from "@react-navigation/stack";
 
-export function Page03Content(){
+export function BusinessHoursContent(){
   const navigation = useNavigation<StackNavigationProp<any>>();
     //const navigation = useNavigation();
     return(
@@ -27,7 +27,7 @@ export function Page03Content(){
             <Day text='Saturday'onPress={() =>navigation.navigate("SetTime",{name:"Saturday"})}/>
             <SeparatorLineWithText lineColor={"gray"}/>
             <Day text='sunday'onPress={() =>navigation.navigate("SetTime",{name:"Sunday"})}/>
-            <FlatButton text='Continue' onPress={() =>navigation.navigate("Page04")} /> 
+            <FlatButton text='Continue' onPress={() =>navigation.navigate("SelectServices")} /> 
         </View>
     );
 }

@@ -6,7 +6,7 @@ import { FlatButton } from "../Component/FlatButton";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-export function Page01Content() {
+export function SelectTeamContent() {
     const navigation = useNavigation<StackNavigationProp<any>>();
     const [selectedRadio, setSelectedRadio] = useState<string | undefined>();
 
@@ -20,11 +20,11 @@ export function Page01Content() {
     // Function to handle navigation based on selected radio button
     const handleNavigation = () => {
        if (selectedRadio === '1' ) {
-         navigation.navigate('Page02' ,{name:"Your persanal Information"});
+         navigation.navigate('PersanalInformation' ,{name:"Your persanal Information"});
        } else if (selectedRadio === '2') {
-         navigation.navigate('Page02' ,{name:"Staff persanal Information"});
+         navigation.navigate('PersanalInformation' ,{name:"Staff persanal Information"});
        } else if(selectedRadio === '3'){
-         navigation.navigate('Page02',{name:"Your persanal Information"});
+         navigation.navigate('PersanalInformation',{name:"Your persanal Information"});
        } else {
     // Alert if no option is selected
          Alert.alert('Sorry!', 'Please select an option',[

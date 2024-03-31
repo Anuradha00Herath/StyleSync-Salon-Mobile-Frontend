@@ -7,7 +7,7 @@ import { SeparatorLineWithText } from '../Component/line';
 import { FlatButton } from '../Component/FlatButton';
 import { globaleStyles } from '../Component/globaleStyles';
 
-export function Page04Content(){
+export function SelectServicesContent(){
   const navigation = useNavigation<StackNavigationProp<any>>();
     //const navigation = useNavigation();
  
@@ -41,7 +41,7 @@ export function Page04Content(){
         const selectedServiceNames = Skills
           .filter((skill, index) => selectedCheck[index])
           .map((skill) => skill.name);
-        navigation.navigate('Page05', { selectedServices: selectedServiceNames });
+        navigation.navigate('SalonServices', { selectedServices: selectedServiceNames });
       };
                 const outerSize = 18;
                 const innerSize = 12;
