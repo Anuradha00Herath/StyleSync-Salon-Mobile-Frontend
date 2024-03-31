@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { AppointmentBlock } from "./appointmentBlock";
 import { useNavigation } from "@react-navigation/native";
 
-export function AppointmentSet({ startTime, appointments }) {
+export function AppointmentSet({ startTime, appointments , navigation}) {
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={{ marginHorizontal: 13, flexDirection: "row" }}>
@@ -32,8 +32,12 @@ export function AppointmentSet({ startTime, appointments }) {
       
       {/* Render AppointmentBlock for each appointment */}
       <View style={{ width:'95%', height: 'auto', flexDirection: 'row', flexWrap: 'wrap' }}>
-        {appointments.map((appointment, index) => (
-          <AppointmentBlock key={index} appointment={appointment}/>
+        {appointments.map((appointment: any, index: React.Key) => (
+          <AppointmentBlock 
+          key={index} 
+          appointment={appointment}
+          navigation={navigation}
+          />
         ))}
       </View>
     </View>

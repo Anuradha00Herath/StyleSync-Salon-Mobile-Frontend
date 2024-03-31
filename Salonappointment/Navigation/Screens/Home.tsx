@@ -11,30 +11,26 @@ import Calendar from "../../Components/calenderInHome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../Components/appointmentSet";
 import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("screen");
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // Set the refresh state to true to trigger a re-render
       setRefresh(true);
-    }, 5000); // 60000 milliseconds = 1 minute
+    }, 5000); 
 
-    // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
-  // Function to reset the refresh state after a re-render
   useEffect(() => {
     if (refresh) {
       setRefresh(false);
     }
   }, [refresh]);
-
-  // Group appointments by start time
   const groupedAppointments = {};
   mockAppointments.forEach((appointment) => {
     const startTime = appointment.startTime;
@@ -44,7 +40,6 @@ export default function HomeScreen() {
       groupedAppointments[startTime] = [appointment];
     }
   });
-
   return (
     <View
       style={{
@@ -54,7 +49,7 @@ export default function HomeScreen() {
       }}
       key={refresh ? "refreshed" : "initial"}
     >
-      <StatusBar barStyle="light-content" backgroundColor="black" />
+      <StatusBar barStyle="light-content" backgroundColor="#2E2E2E" />
       <ImageBackground
         source={require("../../assets/background3.png")}
         style={{
@@ -64,7 +59,7 @@ export default function HomeScreen() {
       >
         <Text
           style={{
-            color: "white",
+            color: "#FDFDFD",
             textAlign: "center",
             top: StatusBar.currentHeight + 20,
             fontSize: 20,
@@ -107,9 +102,9 @@ export default function HomeScreen() {
                 marginLeft: 13,
                 fontSize: 14,
                 fontWeight: "bold",
+                color: "#2E2528"
               }}
             >
-              {" "}
               Appointments
             </Text>
             <Text
@@ -119,7 +114,6 @@ export default function HomeScreen() {
                 fontSize: 14,
               }}
             >
-              {" "}
               Filter by <Ionicons name="arrow-down-outline" size={12} />
               <Text
                 style={{
@@ -127,9 +121,9 @@ export default function HomeScreen() {
                   marginRight: 13,
                   fontSize: 14,
                   fontWeight: "bold",
+                  color: "#2E2528"
                 }}
               >
-                {" "}
                 Time
               </Text>
             </Text>
@@ -140,6 +134,7 @@ export default function HomeScreen() {
                 key={index}
                 startTime={startTime}
                 appointments={groupedAppointments[startTime]}
+                navigation = {navigation}
               />
             ))}
           </ScrollView>

@@ -23,7 +23,7 @@ import { AppointmentSetTwo } from "../../Components/appointmentSetForAppointment
 import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
 
 
-export default function AppointmentScreen() {
+export default function AppointmentScreen({navigation}) {
   const [refresh, setRefresh] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<string>(
     EventStatus.ONGOING
@@ -59,6 +59,10 @@ export default function AppointmentScreen() {
       groupedAppointments[staffName] = [appointment];
     }
   });
+
+  const handleViewDetails = () =>{
+    navigation.navigate( "CustomerInfo", {name: 'jane'});
+  };
 
   return (
     <View
@@ -186,6 +190,7 @@ export default function AppointmentScreen() {
                   key={index}
                   staffName={staffName}
                   appointments={groupedAppointments[staffName]}
+                  viewDetails = {handleViewDetails}
                 />
               ))}
             </ScrollView>
@@ -197,6 +202,7 @@ export default function AppointmentScreen() {
                   key={index}
                   staffName={staffName}
                   appointments={groupedAppointments[staffName]}
+                  viewDetails = {handleViewDetails}
                 />
               ))}
             </ScrollView>

@@ -8,16 +8,13 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Ionicons from "../../node_modules/@expo/vector-icons/Ionicons";
-import { AppointmentBlock } from "../../Components/appointmentBlock";
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from "../node_modules/@expo/vector-icons/Ionicons";
 const { width, height } = Dimensions.get("screen");
 
-export default function CustomerInfo({ route ,navigation}) { 
-  //const { gender } = appointment || {};
-  //const { id, customer, staff, service, gender } = appointment;
-  const {appointment} = route.params;
-
+export default function AppointmentInfo({appointment}) {
+    const { id, customer, staff, service, gender } = appointment; 
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -26,25 +23,6 @@ export default function CustomerInfo({ route ,navigation}) {
         alignItems: "center",
       }}
     >
-      <StatusBar />
-      <ImageBackground
-        source={require("../../assets/background3.png")}
-        style={{
-          width: width,
-          height: height,
-        }}
-      >
-        <Text
-          style={{
-            color: "#FDFDFD",
-            textAlign: "center",
-            top: StatusBar.currentHeight,
-            fontSize: 20,
-            fontWeight: "bold",
-          }}
-        >
-          StyleSync
-        </Text>
         <View
           style={{
             backgroundColor: "#FDFDFD",
@@ -82,8 +60,7 @@ export default function CustomerInfo({ route ,navigation}) {
                 fontWeight: "bold",
               }}
             >
-            {appointment.id}
-              Hello world
+              {staff.name}
             </Text>
           </View>
           <View
@@ -93,7 +70,7 @@ export default function CustomerInfo({ route ,navigation}) {
             }}
           >
             <Image
-              source={require("../../assets/images.jpg")}
+              source={require("../assets/images.jpg")}
               style={{
                 height: 100,
                 width: 100,
@@ -270,7 +247,6 @@ export default function CustomerInfo({ route ,navigation}) {
             Attachement
           </Text>
         </View>
-      </ImageBackground>
     </View>
   );
 }

@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 
-export function AppointmentBlock({ appointment }) {
+export function AppointmentBlock({ appointment, navigation }) {
   const { id, customer, staff, service, gender } = appointment;
-  const navigation = useNavigation();  
-
+  const navigations = useNavigation();
   return (
     <View
       style={{
@@ -77,8 +77,7 @@ export function AppointmentBlock({ appointment }) {
               marginLeft: 5,
               fontWeight: "bold",
             }}
-          >
-          </Text>
+          ></Text>
           <Text
             style={{
               marginLeft: 5,
@@ -88,60 +87,72 @@ export function AppointmentBlock({ appointment }) {
             <Text>{customer.name}</Text>
           </Text>
         </View>
-        <View style={{
+        <View
+          style={{
             height: 0.5,
-            width: '100%',
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            marginTop: 6
-        }}></View>
-        <Text style={{
-            marginTop: 3
-        }}>
+            width: "100%",
+            backgroundColor: "rgba(0,0,0,0.3)",
+            marginTop: 6,
+          }}
+        ></View>
+        <Text
+          style={{
+            marginTop: 3,
+          }}
+        >
           <Text>{service.name}</Text>
         </Text>
-        <View style={{
+        <View
+          style={{
             height: 0.5,
-            width: '100%',
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            marginTop: 6
-        }}></View>
-        <Text style={{
-            marginTop: 3
-        }}>
+            width: "100%",
+            backgroundColor: "rgba(0,0,0,0.3)",
+            marginTop: 6,
+          }}
+        ></View>
+        <Text
+          style={{
+            marginTop: 3,
+          }}
+        >
           <Text>{gender}</Text>
         </Text>
-        <View style={{
+        <View
+          style={{
             height: 0.5,
-            width: '100%',
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            marginTop: 6
-        }}></View>
-        <Text style={{
-            marginTop: 3
-        }}>
+            width: "100%",
+            backgroundColor: "rgba(0,0,0,0.3)",
+            marginTop: 6,
+          }}
+        ></View>
+        <Text
+          style={{
+            marginTop: 3,
+          }}
+        >
           <Text>LKR {service.price}</Text>
         </Text>
       </View>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={{
-          width: '90%',
+          width: "90%",
           height: 30,
-          backgroundColor: '#8B6C58',
-          alignSelf: 'center',
-          alignItems: 'center',
+          backgroundColor: "#8B6C58",
+          alignSelf: "center",
+          alignItems: "center",
           padding: 5,
           borderRadius: 5,
-          marginTop: 3
+          marginTop: 3,
         }}
-        onPress={() => {
-          navigation.navigate('CustomerInfo');
-        }}
+        onPress={() =>
+          navigations.navigate("CustomerInfo", {appointment})
+        }
       >
-        <Text 
+        <Text
           style={{
-            color: 'white',
+            color: "white",
             fontSize: 12,
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
           View info

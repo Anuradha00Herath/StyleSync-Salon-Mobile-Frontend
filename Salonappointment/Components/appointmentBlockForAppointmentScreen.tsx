@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 
-export function AppointmentBlockTwo({ appointment }) {
+export function AppointmentBlockTwo({ appointment , viewDetails}) {
   const { customer, service, startTime, endTime, gender } = appointment;
 
   return (
@@ -65,7 +65,11 @@ export function AppointmentBlockTwo({ appointment }) {
               borderRadius: 5,
               margin: 5,
               marginBottom: 10
-            }}>
+            }}
+            onPress={() =>
+              viewDetails()
+            }
+            >
               <Text style={{
                 color: 'white',
                 fontSize: 12,

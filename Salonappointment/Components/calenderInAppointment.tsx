@@ -11,16 +11,16 @@ const CalenderExpand: React.FC<CalendarProps> = () => {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
 
   const customTheme = {
-    calendarBackground: '#rgba(0,0,0,0.5)',
+    calendarBackground: 'rgba(10,10,10,0.5)',
     textDayFontSize: 12, // Font size for day labels
     textMonthFontSize: 14, // Font size for month title
     textDayHeaderFontSize: 14,
     textDayStyle: {
-      color: '#FFFFFF', // Font color for all text elements
+      color: '#FDFDFD', // Font color for all text elements
       margin: 2
     },
-    monthTextColor: '#FFFFFF', // Change this color to the desired color for month and year text
-    arrowColor: '#FFFFFF',
+    monthTextColor: '#FDFDFD', // Change this color to the desired color for month and year text
+    arrowColor: '#FDFDFD',
   };
 
   return (

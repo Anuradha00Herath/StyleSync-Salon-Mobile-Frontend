@@ -8,7 +8,7 @@ import Ionicons from "../node_modules/@expo/vector-icons/Ionicons.js";
 import HomeScreen from "./Screens/Home";
 import AppointmentScreen from "./Screens/AppointmentScreen";
 import SettingsScreen from "./Screens/settingsScreen";
-//import CustomerInfo from "./Screens/viewCustomerInfoScreen";
+import CustomerInfo from "./Screens/viewCustomerInfoScreen";
 
 // Screen names
 const homeName = "Home";
@@ -23,7 +23,7 @@ function MainContainer() {
       <Tab.Navigator
         initialRouteName={homeName}
         screenOptions={({ route }) => ({
-          tabBarStyle: { backgroundColor: 'black' },
+          tabBarStyle: { backgroundColor: "rgba(46,46,46,1)" },
           tabBarLabelStyle:{ color: 'white'},
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -38,7 +38,7 @@ function MainContainer() {
             }
 
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={"white"} />;
+            return <Ionicons name={iconName} size={size} color={"#FDFDFD"} />;
           },
         })}
       >
@@ -57,25 +57,25 @@ function MainContainer() {
           component={SettingsScreen}
           options={{ headerShown: false }}
         />
-        {/* <Tab.Screen
+        <Tab.Screen
           name="CustomerInfo"
           component={CustomerInfoStackScreen}
           options={{ headerShown: false, tabBarButton: () => null }}
-        /> */}
+        />
       </Tab.Navigator>
   );
 }
 
-// function CustomerInfoStackScreen() {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen
-//         name="CustomerInfoStack"
-//         component={CustomerInfo}
-//         options={{ headerShown: false }}
-//       />
-//     </Stack.Navigator>
-//   );
-// }
+function CustomerInfoStackScreen() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CustomerInfoStack"
+        component={CustomerInfo}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default MainContainer;
