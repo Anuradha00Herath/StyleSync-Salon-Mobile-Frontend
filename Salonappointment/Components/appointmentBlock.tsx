@@ -144,9 +144,9 @@ export function AppointmentBlock({ appointment, navigation }) {
           borderRadius: 5,
           marginTop: 3,
         }}
-        onPress={() =>
-          navigations.navigate("CustomerInfo", {appointment})
-        }
+        // onPress={() =>
+        //   navigations.navigate("CustomerInfo", {appointment})
+        // }
       >
         <Text
           style={{
