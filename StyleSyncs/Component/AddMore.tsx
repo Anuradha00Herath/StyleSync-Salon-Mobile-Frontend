@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet,TouchableOpacity,Text,View} from "react-native";
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from '../node_modules/@expo/vector-icons/AntDesign';
 
 export  function AddMore({onPress} ){
     return(
