@@ -6,8 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 export function Page02Content({topic}){
-  const navigation = useNavigation<StackNavigationProp<any>>();
-    //const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<any>>();
     const [selected, setSelected] = React.useState("");
     const [name, setName] = React.useState("");
     const [contactNumber, setContactNumber] = React.useState("");
