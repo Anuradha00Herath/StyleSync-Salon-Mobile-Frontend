@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { AppointmentBlock } from "./appointmentBlock";
 import { useNavigation } from "@react-navigation/native";
 
-export function AppointmentSet({ startTime, appointments , navigation}) {
+export function AppointmentSet({ startTime, appointments}) {
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={{ marginHorizontal: 13, flexDirection: "row" }}>
@@ -36,7 +36,7 @@ export function AppointmentSet({ startTime, appointments , navigation}) {
           <AppointmentBlock 
           key={index} 
           appointment={appointment}
-          navigation={navigation}
+          // navigation={navigation}
           />
         ))}
       </View>

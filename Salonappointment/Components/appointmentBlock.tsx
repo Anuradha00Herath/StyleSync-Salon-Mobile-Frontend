@@ -2,10 +2,12 @@ import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-export function AppointmentBlock({ appointment, navigation }) {
+export function AppointmentBlock({ appointment }) {
   const { id, customer, staff, service, gender } = appointment;
-  const navigations = useNavigation();
+  // 
+  const navigation = useNavigation<StackNavigationProp<any>>();
   return (
     <View
       style={{
@@ -144,9 +146,9 @@ export function AppointmentBlock({ appointment, navigation }) {
           borderRadius: 5,
           marginTop: 3,
         }}
-        // onPress={() =>
-        //   navigations.navigate("CustomerInfo", {appointment})
-        // }
+        onPress={() =>
+          navigation.navigate("CustomerInfo", {ex:"hello"})
+        }
       >
         <Text
           style={{

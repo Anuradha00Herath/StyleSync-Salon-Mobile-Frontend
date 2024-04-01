@@ -13,10 +13,15 @@ import Ionicons from "../../node_modules/@expo/vector-icons/Ionicons";
 import { AppointmentBlock } from "../../Components/appointmentBlock";
 const { width, height } = Dimensions.get("screen");
 
+interface RouteParams{
+  ex: String;
+}
+
 export default function CustomerInfo({ route ,navigation}) { 
   //const { gender } = appointment || {};
   //const { id, customer, staff, service, gender } = appointment;
-  const {appointment} = route.params;
+  // const {ex} = route.params as RouteParams;
+  // console.log({ex});
 
   return (
     <View
@@ -82,7 +87,6 @@ export default function CustomerInfo({ route ,navigation}) {
                 fontWeight: "bold",
               }}
             >
-            {appointment.id}
               Hello world
             </Text>
           </View>
