@@ -13,15 +13,10 @@ import Ionicons from "../../node_modules/@expo/vector-icons/Ionicons";
 import { AppointmentBlock } from "../../Components/appointmentBlock";
 const { width, height } = Dimensions.get("screen");
 
-interface RouteParams{
-  ex: String;
-}
 
 export default function CustomerInfo({ route ,navigation}) { 
-  //const { gender } = appointment || {};
   //const { id, customer, staff, service, gender } = appointment;
-  // const {ex} = route.params as RouteParams;
-  // console.log({ex});
+  const {appointment} = route.params;
 
   return (
     <View
@@ -45,6 +40,7 @@ export default function CustomerInfo({ route ,navigation}) {
             textAlign: "center",
             top: StatusBar.currentHeight,
             fontSize: 20,
+            marginTop: 20,
             fontWeight: "bold",
           }}
         >
@@ -87,7 +83,7 @@ export default function CustomerInfo({ route ,navigation}) {
                 fontWeight: "bold",
               }}
             >
-              Hello world
+              {appointment.staff.name}
             </Text>
           </View>
           <View
@@ -113,14 +109,14 @@ export default function CustomerInfo({ route ,navigation}) {
                 marginTop: 12,
               }}
             >
-              Customer Name
+              {appointment.customer.name}
             </Text>
             <Text
               style={{
                 fontSize: 12,
               }}
             >
-              Tp number
+              {appointment.customer.number}
             </Text>
           </View>
           <View
@@ -152,8 +148,8 @@ export default function CustomerInfo({ route ,navigation}) {
               marginTop: 12,
             }}
           >
-            <Text>Service Name</Text>
-            <Text>Price</Text>
+            <Text>{appointment.service.name}</Text>
+            <Text>{appointment.service.price}</Text>
           </View>
           <View
             style={{
@@ -164,8 +160,8 @@ export default function CustomerInfo({ route ,navigation}) {
               marginTop: 12,
             }}
           >
-            <Text>Appointment Date</Text>
-            <Text>Time</Text>
+            <Text>{appointment.date}</Text>
+            <Text>{appointment.startTime}</Text>
           </View>
           <View
             style={{

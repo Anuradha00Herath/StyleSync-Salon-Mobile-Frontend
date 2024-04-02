@@ -4,10 +4,10 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-export function AppointmentBlock({ appointment }) {
+export function AppointmentBlock({ appointment, navigation }) {
   const { id, customer, staff, service, gender } = appointment;
   // 
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  // const navigation = useNavigation<StackNavigationProp<any>>();
   return (
     <View
       style={{
@@ -147,8 +147,7 @@ export function AppointmentBlock({ appointment }) {
           marginTop: 3,
         }}
         onPress={() =>
-          navigation.navigate("CustomerInfo", {ex:"hello"})
-        }
+            navigation.navigate("CustomerInfo", {appointment:appointment})}
       >
         <Text
           style={{

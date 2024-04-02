@@ -134,7 +134,7 @@ export default function HomeScreen({navigation}) {
                 key={index}
                 startTime={startTime}
                 appointments={groupedAppointments[startTime]}
-                //navigation = {navigation}
+                navigation = {navigation}
               />
             ))}
           </ScrollView>

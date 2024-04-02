@@ -29,7 +29,7 @@ function MainContainer() {
             let iconName;
             let rn = route.name;
 
-            if (rn === homeName) {
+            if (rn === "homeStack") {
               iconName = focused ? "home" : "home-outline";
             } else if (rn === appointmentName) {
               iconName = focused ? "list" : "list-outline";
@@ -43,8 +43,8 @@ function MainContainer() {
         })}
       >
         <Tab.Screen
-          name={homeName}
-          component={HomeScreen}
+          name="homeStack"
+          component={Homestack}
           options={{ headerShown: false }}
         />
         <Tab.Screen
@@ -57,20 +57,25 @@ function MainContainer() {
           component={SettingsScreen}
           options={{ headerShown: false }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="CustomerInfo"
-          component={CustomerInfoStackScreen}
+          component={CustomerInfo}
           options={{ headerShown: false, tabBarButton: () => null }}
-        />
+        /> */}
       </Tab.Navigator>
   );
 }
 
-function CustomerInfoStackScreen() {
+function Homestack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="CustomerInfoStack"
+        name={homeName}
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CustomerInfo"
         component={CustomerInfo}
         options={{ headerShown: false }}
       />
