@@ -4,8 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 import { SeparatorLineWithText } from "../Component/line";
 import { Button } from "../Component/Button";
 import { globaleStyles } from "../Component/globaleStyles";
+import Icon from 'react-native-vector-icons/AntDesign';
 
-export  function AddStaffContant(){
+export  function StaffMemberContant(){
    
     const navigation = useNavigation();
     const [Name, setName] = useState( "" );
@@ -14,9 +15,21 @@ export  function AddStaffContant(){
     
     return(
        
-        <View style={[globaleStyles.back,{marginTop:300}]}>
+        <View style={[globaleStyles.back,{marginTop:300,justifyContent: 'space-between' }]}>
             <View>
+                <View style={{ flexDirection: 'row',
+                               alignItems: 'center',
+                               justifyContent: "space-between",}}>
                 <Text style={globaleStyles.topic}>{Name}</Text> 
+                <View style={{width:30,
+                              height:30,
+                              backgroundColor:"#D9D9D9",
+                              borderRadius:5,
+                              alignItems:"center",
+                              paddingTop:4}}>
+                     <Icon name="camera" size={20} color={"#FDFDFD"} style={{}}/>
+                </View>
+                </View>
                 <Text style={globaleStyles.Stopic}>When can client book with you</Text>
 
                 <Text style={styles.text1}> Name</Text>
@@ -63,5 +76,6 @@ export const styles= StyleSheet.create({
       },
       buttonContainer:{
         marginBottom:14,
-      }
+      },
+      
 })

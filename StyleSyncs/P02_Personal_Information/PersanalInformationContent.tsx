@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ useEffect }from "react";
 import { View ,StyleSheet,Text,TextInput,TouchableOpacity} from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list';
 import { globaleStyles } from "../Component/globaleStyles";
@@ -10,6 +10,14 @@ export function PersanalInformationContent({topic}){
     const [selected, setSelected] = React.useState("");
     const [name, setName] = React.useState("");
     const [contactNumber, setContactNumber] = React.useState("");
+
+    useEffect(() => {
+      // Reset state when a new topic is passed
+      setSelected("");
+      setName("");
+      setContactNumber("");
+  }, [topic]); // Dependency array with 'topic' as a dependency
+  
   
   const data = [
       {key:'1', value:'Male'},

@@ -40,7 +40,7 @@ export  function Day({text,onPress}) {
   //   }, []);
 
   //   const fetchTimeFromBackend = (day) => {
-  //       // Assuming your backend API endpoint to fetch time is '/api/time'
+  //       // Assuming  backend API endpoint to fetch time is '/api/time'
   //       fetch(`/api/time?day=${day}`)
   //           .then(response => response.json())
   //           .then(data => {

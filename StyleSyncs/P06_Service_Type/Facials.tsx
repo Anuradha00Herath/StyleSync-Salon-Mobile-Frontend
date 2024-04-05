@@ -8,10 +8,10 @@ const backImg=require("../assets/StyleSync.jpeg")
 
 export default function Facials(){
   const Facials=[
-    {id:1, name:"Classic Facial",    price:'25.99',   duration:'40'},
-    {id:2, name:"Hydrating Facial",      price:'35.99',   duration:'20'},
-    {id:3, name:"Exfoliating Facial", price:'30.99',   duration:'50'},
-    {id:4,  name:"Anti-Aging Facial",  price:'40',      duration:'60'},
+    {id:1, name:"Classic Facial",    price:'300',   duration:'40'},
+    {id:2, name:"Hydrating Facial",      price:'400',   duration:'20'},
+    {id:3, name:"Exfoliating Facial", price:'500',   duration:'50'},
+    {id:4,  name:"Anti-Aging Facial",  price:'300',      duration:'60'},
     
 ];
   return(

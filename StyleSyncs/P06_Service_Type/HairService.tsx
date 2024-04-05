@@ -8,10 +8,10 @@ const backImg=require("../assets/StyleSync.jpeg")
 
 export default function HairService(){
   const hairServise=[
-    {id:1, name:"Haircutting",       price:'25.99',   duration:'40'},
-    {id:2, name:"Hairstyling",       price:'35.99',   duration:'20'},
-    {id:3, name:"Hair coloring",     price:'30.99',   duration:'50'},
-    {id:4,  name:"Hair treatments",  price:'40',      duration:'60'},
+    {id:1, name:"Haircutting",       price:'500',   duration:'40'},
+    {id:2, name:"Hairstyling",       price:'700',   duration:'20'},
+    {id:3, name:"Hair coloring",     price:'300',   duration:'50'},
+    {id:4,  name:"Hair treatments",  price:'400',      duration:'60'},
     
     
 ];
