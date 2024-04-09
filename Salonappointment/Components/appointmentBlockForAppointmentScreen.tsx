@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 
-export function AppointmentBlockTwo({ appointment , viewDetails}) {
+export function AppointmentBlockTwo({ appointment , navigation}) {
   const { customer, service, startTime, endTime, gender } = appointment;
 
   return (
@@ -67,8 +67,7 @@ export function AppointmentBlockTwo({ appointment , viewDetails}) {
               marginBottom: 10
             }}
             onPress={() =>
-              viewDetails()
-            }
+              navigation.navigate("AppointmentCustomerInfo", {appointment:appointment})}
             >
               <Text style={{
                 color: 'white',

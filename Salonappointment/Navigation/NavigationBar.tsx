@@ -9,6 +9,7 @@ import HomeScreen from "./Screens/Home";
 import AppointmentScreen from "./Screens/AppointmentScreen";
 import SettingsScreen from "./Screens/settingsScreen";
 import CustomerInfo from "./Screens/viewCustomerInfoScreen";
+import CustomerInfoTwo from "./Screens/viewCustomerInfoScreenTwo";
 
 // Screen names
 const homeName = "Home";
@@ -29,7 +30,7 @@ function MainContainer() {
             let iconName;
             let rn = route.name;
 
-            if (rn === "homeStack") {
+            if (rn === homeName) {
               iconName = focused ? "home" : "home-outline";
             } else if (rn === appointmentName) {
               iconName = focused ? "list" : "list-outline";
@@ -43,13 +44,13 @@ function MainContainer() {
         })}
       >
         <Tab.Screen
-          name="homeStack"
+          name= {homeName}
           component={Homestack}
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name={appointmentName}
-          component={AppointmentScreen}
+          component={AppointmentStack}
           options={{ headerShown: false }}
         />
         <Tab.Screen
@@ -57,11 +58,6 @@ function MainContainer() {
           component={SettingsScreen}
           options={{ headerShown: false }}
         />
-        {/* <Tab.Screen
-          name="CustomerInfo"
-          component={CustomerInfo}
-          options={{ headerShown: false, tabBarButton: () => null }}
-        /> */}
       </Tab.Navigator>
   );
 }
@@ -70,13 +66,30 @@ function Homestack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name={homeName}
+        name="HomeStack"
         component={HomeScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="CustomerInfo"
         component={CustomerInfo}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function AppointmentStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AppointmentStack"
+        component={AppointmentScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CustomerInfoTwo"
+        component={CustomerInfoTwo}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

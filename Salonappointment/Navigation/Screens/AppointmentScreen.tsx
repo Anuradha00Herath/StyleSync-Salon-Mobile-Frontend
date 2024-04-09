@@ -9,7 +9,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import Calender from "../../Components/calenderInHome";
+import Calendar from "../../Components/calenderInHome";
 import CalenderExpand from "../../Components/calenderInAppointment";
 const { width, height } = Dimensions.get("screen");
 const EventStatus = {
@@ -22,9 +22,18 @@ const EventStatus = {
 import { AppointmentSetTwo } from "../../Components/appointmentSetForAppointmentScreen";
 import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
 
+function renderCalender(){
+  return <Calendar currentDate={new Date()} />
+
+}
+
+function renderCalenderExpand(){
+  return <CalenderExpand currentDate={undefined} />
+}
 
 export default function AppointmentScreen({navigation}) {
   const [refresh, setRefresh] = useState(false);
+  const [calender, setCalender] = useState(renderCalender());
   const [selectedStatus, setSelectedStatus] = useState<string>(
     EventStatus.ONGOING
   );
@@ -60,10 +69,6 @@ export default function AppointmentScreen({navigation}) {
     }
   });
 
-  const handleViewDetails = () =>{
-    navigation.navigate( "CustomerInfo", {name: 'jane'});
-  };
-
   return (
     <View
       style={{
@@ -91,14 +96,16 @@ export default function AppointmentScreen({navigation}) {
         >
           StyleSync
         </Text>
-        <View
+        <TouchableOpacity
           style={{
             marginTop: 55,
             marginHorizontal: 30,
           }}
+          onPress ={()=> setCalender(renderCalenderExpand())}
         >
-          <CalenderExpand currentDate={undefined} />
-        </View>
+          {calender}
+          {/* <CalenderExpand currentDate={undefined} /> */}
+        </TouchableOpacity>
         <View
           style={{
             flex:1,
@@ -190,7 +197,7 @@ export default function AppointmentScreen({navigation}) {
                   key={index}
                   staffName={staffName}
                   appointments={groupedAppointments[staffName]}
-                  viewDetails = {handleViewDetails}
+                  navigation={navigation}
                 />
               ))}
             </ScrollView>
@@ -202,7 +209,7 @@ export default function AppointmentScreen({navigation}) {
                   key={index}
                   staffName={staffName}
                   appointments={groupedAppointments[staffName]}
-                  viewDetails = {handleViewDetails}
+                 navigation={navigation}
                 />
               ))}
             </ScrollView>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import moment from 'moment';
 
@@ -7,6 +7,7 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
+
   // Generate data for the calendar
   const data = [];
   const startOfWeek = moment(currentDate).startOf('week');
