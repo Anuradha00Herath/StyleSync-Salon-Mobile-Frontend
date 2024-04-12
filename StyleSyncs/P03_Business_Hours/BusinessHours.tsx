@@ -6,11 +6,14 @@ import { BusinessHoursContent} from "./BusinessHoursContent";
 
 const backImg=require("../assets/StyleSync.jpeg")
 
-export default function BusinessHours() {
+export default function BusinessHours({route,navigation}) {
+      const {staffId} = route.params;
     return (
           <ImageBackground source={backImg} style={imageStyles.container}>
              <StatusBar/>
             <AppName/>
-            <BusinessHoursContent/>
+            <BusinessHoursContent
+            staffId = {staffId}
+            />
           </ImageBackground>
     );}

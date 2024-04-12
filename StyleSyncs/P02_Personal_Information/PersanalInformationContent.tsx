@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -12,12 +12,20 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
 
-export function Page02Content({ topic }) {
+export function PersanalInformationContent({ topic }) {
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [staffContact, setStaffContact] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Reset state when a new topic is passed
+    setGender("");
+    setName("");
+    setStaffContact("");
+  }, [topic]); // Dependency array with 'topic' as a dependency
 
   const validateInputs = () => {
     let isValid = true;
@@ -25,6 +33,7 @@ export function Page02Content({ topic }) {
     if (!name.trim()) {
       setError("*Name field is required");
       isValid = false;
+      alert("Name field is required");
     } else {
       setError("");
     }
@@ -32,6 +41,7 @@ export function Page02Content({ topic }) {
     if (!gender.trim()) {
       setError("*Gender field is required");
       isValid = false;
+      alert("Gender field is required");
     } else {
       setError("");
     }
@@ -39,14 +49,17 @@ export function Page02Content({ topic }) {
     if (!staffContact.trim()) {
       setError("*Conatct field is required");
       isValid = false;
+      alert("Conatct field is required");
     } else if (!/^(\+94)[0-9]{9}$/.test(staffContact)) {
       setError("*Number Should be in correct format");
       isValid = false;
+      alert("Number Should be in correct format");
     } else {
       setError("");
     }
     return isValid;
   };
+
   const handleSubmit = async () => {
     if (validateInputs()) {
       try {
@@ -54,17 +67,26 @@ export function Page02Content({ topic }) {
         const url =
           "https://stylesync-backend-test.onrender.com/app/v1/staff/register-staff";
         const response = await axios.post(url, {
-          salonId : 2,
+          salonId: 1,
           name,
           gender,
           staffContact,
         });
         const result = response.data;
-        const { message, status } = result;
+        const { message, status, staff } = result;
+
+        const urlTwo =
+          "https://stylesync-backend-test.onrender.com/app/v1/time/create-open-hours";
+        const responseTwo = await axios.post(urlTwo, {
+          staffId: staff.id,
+        });
+        const resultTwo = responseTwo.data;
+        const { messageTwo, statusTwo } = resultTwo;
 
         if (status === 201) {
           console.log("Success", message);
-          navigation.navigate("Page03");
+          console.log("Success",messageTwo);
+          navigation.navigate("BusinessHours", {staffId:staff.id});
         } else if (status === 400) {
           console.log("Failed", message);
         } else {
@@ -75,33 +97,9 @@ export function Page02Content({ topic }) {
       } finally {
         setLoading(false);
       }
+    } else {
+      console.log({ error });
     }
-    else{
-      console.log({error});
-    }
-  };
-
-  const navigation = useNavigation<StackNavigationProp<any>>();
-  //const navigation = useNavigation();
-  const [selected, setSelected] = React.useState("");
-  //const [name, setName] = React.useState("");
-  //const [contactNumber, setContactNumber] = React.useState("");
-
-  // Function to handle continue button press
-  const handleContinue = () => {
-    let errors = []; // Array to hold validation errors
-
-    if (!name) errors.push("Please enter your name.");
-    if (!selected) errors.push("Please select your gender.");
-    if (!staffContact) errors.push("Please enter your contact number.");
-
-    if (errors.length > 0) {
-      alert(errors.join("\n")); // Display a combined alert with all errors
-      return;
-    }
-
-    // Proceed with navigation or other actions here
-    // navigation.navigate("Page03");
   };
 
   const data = [
@@ -117,16 +115,16 @@ export function Page02Content({ topic }) {
           style={styles.Text}
           placeholder="Enter Your Name"
           value={name}
-          onChangeText={text => setName(text)}
+          onChangeText={(text) => setName(text)}
         />
         <View>
           <SelectList
-            setSelected={(val) => setGender("text")}
+            setSelected={(value) => setGender(value)}
             data={data}
             save="value"
             placeholder="choose Gender"
             inputStyles={{
-              color: selected ? "#2E2528" : "#999999",
+              color: gender ? "#2E2528" : "#999999",
               fontSize: 12,
             }}
             boxStyles={{
@@ -155,7 +153,7 @@ export function Page02Content({ topic }) {
           placeholder="Contact Number"
           keyboardType="numeric"
           value={staffContact}
-          onChangeText={text => setStaffContact(text)}
+          onChangeText={(text) => setStaffContact(text)}
         />
       </View>
       <View>
