@@ -12,7 +12,7 @@ import Page06EditDetails from "./P06_Service_Type/Page06EditDetails";
 import Facials from "./P06_Service_Type/Facials";
 import AddMoreDetails from "./P06_Service_Type/AddMoreDetails";
 import Staff from "./P07_Add_Staff/Staff";
-import AddStaff from "./P07_Add_Staff/AddStaff";
+import StaffMemberDetails from "./P07_Add_Staff/StaffMemberDetails";
 import SetTime from "./P03_Business_Hours/SetTime";
 import SetBreakTime from "./P03_Business_Hours/SetBreakTime";
 
@@ -78,7 +78,7 @@ export default function App() {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
                 }/>
-                <Stack.Screen name="AddStaff" component={AddStaff} options={
+                <Stack.Screen name="StaffMemberDetails" component={StaffMemberDetails} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }

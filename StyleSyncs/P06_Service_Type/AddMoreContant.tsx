@@ -21,7 +21,7 @@ export  function AddMoreContant(){
       };
     return(
        
-        <View style={[globaleStyles.back,{marginTop:300}]}>
+        <View style={[globaleStyles.back,{marginTop:300,justifyContent: 'space-between' }]}>
             <View>
                 <Text style={globaleStyles.topic}>Pricing/Duration - {serviceName}</Text> 
                 <Text style={globaleStyles.Stopic}>When can client book with you</Text>
@@ -47,7 +47,7 @@ export  function AddMoreContant(){
             </View>
 
             <View style={styles.buttonContainer}>
-                <Button text={"OK"}  onPress={handleSave} onPress1={() =>navigation.goBack()} />
+                <Button text={"OK"}  onPress={() =>navigation.goBack()} onPress1={() =>navigation.goBack()} />
             </View>
                 
         </View>

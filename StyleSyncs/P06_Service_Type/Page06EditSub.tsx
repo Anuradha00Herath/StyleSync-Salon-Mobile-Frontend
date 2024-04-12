@@ -24,7 +24,7 @@ export  function Page06Sub({ initialServiceName,initialDuration,initialPrice}){
       };
     return(
        
-        <View style={[globaleStyles.back,{marginTop:300}]}>
+        <View style={[globaleStyles.back,{marginTop:300,justifyContent: 'space-between' }]}>
             <View>
                 <Text style={globaleStyles.topic}>Pricing/Duration - {serviceName}</Text> 
                 <Text style={globaleStyles.Stopic}>When can client book with you</Text>
