@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StatusBar } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { IncreaseHours,
@@ -7,21 +7,41 @@ import { IncreaseHours,
   DecreaseHours,
   DecreaseMinutes} from "./get-time-from-backend"
 
-  export function TimePicker() {
+  export function TimePicker({onOpenTime,onCloseTime,onHandleCloseTimeValue,onHandleOpenTimeValue}) {
+    const openHour = onOpenTime;
+    const closeHour = onCloseTime;
+    const[oHourStr,oMinuteStr] = openHour.split(":");
+    const[cHourStr,cMinuteStr] = closeHour.split(":");
+    const oHour = parseInt(oHourStr,10);
+    const oMinute = parseInt(oMinuteStr,10);
+    const cHour = parseInt(cHourStr,10);
+    const cMinute = parseInt(cMinuteStr,10);
   const [hours, setHours] = useState({
-    startBeforeHour: 9,
-    startMiddleHour: 10,
-    startAfterHour: 11,
-    endBeforeHour: 18,
-    endMiddleHour: 19,
-    endAfterHour: 20,
-    startBeforeMin: 59,
-    startMiddleMin: 0,
-    startAfterMin: 1,
-    endBeforeMin: 59,
-    endMiddleMin: 0,
-    endAfterMin: 1,
+    startBeforeHour: oHour-1===-1?23:oHour-1,
+    startMiddleHour: oHour,
+    startAfterHour: oHour+1,
+    endBeforeHour: cHour-1===-1?23:cHour-1,
+    endMiddleHour: cHour,
+    endAfterHour: cHour+1,
+    startBeforeMin: oMinute-1===-1?59:oMinute-1,
+    startMiddleMin: oMinute,
+    startAfterMin: oMinute+1,
+    endBeforeMin: cMinute-1===-1?59:cMinute-1,
+    endMiddleMin: cMinute,
+    endAfterMin: cMinute+1,
   });
+  const formatTime = (value: number): string => {
+    return value < 10 ? `0${value}` : `${value}`;
+  };
+  const openTime = formatTime(hours.startMiddleHour)+":"+formatTime(hours.startMiddleMin);
+const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddleMin);
+
+  useEffect(()=>{
+    onHandleOpenTimeValue(openTime);
+    onHandleCloseTimeValue(closeTime);
+  })
+  console.log(openTime,closeTime)
+
 
   const IncreaseHourPress = () => {
     const { startBeforeHour, startMiddleHour, startAfterHour } = hours;
@@ -36,12 +56,6 @@ import { IncreaseHours,
       startMiddleHour: newHours[1],
       startAfterHour: newHours[2],
     });
-    console.log(
-      "in function increment:",
-      startBeforeHour,
-      startMiddleHour,
-      startAfterHour
-    );
   };
 
   const IncreaseMinutesPress = () => {
@@ -57,12 +71,6 @@ import { IncreaseHours,
       startMiddleMin: newMin[1],
       startAfterMin: newMin[2],
     });
-    console.log(
-      "in function increment:",
-      startBeforeMin,
-      startMiddleMin,
-      startAfterMin
-    );
   };
 
   const IncreaseHourPressTwo = () => {
@@ -90,12 +98,6 @@ import { IncreaseHours,
       endMiddleMin: newMin[1],
       endAfterMin: newMin[2],
     });
-    console.log(
-      "in function increment:",
-      endBeforeMin,
-      endMiddleMin,
-      endAfterMin
-    );
   };
 
   const DecreaseHourPress = () => {
@@ -111,12 +113,6 @@ import { IncreaseHours,
       startMiddleHour: newHours[1],
       startAfterHour: newHours[2],
     });
-    console.log(
-      "in function increment:",
-      startBeforeHour,
-      startMiddleHour,
-      startAfterHour
-    );
   };
 
   const DecreaseMinutesPress = () => {
@@ -165,9 +161,6 @@ import { IncreaseHours,
       endAfterMin: newMin[2],
     });
   };
-  const formatTime = (value: number): string => {
-    return value < 10 ? `0${value}` : `${value}`;
-  };
 
   return (
     <View //main view
@@ -187,7 +180,6 @@ import { IncreaseHours,
           flexDirection: "row",
         }}
       >
-
 
         <View
           style={{

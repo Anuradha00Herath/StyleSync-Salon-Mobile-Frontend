@@ -15,7 +15,7 @@ export const globaleStyles=StyleSheet.create({
         color:"black",
         fontSize:16,
         fontWeight:"bold",
-        textAlign:"left",
+        textAlign:"left"
     },
     Stopic:{
         fontSize:12,

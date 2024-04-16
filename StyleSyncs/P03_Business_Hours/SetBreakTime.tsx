@@ -18,7 +18,7 @@ export default function SetBreakTime({route}) {
            <View style={[globaleStyles.back,{marginTop:400}]}>
            <Text style={globaleStyles.topic}>Breaks-{name}</Text>
            
-            <TimePicker/>
+            {/* <TimePicker/> */}
             
               <FlatButton text='Ok' onPress={() =>navigation.goBack()} />
            </View>
