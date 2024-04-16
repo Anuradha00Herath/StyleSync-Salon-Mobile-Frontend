@@ -106,9 +106,12 @@ export default function SetTime({ route,onPress }) {
       <StatusBar />
       <AppName />
       <View style={[globaleStyles.back, { marginTop: 200 }]}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={globaleStyles.topic}>{name}</Text>
+        <View style={{flexDirection: "row", justifyContent: "space-between" }}>
           <View>
+          <Text style={globaleStyles.topic}>{name}</Text>
+          </View>
+          <View style={{flexDirection:"column", justifyContent:"space-between"}}>
+            <View>
             <Switch
               trackColor={{ false: "gray", true: "black" }}
               thumbColor={isEnabled ? "white" : "white"}
@@ -116,10 +119,13 @@ export default function SetTime({ route,onPress }) {
               value={isEnabled}
               style={{
                 transform: [{ scaleX: 1.0 }, { scaleY: 1.0 }],
-                padding: 0,
+                height:25
               }}
             />
+            </View>
+            <View style={{alignItems:"center"}}>
             <Text style={{ fontSize: 12, color: "gray" }}>{getText()}</Text>
+            </View>
           </View>
         </View>
 
