@@ -8,6 +8,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Switch1 } from "../Component/Switch";
 import { TimePicker } from "../Component/TimePicker";
 import { AddMore } from "../Component/AddMore";
+import Icon from 'react-native-vector-icons/AntDesign';
+import { SeparatorLineWithText } from '../Component/line';
 import axios from "axios";
 
 const backImg = require("../assets/StyleSync.jpeg");
@@ -19,6 +21,7 @@ export default function SetTime({ route,onPress }) {
   const [closeTime, setCloseTime] = useState(closeHour);
   const [breakStart, setBreakStart] = useState("");
   const [breakEnd, setBreakEnd] = useState("");
+  const [breaks, setBreaks] = useState([])
   const [loading, setLoading] = useState(false);
 
   const fetchBreaksTimes = async () => {
@@ -30,6 +33,7 @@ export default function SetTime({ route,onPress }) {
         params: { staffId: staffId, dayName: name },
       });
       const {breakStart,breakEnd} = response.data.data[0];
+      setBreaks(response.data.data);
       setBreakStart(breakStart);
       setBreakEnd(breakEnd);
     } catch (error) {
@@ -137,14 +141,39 @@ export default function SetTime({ route,onPress }) {
             >
               Breaks
             </Text>
-            <Text>{breakStart} - {breakEnd}</Text>
+            {breaks.map(b=>(
+              <View key = {b.breakStart}>
+                <Breaks
+                breakEnd={b.breakEnd}
+                breakStart={b.breakStart}
+                onPress={onHandleAddBreak}
+                />
+              </View>
+            ))}
             <AddMore onPress={onHandleAddBreak} />
-            
+
           </>
         )}
 
         <FlatButton text="Ok" onPress={onHandleOk} />
       </View>
     </ImageBackground>
+  );
+}
+
+function Breaks({breakStart, breakEnd,onPress}){
+  const formattedTime =  `${breakStart} - ${breakEnd}`;
+  return(
+    <View>
+    <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
+    <View>
+      <Text>{formattedTime}</Text>
+    </View>
+    <View style={{width:50,alignItems:"center",}}>
+        <Icon name='right' size={20} color={"black"} style={{width:20,height:20}}onPress={onPress}/>
+    </View>
+  </View>
+  <SeparatorLineWithText lineColor={"gray"}/>
+  </View>
   );
 }
