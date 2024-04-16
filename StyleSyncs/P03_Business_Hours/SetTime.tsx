@@ -175,8 +175,13 @@ function Breaks({breakStart, breakEnd,onPress}){
     <View>
       <Text>{formattedTime}</Text>
     </View>
-    <View style={{width:50,alignItems:"center",}}>
-        <Icon name='right' size={20} color={"black"} style={{width:20,height:20}}onPress={onPress}/>
+    <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'flex-start'}}>
+    <View style={{width:30,alignItems:"center",}}>
+        <Icon name='delete' size={20} color={"#71797E"} style={{width:20,height:20}}onPress={onPress}/>
+    </View>
+    <View style={{width:40,alignItems:"center",}}>
+        <Icon name='right' size={20} color={"#71797E"} style={{width:20,height:20}}onPress={onPress}/>
+    </View>
     </View>
   </View>
   <SeparatorLineWithText lineColor={"gray"}/>
