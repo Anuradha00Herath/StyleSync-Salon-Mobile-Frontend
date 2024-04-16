@@ -69,7 +69,6 @@ function Day({ text, isOpen, openHour, closeHour, onPress }) {
 
   return (
     <View>
-      <StatusBar />
       <View style={styles.container}>
         <View style={styles.new}>
           <Text style={styles.text}>{text}</Text>

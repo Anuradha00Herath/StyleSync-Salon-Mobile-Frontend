@@ -19,6 +19,7 @@ export default function SetTime({ route }) {
   const [closeTime, setCloseTime] = useState(closeHour);
   const [breakStart, setBreakStart] = useState("");
   const [breakEnd, setBreakEnd] = useState("");
+  const [breaks, setBreaks] = useState([])
   const [loading, setLoading] = useState(false);
 
   const fetchBreaksTimes = async () => {
@@ -30,6 +31,7 @@ export default function SetTime({ route }) {
         params: { staffId: staffId, dayName: name },
       });
       const {breakStart,breakEnd} = response.data.data[0];
+      setBreaks(response.data.data);
       setBreakStart(breakStart);
       setBreakEnd(breakEnd);
     } catch (error) {
@@ -137,7 +139,14 @@ export default function SetTime({ route }) {
             >
               Breaks
             </Text>
-            <Text>{breakStart} - {breakEnd}</Text>
+            {breaks.map(b=>(
+              <View key = {b.breakStart}>
+                <Breaks
+                breakEnd={b.breakEnd}
+                breakStart={b.breakStart}
+                />
+              </View>
+            ))}
             <AddMore onPress={onHandleAddBreak} />
           </>
         )}
@@ -146,4 +155,13 @@ export default function SetTime({ route }) {
       </View>
     </ImageBackground>
   );
+}
+
+function Breaks({breakStart, breakEnd}){
+  const formattedTime =  `${breakStart} - ${breakEnd}`;
+  return(
+    <View>
+      <Text>{formattedTime}</Text>
+    </View>
+  )
 }
