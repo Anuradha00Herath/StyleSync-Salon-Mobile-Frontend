@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { ImageBackground, View, StatusBar, Text, Switch } from "react-native";
+import { ImageBackground, View, StatusBar, Text, Switch, FlatList } from "react-native";
 import { AppName } from "../Component/AppName";
 import { globaleStyles, imageStyles } from "../Component/globaleStyles";
 import { FlatButton } from "../Component/FlatButton";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+// import Icon from 'react-native-vector-icons/AntDesign';
+// import { SeparatorLineWithText } from '../Component/line';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Switch1 } from "../Component/Switch";
 import { TimePicker } from "../Component/TimePicker";
@@ -12,7 +14,7 @@ import axios from "axios";
 
 const backImg = require("../assets/StyleSync.jpeg");
 
-export default function SetTime({ route }) {
+export default function SetTime({ route,onPress }) {
   const { staffId, name, isOpen, openHour, closeHour } = route.params;
   const [isEnabled, setIsEnabled] = useState(isOpen);
   const [openTime, setOpenTime] = useState(openHour);
@@ -139,6 +141,27 @@ export default function SetTime({ route }) {
             </Text>
             <Text>{breakStart} - {breakEnd}</Text>
             <AddMore onPress={onHandleAddBreak} />
+            {/* <FlatList
+            data={}
+            renderItem={({item}) =>{
+              return(
+               <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
+              <View>
+                <Text>{item.breakStart} - {item.breakEnd}</Text>
+              </View>
+              <View style={{width:50,alignItems:"center",}}>
+                  <Icon name='right' size={20} color={"black"} style={{width:20,height:20}}onPress={onHandleAddBreak}/>
+              </View>
+            </View>
+            <SeparatorLineWithText lineColor={"gray"}/>
+              );
+            }}
+            ListFooterComponent={() => (
+              <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
+                <AddMore onPress={() => navigation.navigate("onHandleAddBreak")} />
+              </View>
+            )}
+            /> */}
           </>
         )}
 
