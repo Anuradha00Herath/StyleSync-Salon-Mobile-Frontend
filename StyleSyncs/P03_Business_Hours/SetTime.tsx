@@ -150,27 +150,6 @@ export default function SetTime({ route,onPress }) {
               </View>
             ))}
             <AddMore onPress={onHandleAddBreak} />
-            {/* <FlatList
-            data={}
-            renderItem={({item}) =>{
-              return(
-               <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
-              <View>
-                <Text>{item.breakStart} - {item.breakEnd}</Text>
-              </View>
-              <View style={{width:50,alignItems:"center",}}>
-                  <Icon name='right' size={20} color={"black"} style={{width:20,height:20}}onPress={onHandleAddBreak}/>
-              </View>
-            </View>
-            <SeparatorLineWithText lineColor={"gray"}/>
-              );
-            }}
-            ListFooterComponent={() => (
-              <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
-                <AddMore onPress={() => navigation.navigate("onHandleAddBreak")} />
-              </View>
-            )}
-            /> */}
           </>
         )}
 
