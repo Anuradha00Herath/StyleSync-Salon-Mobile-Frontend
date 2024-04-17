@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { SeparatorLineWithText } from '../Component/line';
 import { FlatButton } from '../Component/FlatButton';
 import { AppName } from '../Component/AppName';
+import { AddMore } from '../Component/AddMore';
 
 const backImg=require("../assets/StyleSync.jpeg")
 
@@ -41,31 +42,46 @@ export function SalonServices({ route }){
               <Text style={globaleStyles.Stopic}>When can client book with you</Text>
                  {selectedServices.map((serviceName, index) => (
                       <View key={index} >
-                         <View style={styles.container}>
+                         <View style={{flexDirection: 'row',
+                                       alignItems: 'center',
+                                       justifyContent: 'space-between',
+                                      }}>
+                            <View>
                             <Text>{serviceName}</Text>
-                            <Icon name="right" 
-                                  size={20} 
-                                  color={"gray"} 
-                                  style={styles.icon} 
-                                  onPress={() => navigateToServicePage(serviceName)}/>
+                            </View>
+                            <View
+                                style={{
+                                       flexDirection: "row",
+                                       alignItems: "center",
+                                       justifyContent: "flex-start",
+                                      }}
+                            >
+                             <View style={{ width: 30, alignItems: "center" }}>
+                                <Icon
+                                  name="delete"
+                                  size={20}
+                                  color={"#71797E"}
+                                  style={{ width: 20, height: 20 }}
+                                  onPress={() =>navigation.navigate("Staff")}
+                               />
+                            </View>
+                            <View style={{ width: 40, alignItems: "center" }}>
+                                <Icon
+                                  name="right"
+                                  size={20}
+                                  color={"#71797E"}
+                                  style={{ width: 20, height: 20 }}
+                                  onPress={() => navigation.navigate("SetBreakTime", )}
+                               />
+                            </View>
+                          </View>
                           </View>
                           <SeparatorLineWithText lineColor={"gray"}/>
                        </View>
                    ))}
+                   <AddMore onPress={() =>navigation.navigate("Staff")}/>
                  <FlatButton text='Continue' onPress={() =>navigation.navigate("Staff")} />
          </View>
     </ImageBackground>
     );
 }
-export const styles= StyleSheet.create({
-    icon:{
-        marginLeft: 20,
-        
-      },
-      container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      },
-}
-)
