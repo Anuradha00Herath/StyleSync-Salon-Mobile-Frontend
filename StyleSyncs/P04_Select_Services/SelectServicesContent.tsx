@@ -64,7 +64,7 @@ export function SelectServicesContent({ staffId }) {
           const { status , message} = result;
           if (status === 200) {
             console.log("Success", message);
-            navigation.navigate('SalonServices', { selectedServices: selectedServiceNames });
+            navigation.navigate('SalonServices', { staffId });
           } else if (status === 400) {
             console.log("Failed", message);
           } else {

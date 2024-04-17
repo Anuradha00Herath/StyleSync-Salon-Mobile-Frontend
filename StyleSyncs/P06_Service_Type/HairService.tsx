@@ -6,7 +6,8 @@ import { Page06Content } from "./Page06Content";
 
 const backImg=require("../assets/StyleSync.jpeg")
 
-export default function HairService(){
+export default function HairService({route}){
+  const {serviceName} = route.params
   const hairServise=[
     {id:1, name:"Haircutting",       price:'500',   duration:'40'},
     {id:2, name:"Hairstyling",       price:'700',   duration:'20'},
