@@ -1,47 +1,53 @@
-
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StatusBar } from "react-native";
-import Icon from 'react-native-vector-icons/AntDesign';
-import { IncreaseHours,
+import Icon from "react-native-vector-icons/AntDesign";
+import {
+  IncreaseHours,
   IncreaseMinutes,
   DecreaseHours,
-  DecreaseMinutes} from "./get-time-from-backend"
+  DecreaseMinutes,
+} from "./get-time-from-backend";
 
-  export function TimePicker({onOpenTime,onCloseTime,onHandleCloseTimeValue,onHandleOpenTimeValue}) {
-    const openHour = onOpenTime;
-    const closeHour = onCloseTime;
-    const[oHourStr,oMinuteStr] = openHour.split(":");
-    const[cHourStr,cMinuteStr] = closeHour.split(":");
-    const oHour = parseInt(oHourStr,10);
-    const oMinute = parseInt(oMinuteStr,10);
-    const cHour = parseInt(cHourStr,10);
-    const cMinute = parseInt(cMinuteStr,10);
+export function TimePicker({
+  onOpenTime,
+  onCloseTime,
+  onHandleCloseTimeValue,
+  onHandleOpenTimeValue,
+}) {
+  const openHour = onOpenTime;
+  const closeHour = onCloseTime;
+  const [oHourStr, oMinuteStr] = openHour.split(":");
+  const [cHourStr, cMinuteStr] = closeHour.split(":");
+  const oHour = parseInt(oHourStr, 10);
+  const oMinute = parseInt(oMinuteStr, 10);
+  const cHour = parseInt(cHourStr, 10);
+  const cMinute = parseInt(cMinuteStr, 10);
   const [hours, setHours] = useState({
-    startBeforeHour: oHour-1===-1?23:oHour-1,
+    startBeforeHour: oHour - 1 === -1 ? 23 : oHour - 1,
     startMiddleHour: oHour,
-    startAfterHour: oHour+1,
-    endBeforeHour: cHour-1===-1?23:cHour-1,
+    startAfterHour: oHour + 1,
+    endBeforeHour: cHour - 1 === -1 ? 23 : cHour - 1,
     endMiddleHour: cHour,
-    endAfterHour: cHour+1,
-    startBeforeMin: oMinute-1===-1?59:oMinute-1,
+    endAfterHour: cHour + 1,
+    startBeforeMin: oMinute - 1 === -1 ? 59 : oMinute - 1,
     startMiddleMin: oMinute,
-    startAfterMin: oMinute+1,
-    endBeforeMin: cMinute-1===-1?59:cMinute-1,
+    startAfterMin: oMinute + 1,
+    endBeforeMin: cMinute - 1 === -1 ? 59 : cMinute - 1,
     endMiddleMin: cMinute,
-    endAfterMin: cMinute+1,
+    endAfterMin: cMinute + 1,
   });
   const formatTime = (value: number): string => {
     return value < 10 ? `0${value}` : `${value}`;
   };
-  const openTime = formatTime(hours.startMiddleHour)+":"+formatTime(hours.startMiddleMin);
-const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddleMin);
+  const openTime =
+    formatTime(hours.startMiddleHour) + ":" + formatTime(hours.startMiddleMin);
+  const closeTime =
+    formatTime(hours.endMiddleHour) + ":" + formatTime(hours.endMiddleMin);
 
-  useEffect(()=>{
+  useEffect(() => {
     onHandleOpenTimeValue(openTime);
     onHandleCloseTimeValue(closeTime);
-  })
-  console.log(openTime,closeTime)
-
+  });
 
   const IncreaseHourPress = () => {
     const { startBeforeHour, startMiddleHour, startAfterHour } = hours;
@@ -86,7 +92,6 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
       endMiddleHour: newSecondHour[1],
       endAfterHour: newSecondHour[2],
     });
-    //console.log("in function increment:", startBeforeHour, startMiddleHour, startAfterHour);
   };
 
   const IncreaseMinutesPressTwo = () => {
@@ -128,12 +133,6 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
       startMiddleMin: newMin[1],
       startAfterMin: newMin[2],
     });
-    console.log(
-      "in function increment:",
-      startBeforeMin,
-      startMiddleMin,
-      startAfterMin
-    );
   };
 
   const DecreaseHourPressTwo = () => {
@@ -149,7 +148,6 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
       endMiddleHour: newSecondHour[1],
       endAfterHour: newSecondHour[2],
     });
-    //console.log("in function increment:", startBeforeHour, startMiddleHour, startAfterHour);
   };
   const DecreaseMinutesPressTwo = () => {
     const { endBeforeMin, endMiddleMin, endAfterMin } = hours;
@@ -168,7 +166,7 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
         width: 300,
         height: 187,
         alignSelf: "center",
-        alignItems:"center",
+        alignItems: "center",
         marginTop: 28,
         //borderWidth: 1,
         borderColor: "black",
@@ -180,11 +178,10 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
           flexDirection: "row",
         }}
       >
-
         <View
           style={{
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Icon
@@ -207,8 +204,8 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
             style={{
               fontSize: 20,
               fontWeight: "bold",
-              marginTop : 5,
-              marginBottom : 5
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
             {formatTime(hours.startMiddleHour)}
@@ -222,7 +219,7 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
           >
             {formatTime(hours.startAfterHour)}
             {/* :{" "}
-            {formatTime(hours.startAfterMin)} */}
+            {formatTime(hours.startAfterMin)} marginLeft: 10*/}
           </Text>
           <Icon
             name="down"
@@ -232,12 +229,46 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
             onPress={DecreaseHourPress}
           />
         </View>
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center",
+            marginLeft: 10
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              textAlign: "center",
+              marginTop: 29
+            }}
+          >
+            :
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          >
+            :
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+            }}
+          >
+            :
+          </Text>
+        </View>
 
         <View
           style={{
             flexDirection: "column",
-            marginLeft: 25,
-            alignItems: "center"
+            marginLeft: 10,
+            alignItems: "center",
           }}
         >
           <Icon
@@ -260,8 +291,8 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
             style={{
               fontSize: 20,
               fontWeight: "bold",
-              marginTop : 5,
-              marginBottom : 5
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
             {/* {formatTime(hours.startMiddleHour)}  */}
@@ -289,7 +320,7 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
           style={{
             flexDirection: "column",
             marginLeft: 45,
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Icon
@@ -311,8 +342,8 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
             style={{
               fontSize: 20,
               fontWeight: "700",
-              marginTop : 5,
-              marginBottom : 5
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
             {formatTime(hours.endMiddleHour)}
@@ -338,8 +369,44 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
         <View
           style={{
             flexDirection: "column",
-            marginLeft: 25,
-            alignItems: "center"
+            alignItems: "center",
+            marginTop: 9,
+            marginLeft: 10
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              textAlign: "center",
+              marginTop: 20
+            }}
+          >
+            :
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          >
+            :
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+            }}
+          >
+            :
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "column",
+            marginLeft: 10,
+            alignItems: "center",
           }}
         >
           <Icon
@@ -354,18 +421,16 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
               fontSize: 18,
             }}
           >
-            {/* {formatTime(hours.endBeforeHour)}  */}
             {formatTime(hours.endBeforeMin)}
           </Text>
           <Text
             style={{
               fontSize: 20,
               fontWeight: "bold",
-              marginTop : 5,
-              marginBottom : 5
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
-            {/* {formatTime(hours.endMiddleHour)} : */}
             {formatTime(hours.endMiddleMin)}
           </Text>
           <Text
@@ -373,7 +438,6 @@ const closeTime = formatTime(hours.endMiddleHour)+":"+formatTime(hours.endMiddle
               fontSize: 18,
             }}
           >
-            {/* {formatTime(hours.endAfterHour)}  */}
             {formatTime(hours.endAfterMin)}
           </Text>
           <Icon

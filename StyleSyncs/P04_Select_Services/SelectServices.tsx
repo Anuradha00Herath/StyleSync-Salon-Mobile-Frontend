@@ -6,12 +6,13 @@ import { SelectServicesContent } from "./SelectServicesContent";
 
 const backImg=require("../assets/StyleSync.jpeg")
 
-export default function SelectServices() {
+export default function SelectServices({route}) {
+  const {staffId} = route.params;
     return (
           <ImageBackground source={backImg} style={imageStyles.container}>
             <StatusBar/> 
           {/* <StatusBar style={imageStyles.Bar}/> */}
             <AppName/>
-            <SelectServicesContent/>
+            <SelectServicesContent staffId={staffId}/>
           </ImageBackground>
     );}

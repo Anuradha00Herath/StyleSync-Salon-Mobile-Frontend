@@ -11,7 +11,7 @@ import { useState } from "react";
 const backImg=require("../assets/StyleSync.jpeg")
 
 export default function SetBreakTime({route}) {
-    const{staffId , dayName,isOpen, openHour, closeHour}=route.params;
+    const{staffId , dayName,isOpen, openHour, closeHour, type}=route.params;
     const [bStart, setBStart]  = useState("12:00");
     const [bEnd, setBEnd] = useState("13:00");
     const [loading, setLoading] =useState(false);
@@ -49,6 +49,33 @@ export default function SetBreakTime({route}) {
             setLoading(false);
           }
       };
+
+      const onHandleUpdate = async () => {
+          try {
+            setLoading(true);
+            const url =
+              "https://stylesync-backend-test.onrender.com/app/v1/time/update-breaks";
+            const response = await axios.put(url, {
+              staffId: staffId,
+              dayName: dayName,
+              breakStart: bStart,
+              breakEnd: bEnd
+            });
+            const result = response.data;
+            const { message, status } = result;
+            if (status === 201) {
+                navigation.navigate("SetTime", {staffId:staffId, name: dayName, isOpen: isOpen, openHour: openHour,closeHour:closeHour });
+              console.log("Success", message);
+            } else {
+              console.log("Error", message);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+          finally {
+            setLoading(false);
+          }
+        };
     return (
     
         <ImageBackground source={backImg} style={imageStyles.container}>
@@ -63,9 +90,8 @@ export default function SetBreakTime({route}) {
               onHandleOpenTimeValue={handleOpenTimeValue}
               onHandleCloseTimeValue={handleCloseTimeValue}
             />
-              <FlatButton text='Ok' onPress={onHandleAddBreak} />
+              <FlatButton text='Ok' onPress={type === "New" ? onHandleAddBreak: onHandleUpdate} />
            </View>
         </ImageBackground>
-  
     );
 }

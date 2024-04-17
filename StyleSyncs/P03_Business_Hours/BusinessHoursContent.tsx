@@ -58,7 +58,7 @@ export function BusinessHoursContent({ staffId }) {
           <SeparatorLineWithText lineColor={"gray"} />
         </View>
       ))}
-      <FlatButton text='Continue' onPress={() => navigation.navigate("SelectServices")} />
+      <FlatButton text='Continue' onPress={() => navigation.navigate("SelectServices",{staffId})} />
     </View>
   );
 }

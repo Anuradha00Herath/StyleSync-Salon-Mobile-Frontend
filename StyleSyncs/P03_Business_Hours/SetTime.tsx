@@ -31,24 +31,24 @@ export default function SetTime({ route, onPress }) {
 
   useFocusEffect(
     React.useCallback(() => {
-      const fetchBreaksTimes = async () => {
-        try {
-          setLoading(true);
-          const url =
-            "https://stylesync-backend-test.onrender.com/app/v1/time/get-breaks";
-          const response = await axios.get(url, {
-            params: { staffId: staffId, dayName: name },
-          });
-          setBreaks(response.data.data);
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setLoading(false);
-        }
-      };
       fetchBreaksTimes();
     }, [openHour])
   );
+  const fetchBreaksTimes = async () => {
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/time/get-breaks";
+      const response = await axios.get(url, {
+        params: { staffId: staffId, dayName: name },
+      });
+      setBreaks(response.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleOpenTimeValue = (value: any) => {
     setOpenTime(value);
@@ -62,8 +62,10 @@ export default function SetTime({ route, onPress }) {
   };
   const getText = () => (isEnabled ? "Open" : "Closed");
   const navigation = useNavigation<StackNavigationProp<any>>();
+
   const onHandleOk = async () => {
     try {
+      setLoading(true);
       const url =
         "https://stylesync-backend-test.onrender.com/app/v1/time/update-open-close-hours";
       const response = await axios.put(url, {
@@ -83,8 +85,92 @@ export default function SetTime({ route, onPress }) {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  const handleDelete = async (breakStart: any) => {
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/time/delete-break";
+      const response = await axios.delete(url, {
+        params: { staffId: staffId, dayName: name, breakStart },
+      });
+      const result = response.data;
+      const { message, status } = result;
+      if (status === 200) {
+        fetchBreaksTimes();
+        console.log("Success", message);
+      } else {
+        console.log("Error", message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  function Breaks({ breakStart, breakEnd }) {
+    const formattedTime = `${breakStart} - ${breakEnd}`;
+    function onHandleDelete() {
+      return handleDelete(breakStart);
+    }
+    return (
+      <View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <Text>{formattedTime}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
+          >
+            <View style={{ width: 30, alignItems: "center" }}>
+              <Icon
+                name="delete"
+                size={20}
+                color={"#71797E"}
+                style={{ width: 20, height: 20 }}
+                onPress={onHandleDelete}
+              />
+            </View>
+            <View style={{ width: 40, alignItems: "center" }}>
+              <Icon
+                name="right"
+                size={20}
+                color={"#71797E"}
+                style={{ width: 20, height: 20 }}
+                onPress={() =>
+                  navigation.navigate("SetBreakTime", {
+                    staffId: staffId,
+                    dayName: name,
+                    isOpen: isOpen,
+                    openHour: openHour,
+                    closeHour: closeHour,
+                    type: "Update",
+                  })
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <SeparatorLineWithText lineColor={"gray"} />
+      </View>
+    );
+  }
+
   return (
     <ImageBackground source={backImg} style={imageStyles.container}>
       <StatusBar />
@@ -130,19 +216,23 @@ export default function SetTime({ route, onPress }) {
             <Text style={{ color: "#000000", fontSize: 14, fontWeight: "400" }}>
               Breaks
             </Text>
-            {breaks.map(b => (
+            {breaks.map((b) => (
               <View key={b.breakStart}>
                 <Breaks
                   breakEnd={b.breakEnd}
                   breakStart={b.breakStart}
-                  //onPress={()=> navigation.navigate("SetBreakTime", { staffId: staffId , dayName : name, isOpen:isOpen, openHour:openHour, closeHour:closeHour  })}
                 />
               </View>
             ))}
             <AddMore
               onPress={() =>
                 navigation.navigate("SetBreakTime", {
-                  staffId: staffId , dayName : name, isOpen:isOpen, openHour:openHour, closeHour:closeHour 
+                  staffId: staffId,
+                  dayName: name,
+                  isOpen: isOpen,
+                  openHour: openHour,
+                  closeHour: closeHour,
+                  type: "New",
                 })
               }
             />
@@ -152,33 +242,5 @@ export default function SetTime({ route, onPress }) {
         <FlatButton text="Ok" onPress={onHandleOk} />
       </View>
     </ImageBackground>
-  );
-}
-
-function Breaks({ breakStart, breakEnd }) {
-  const formattedTime = breakStart != null ? `${breakStart} - ${breakEnd}`: "Undefined";
-  return (
-    <View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <View>
-          <Text>{formattedTime}</Text>
-        </View>
-        <View style={{ width: 50, alignItems: "center" }}>
-          <Icon
-            name="right"
-            size={20}
-            color={"black"}
-            style={{ width: 20, height: 20 }}
-          />
-        </View>
-      </View>
-      <SeparatorLineWithText lineColor={"gray"} />
-    </View>
   );
 }
