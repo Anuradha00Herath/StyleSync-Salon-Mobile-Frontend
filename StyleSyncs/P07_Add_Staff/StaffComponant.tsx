@@ -20,12 +20,7 @@ export  function StaffComponent({name,Service,onPress}){
                         <Text>{name}</Text>
                     </View>
                 </View>
-                <View style={{ flexDirection: "row",
-                               alignItems: "center",
-                               justifyContent: "flex-start",}}>
-                <View>
-                    <Text>{Service}</Text>
-                </View>
+               
                 <View style={{ width: 30, alignItems: "center" }}>
                     <Icon
                       name="delete"
@@ -35,16 +30,7 @@ export  function StaffComponent({name,Service,onPress}){
                       onPress={onPress}
                 />
                 </View>
-                <View style={{ width: 40, alignItems: "center" }}>
-              <Icon
-                name="right"
-                size={20}
-                color={"#71797E"}
-                style={{ width: 20, height: 20 }}
-                onPress={onPress}
-              />
-            </View>
-                </View>
+                
              </View>
              <SeparatorLineWithText lineColor={"gray"}/>
         </View>
