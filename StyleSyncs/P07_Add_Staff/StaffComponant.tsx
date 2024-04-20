@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { SeparatorLineWithText } from '../Component/line';
 
 export  function StaffComponent({name}){
-    console.log(name);
+    //console.log(name);
     return(
         <View>
              <View style={{ flexDirection: 'row',

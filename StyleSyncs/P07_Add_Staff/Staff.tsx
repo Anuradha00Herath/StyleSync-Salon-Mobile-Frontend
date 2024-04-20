@@ -25,7 +25,6 @@ useFocusEffect(
           const result = response.data;
           const {status, data} = result;
           setStaff(data);
-          console.log(result.data);
           if(status=== 200){
             console.log("success");
           }else{
