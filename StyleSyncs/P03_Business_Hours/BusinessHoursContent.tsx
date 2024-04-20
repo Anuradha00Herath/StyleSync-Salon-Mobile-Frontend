@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { View, StyleSheet, Text, StatusBar } from 'react-native';
+import { View, Text, StatusBar } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { globaleStyles } from '../Component/globaleStyles';
@@ -69,32 +69,20 @@ function Day({ text, isOpen, openHour, closeHour, onPress }) {
 
   return (
     <View>
-      <View style={styles.container}>
-        <View style={styles.new}>
-          <Text style={styles.text}>{text}</Text>
+      <View style={{flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',}}>
+        <View style={{flex: 1}}>
+          <Text style={{ fontSize: 14,}}>{text}</Text>
         </View>
-        <View style={styles.new}>
-          <Text style={styles.text}>{formattedTime}</Text>
+      <View style={{flex: 1}}>
+          <Text style={{ fontSize: 14,}}>{formattedTime}</Text>
         </View>
-        <Icon name="right" size={20} color={"gray"} style={styles.icon} onPress={onPress} />
+        <View>
+        <Icon name="right" size={20} color={"gray"}  onPress={onPress} />
+        </View>
       </View>
     </View>
   );
 }
 
-export const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  text: {
-    fontSize: 14,
-  },
-  icon: {
-    marginLeft: 20,
-  },
-  new: {
-    flex: 1,
-  }
-})
