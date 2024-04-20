@@ -7,7 +7,7 @@ import { globaleStyles } from "../Component/globaleStyles";
 import { FlatButton } from "../Component/FlatButton";
 import { AddMore}  from "../Component/AddMore";
 
-export function Page06Content({Service,service}){
+export function Page06Content({Service,service, staffId, handleFetchService}){
   const navigation = useNavigation<StackNavigationProp<any>>();
     //const navigation = useNavigation();
 
@@ -24,11 +24,9 @@ export function Page06Content({Service,service}){
                     text={item.name}
                     price={item.price} 
                     duration={item.duration} 
-                    onPress={() =>navigation.navigate("Page06EditDetails" ,{
-                        serviceName: item.name,
-                        price: item.price,
-                        duration: item.duration,
-                      })}
+                    serviceId = {item.id}
+                    staffId={staffId}
+                    handleFetchservice = {handleFetchService}
                     />
                  )}
                  ListFooterComponent={() => (

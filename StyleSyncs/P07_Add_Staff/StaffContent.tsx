@@ -8,26 +8,27 @@ import { AddMore } from "../Component/AddMore";
 import { FlatButton } from "../Component/FlatButton";
 
 
-export function StaffContent({service}){
+export function StaffContent({staffName}){
     const navigation = useNavigation<StackNavigationProp<any>>();
     //const navigation = useNavigation();
+    //console.log(name);
     return(
         <View style={[globaleStyles.back,{marginTop:400}]}>
            <Text style={globaleStyles.topic}>Your Staff</Text> 
             <Text style={globaleStyles.Stopic}>When can client book with you</Text>
             <View style={{height:300 ,justifyContent:"flex-start"}}>
               <FlatList
-                 data={service}
+                 data={staffName}
                  renderItem={({item}) =>(
+                  
                     <StaffComponent
                     name={item.name}
-                    Service={item.Service} 
-                    onPress={() =>navigation.navigate("StaffMemberDetails" 
+                    
+                    //staff={item.staff} 
                     // ,{
                     //     StaffMemberName: item.name,
                     //     service: item.Service,
                     //   }
-                      )}
                     />
                  )}
                  ListFooterComponent={() => (

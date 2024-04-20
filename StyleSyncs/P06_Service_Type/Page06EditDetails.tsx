@@ -9,15 +9,14 @@ import { Page06Sub } from "./Page06EditSub";
 const backImg=require("../assets/StyleSync.jpeg")
 
 export default function Page06EditDetails({route}){
-    const { serviceName,duration,price} = route.params;
-    
+    const { serviceName,duration,price, serviceId, staffId} = route.params;
     return(
        
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} contentInsetAdjustmentBehavior='scrollableAxes'>
            <StatusBar/>
            <ImageBackground source={backImg} style={imageStyles.container} >
                 <AppName/>
-                <Page06Sub initialServiceName={serviceName}  initialDuration={duration} initialPrice={price}/> 
+                <Page06Sub initialServiceName={serviceName}  initialDuration={duration} initialPrice={price} serviceId={serviceId} staffId={staffId}/> 
            </ImageBackground>
            </KeyboardAwareScrollView> 
            

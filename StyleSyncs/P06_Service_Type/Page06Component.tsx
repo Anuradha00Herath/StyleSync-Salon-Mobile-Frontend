@@ -1,8 +1,33 @@
 import {  View, StyleSheet,Text } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { SeparatorLineWithText } from '../Component/line';
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-export  function Page06Component({text,price,duration,onPress}) {
+export  function Page06Component({text,price,duration, serviceId,staffId, handleFetchservice}) {
+  const [loading,setLoading] = useState(false);
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
+  const handleDelete = async () => {
+    try{
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/service/delete-staff-service";
+      const response = await axios.delete(url, { params: {serviceId, staffId} });
+      const result = response.data;
+      const {status, message} = result;
+      if (status === 200){
+        console.log("Success", message);
+        handleFetchservice();
+        //fetchBusinessHours();
+      }
+    }catch{
+      console.log("error");
+    }finally{
+      setLoading(false);
+    }
+  }
     return (
         <View>
               <View style={{flexDirection: 'row',
@@ -27,7 +52,7 @@ export  function Page06Component({text,price,duration,onPress}) {
                         size={20}
                         color={"#71797E"}
                         style={{ width: 20, height: 20 }}
-                        onPress={onPress}
+                        onPress={handleDelete}
                       />
                   </View>
                   <View style={{ width: 30, alignItems: "center" }}>
@@ -36,7 +61,7 @@ export  function Page06Component({text,price,duration,onPress}) {
                         size={20}
                         color={"#71797E"}
                         style={{ width: 20, height: 20 }}
-                        onPress={onPress}
+                        onPress={()=> navigation.navigate("Page06EditDetails", {serviceName: text, price, duration, serviceId,staffId})}
                       />
                   </View>
 
