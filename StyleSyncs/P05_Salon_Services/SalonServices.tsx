@@ -68,14 +68,14 @@ export function SalonServices({ route }){
         <View style={[globaleStyles.back,{marginTop:400}]}>
               <Text style={globaleStyles.topic}>Your Services</Text>
               <Text style={globaleStyles.Stopic}>When can client book with you</Text>
-                 {selectServices.map((serviceName, index) => (
+                 {selectServices.map((serviceType, index) => (
                       <View key={index} >
                          <View style={{flexDirection: 'row',
                                        alignItems: 'center',
                                        justifyContent: 'space-between',
                                       }}>
                             <View>
-                            <Text>{serviceName}</Text>
+                            <Text>{serviceType}</Text>
                             </View>
                             <View
                                 style={{
@@ -90,7 +90,7 @@ export function SalonServices({ route }){
                                   size={20}
                                   color={"#71797E"}
                                   style={{ width: 20, height: 20 }}
-                                  onPress={() => handleDelete(serviceName)}
+                                  onPress={() => handleDelete(serviceType)}
                                />
                             </View>
                             <View style={{ width: 40, alignItems: "center" }}>
@@ -99,7 +99,7 @@ export function SalonServices({ route }){
                                   size={20}
                                   color={"#71797E"}
                                   style={{ width: 20, height: 20 }}
-                                  onPress={() => navigation.navigate("HairService", {serviceName} )}
+                                  onPress={() => navigation.navigate("HairService", {serviceType, staffId} )}
                                />
                             </View>
                           </View>

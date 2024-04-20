@@ -2,7 +2,8 @@ import {  View, StyleSheet,Text } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { SeparatorLineWithText } from '../Component/line';
 
-export  function StaffComponent({name,Service,onPress}){
+export  function StaffComponent({name}){
+    console.log(name);
     return(
         <View>
              <View style={{ flexDirection: 'row',
@@ -27,7 +28,6 @@ export  function StaffComponent({name,Service,onPress}){
                       size={20}
                       color={"#71797E"}
                       style={{ width: 20, height: 20 }}
-                      onPress={onPress}
                 />
                 </View>
                 
