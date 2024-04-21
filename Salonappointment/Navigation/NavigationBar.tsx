@@ -9,12 +9,10 @@ import HomeScreen from "./Screens/Home";
 import AppointmentScreen from "./Screens/AppointmentScreen";
 import SettingsScreen from "./Screens/settingsScreen";
 import CustomerInfo from "./Screens/viewCustomerInfoScreen";
-import CustomerInfoTwo from "./Screens/viewCustomerInfoScreenTwo";
-
 // Screen names
 const homeName = "Home";
 const appointmentName = "Appointment";
-const settingsName = "Settings";
+const settingsName = "Profile";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,7 +36,6 @@ function MainContainer() {
               iconName = focused ? "settings" : "settings-outline";
             }
 
-            // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={"#FDFDFD"} />;
           },
         })}
@@ -88,8 +85,8 @@ function AppointmentStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="CustomerInfoTwo"
-        component={CustomerInfoTwo}
+        name="CustomerInfo"
+        component={CustomerInfo}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

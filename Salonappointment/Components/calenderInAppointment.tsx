@@ -12,14 +12,14 @@ const CalenderExpand: React.FC<CalendarProps> = () => {
 
   const customTheme = {
     calendarBackground: 'rgba(10,10,10,0.5)',
-    textDayFontSize: 12, // Font size for day labels
-    textMonthFontSize: 14, // Font size for month title
+    textDayFontSize: 12, 
+    textMonthFontSize: 14, 
     textDayHeaderFontSize: 14,
     textDayStyle: {
-      color: '#FDFDFD', // Font color for all text elements
+      color: '#FDFDFD', 
       margin: 2
     },
-    monthTextColor: '#FDFDFD', // Change this color to the desired color for month and year text
+    monthTextColor: '#FDFDFD', 
     arrowColor: '#FDFDFD',
   };
 
@@ -32,7 +32,7 @@ const CalenderExpand: React.FC<CalendarProps> = () => {
          theme={customTheme}
          onDayPress={(day) => {
             console.log('selected day', day);
-            setSelectedDate(day.dateString); // Update selected date
+            setSelectedDate(day.dateString); 
           }}
          monthFormat={'yyyy MMMM'}
          hideArrows={false}
@@ -41,7 +41,7 @@ const CalenderExpand: React.FC<CalendarProps> = () => {
            [selectedDate]: {
             selected: true,
             disableTouchEvent: true, 
-             selectedColor: 'white', // Transparent background color
+             selectedColor: 'white',
              selectedTextColor: 'black',
            }
          }}

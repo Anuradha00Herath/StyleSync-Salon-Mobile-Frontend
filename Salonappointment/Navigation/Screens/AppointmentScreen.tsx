@@ -40,15 +40,11 @@ export default function AppointmentScreen({navigation}) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // Set the refresh state to true to trigger a re-render
       setRefresh(true);
-    }, 5000); // 60000 milliseconds = 1 minute
-
-    // Clean up the interval on component unmount
+    }, 5000); 
     return () => clearInterval(intervalId);
   }, []);
 
-  // Function to reset the refresh state after a re-render
   useEffect(() => {
     if (refresh) {
       setRefresh(false);

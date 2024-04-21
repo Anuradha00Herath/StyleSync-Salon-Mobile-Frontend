@@ -15,7 +15,7 @@ const { width, height } = Dimensions.get("screen");
 
 
 export default function CustomerInfo({ route ,navigation}) { 
-  //const { id, customer, staff, service, gender } = appointment;
+ 
   const {appointment} = route.params;
 
   return (

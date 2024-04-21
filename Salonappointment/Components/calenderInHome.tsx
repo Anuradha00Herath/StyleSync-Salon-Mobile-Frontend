@@ -8,7 +8,6 @@ interface CalendarProps {
 
 const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
 
-  // Generate data for the calendar
   const data = [];
   const startOfWeek = moment(currentDate).startOf('week');
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];

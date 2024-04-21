@@ -23,7 +23,6 @@ export function AppointmentSetTwo({staffName, appointments, navigation}) {
           }}
         ></View>
 
-        {/* This time should be comes from backend*/}
         <Text
           style={{
             marginHorizontal: 5,

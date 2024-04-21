@@ -1,399 +1,321 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, StatusBar } from "react-native";
-import Icon from "../../node_modules/@expo/vector-icons/AntDesign";
+import React, { useEffect, useState } from "react";
 import {
-  IncreaseHours,
-  IncreaseMinutes,
-  DecreaseHours,
-  DecreaseMinutes,
-} from "../../Components/get-time-from-backend";
+  View,
+  ImageBackground,
+  Text,
+  Dimensions,
+  StatusBar,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import Calendar from "../../Components/calenderInHome";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { AppointmentSet } from "../../Components/appointmentSet";
+import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
+import { useNavigation } from "@react-navigation/native";
+import { StaffView } from "../../Components/mobile-salon-profile-staff-view";
 
-export default function SettingsScreen() {
-  const [hours, setHours] = useState({
-    startBeforeHour: 9,
-    startMiddleHour: 10,
-    startAfterHour: 11,
-    endBeforeHour: 18,
-    endMiddleHour: 19,
-    endAfterHour: 20,
-    startBeforeMin: 59,
-    startMiddleMin: 0,
-    startAfterMin: 1,
-    endBeforeMin: 59,
-    endMiddleMin: 0,
-    endAfterMin: 1,
-  });
+const { width, height } = Dimensions.get("screen");
 
-  const IncreaseHourPress = () => {
-    const { startBeforeHour, startMiddleHour, startAfterHour } = hours;
-    const newHours = IncreaseHours(
-      startBeforeHour,
-      startMiddleHour,
-      startAfterHour
-    );
-    setHours({
-      ...hours,
-      startBeforeHour: newHours[0],
-      startMiddleHour: newHours[1],
-      startAfterHour: newHours[2],
-    });
-    console.log(
-      "in function increment:",
-      startBeforeHour,
-      startMiddleHour,
-      startAfterHour
-    );
-  };
-
-  const IncreaseMinutesPress = () => {
-    const { startBeforeMin, startMiddleMin, startAfterMin } = hours;
-    const newMin = IncreaseMinutes(
-      startBeforeMin,
-      startMiddleMin,
-      startAfterMin
-    );
-    setHours({
-      ...hours,
-      startBeforeMin: newMin[0],
-      startMiddleMin: newMin[1],
-      startAfterMin: newMin[2],
-    });
-    console.log(
-      "in function increment:",
-      startBeforeMin,
-      startMiddleMin,
-      startAfterMin
-    );
-  };
-
-  const IncreaseHourPressTwo = () => {
-    const { endBeforeHour, endMiddleHour, endAfterHour } = hours;
-    const newSecondHour = IncreaseHours(
-      endBeforeHour,
-      endMiddleHour,
-      endAfterHour
-    );
-    setHours({
-      ...hours,
-      endBeforeHour: newSecondHour[0],
-      endMiddleHour: newSecondHour[1],
-      endAfterHour: newSecondHour[2],
-    });
-    //console.log("in function increment:", startBeforeHour, startMiddleHour, startAfterHour);
-  };
-
-  const IncreaseMinutesPressTwo = () => {
-    const { endBeforeMin, endMiddleMin, endAfterMin } = hours;
-    const newMin = IncreaseMinutes(endBeforeMin, endMiddleMin, endAfterMin);
-    setHours({
-      ...hours,
-      endBeforeMin: newMin[0],
-      endMiddleMin: newMin[1],
-      endAfterMin: newMin[2],
-    });
-    console.log(
-      "in function increment:",
-      endBeforeMin,
-      endMiddleMin,
-      endAfterMin
-    );
-  };
-
-  const DecreaseHourPress = () => {
-    const { startBeforeHour, startMiddleHour, startAfterHour } = hours;
-    const newHours = DecreaseHours(
-      startBeforeHour,
-      startMiddleHour,
-      startAfterHour
-    );
-    setHours({
-      ...hours,
-      startBeforeHour: newHours[0],
-      startMiddleHour: newHours[1],
-      startAfterHour: newHours[2],
-    });
-    console.log(
-      "in function increment:",
-      startBeforeHour,
-      startMiddleHour,
-      startAfterHour
-    );
-  };
-
-  const DecreaseMinutesPress = () => {
-    const { startBeforeMin, startMiddleMin, startAfterMin } = hours;
-    const newMin = DecreaseMinutes(
-      startBeforeMin,
-      startMiddleMin,
-      startAfterMin
-    );
-    setHours({
-      ...hours,
-      startBeforeMin: newMin[0],
-      startMiddleMin: newMin[1],
-      startAfterMin: newMin[2],
-    });
-    console.log(
-      "in function increment:",
-      startBeforeMin,
-      startMiddleMin,
-      startAfterMin
-    );
-  };
-
-  const DecreaseHourPressTwo = () => {
-    const { endBeforeHour, endMiddleHour, endAfterHour } = hours;
-    const newSecondHour = DecreaseHours(
-      endBeforeHour,
-      endMiddleHour,
-      endAfterHour
-    );
-    setHours({
-      ...hours,
-      endBeforeHour: newSecondHour[0],
-      endMiddleHour: newSecondHour[1],
-      endAfterHour: newSecondHour[2],
-    });
-    //console.log("in function increment:", startBeforeHour, startMiddleHour, startAfterHour);
-  };
-  const DecreaseMinutesPressTwo = () => {
-    const { endBeforeMin, endMiddleMin, endAfterMin } = hours;
-    const newMin = DecreaseMinutes(endBeforeMin, endMiddleMin, endAfterMin);
-    setHours({
-      ...hours,
-      endBeforeMin: newMin[0],
-      endMiddleMin: newMin[1],
-      endAfterMin: newMin[2],
-    });
-  };
-  const formatTime = (value: number) => {
-    return value < 10 ? `0${value}` : `${value}`;
-  };
-
+export default function HomeScreen() {
   return (
-    <View //main view
+    <View
       style={{
-        width: 300,
-        height: 187,
-        alignSelf: "center",
-        alignItems:"center",
-        marginTop: 28,
-        borderWidth: 1,
-        borderColor: "black",
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <StatusBar />
-      <View
+      <StatusBar barStyle="light-content" backgroundColor="#2E2E2E" />
+      <ImageBackground
+        source={require("../../assets/background3.png")}
         style={{
-          flexDirection: "row",
+          width: width,
+          height: height,
         }}
       >
-
-
-        <View
+        <Text
           style={{
-            flexDirection: "column",
-            alignItems: "center"
+            color: "#FDFDFD",
+            textAlign: "center",
+            top: StatusBar.currentHeight + 20,
+            fontSize: 20,
+            fontWeight: "bold",
           }}
         >
-          <Icon
-            name="up"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 10, marginBottom: 5 }}
-            onPress={IncreaseHourPress}
-          />
-          <Text
+          StyleSync
+        </Text>
+        <View
+          style={{
+            width: "100%",
+            height: "70%",
+            backgroundColor: "white",
+            alignSelf: "center",
+            position: "absolute",
+            bottom: 49,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={require("../../assets/images.jpg")}
             style={{
-              fontSize: 18,
-              textAlign: "center",
+              width: 150,
+              height: 150,
+              backgroundColor: "#FDFDFD",
+              borderRadius: 100,
+              marginTop: -75,
+              borderColor: 'rgba(10, 10, 10, 0.1)',
+              borderWidth: 3,
             }}
-          >
-            {formatTime(hours.startBeforeHour)}
-            {/* : {formatTime(hours.startBeforeMin)} */}
-          </Text>
+          ></Image>
           <Text
             style={{
-              fontSize: 20,
+              color: "#2E2528",
+              fontSize: 18,
               fontWeight: "bold",
-              marginTop : 5,
-              marginBottom : 5
+              marginTop: 10,
             }}
           >
-            {formatTime(hours.startMiddleHour)}
-            {/* :{" "}
-            {formatTime(hours.startMiddleMin)} */}
+            Salon Name
           </Text>
-          <Text
+          <View
             style={{
-              fontSize: 18,
+              backgroundColor: "rgba(10, 10, 10, 0.1)",
+              width: "90%",
+              height: 1,
+              marginTop: 10,
+            }}
+          ></View>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              height: 60,
+              marginTop: 10,
+              justifyContent: "space-around",
+              alignItems: "center",
             }}
           >
-            {formatTime(hours.startAfterHour)}
-            {/* :{" "}
-            {formatTime(hours.startAfterMin)} */}
-          </Text>
-          <Icon
-            name="down"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 5 }}
-            onPress={DecreaseHourPress}
-          />
-        </View>
+            <View
+              style={{
+                width: "30%",
+                height: 60,
+                backgroundColor: "white",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                Number of
+              </Text>
+              <Text>Customers</Text>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  marginTop: 5,
+                }}
+              >
+                50
+              </Text>
+            </View>
+            <View
+              style={{ width: "0.5%", height: 40, backgroundColor: "rgba(10, 10, 10, 0.1)" }}
+            ></View>
+            <View
+              style={{
+                width: "30%",
+                height: 60,
+                backgroundColor: "white",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                Number of
+              </Text>
+              <Text>Likes</Text>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  marginTop: 5,
+                }}
+              >
+                40
+              </Text>
+            </View>
+            <View
+              style={{ width: "0.5%", height: 40, backgroundColor: "rgba(10, 10, 10, 0.1)" }}
+            ></View>
+            <View
+              style={{
+                width: "30%",
+                height: 60,
+                backgroundColor: "white",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                Number of
+              </Text>
+              <Text>Staff</Text>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  marginTop: 5,
+                }}
+              >
+                5
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              backgroundColor: "rgba(10, 10, 10, 0.1)",
+              width: "90%",
+              height: 1,
+              marginTop: 10,
+            }}
+          ></View>
 
-        <View
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "flex-start",
+              marginLeft: 20,
+              marginTop: 20
+            }}
+          >
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 17
+              }}
+            >
+              Addresss -{" "}
+            </Text>
+            <Text style={{
+              fontSize: 17
+            }}>No. 123, Salon Street, Salon.</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "flex-start",
+              marginLeft: 20,
+              marginTop: 10
+            }}
+          >
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 17
+              }}
+            >
+              Contact Number -{" "}
+            </Text>
+            <Text style={{
+              fontSize: 17
+            }}>07* - *******</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "flex-start",
+              marginLeft: 20,
+              marginTop: 10
+            }}
+          >
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 17
+              }}
+            >
+              City -{" "}
+            </Text>
+            <Text style={{
+              fontSize: 17
+            }}>cityName</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "flex-start",
+              marginLeft: 20,
+              marginTop: 10
+            }}
+          >
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 17
+              }}
+            >
+              ... See your profile info
+            </Text>
+          </View>
+          <TouchableOpacity
           style={{
-            flexDirection: "column",
-            marginLeft: 25,
-            alignItems: "center"
-          }}
-        >
-          <Icon
-            name="up"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 10, marginBottom: 5 }}
-            onPress={IncreaseMinutesPress}
-          />
-          <Text
+            height: 40,
+            width:'90%',
+            backgroundColor: 'rgba(139, 108, 88, 0.4)',
+            marginTop: 10,
+            borderRadius: 10,
+            alignItems:'center',
+          }}>
+            <Text style={{
+              padding: 10,
+              fontSize: 15,
+              color: 'rgba(139, 108, 88, 0.8)'
+            }}>Edit salon details</Text>
+          </TouchableOpacity>
+          <View
             style={{
-              fontSize: 18,
-              textAlign: "center",
+              backgroundColor: "rgba(10, 10, 10, 0.1)",
+              width: "90%",
+              height: 1,
+              marginTop: 10,
             }}
-          >
-            {/* {formatTime(hours.startBeforeHour)} */}
-            {formatTime(hours.startBeforeMin)}
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              marginTop : 5,
-              marginBottom : 5
-            }}
-          >
-            {/* {formatTime(hours.startMiddleHour)}  */}
-            {formatTime(hours.startMiddleMin)}
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-            }}
-          >
-            {/* {formatTime(hours.startAfterHour)} :{" "} */}
-            {formatTime(hours.startAfterMin)}
-          </Text>
-          <Icon
-            name="down"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 5 }}
-            onPress={DecreaseMinutesPress}
-          />
-        </View>
-
-        {/* startBeforeHour = IncreaseHours().beforeHour; */}
-        <View
+          ></View>
+          <View style={{
+            width: '90%',
+            alignItems: 'flex-start',
+            flexDirection: 'row',
+            marginTop:10
+          }}>
+          <StaffView/>
+          <StaffView/>
+          </View>
+          <TouchableOpacity
           style={{
-            flexDirection: "column",
-            marginLeft: 45,
-            alignItems: "center"
-          }}
-        >
-          <Icon
-            name="up"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 10, marginBottom: 5 }}
-            onPress={IncreaseHourPressTwo}
-          />
-          <Text
-            style={{
-              fontSize: 18,
-            }}
-          >
-            {formatTime(hours.endBeforeHour)}
-            {/* : {formatTime(hours.endBeforeMin)} */}
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "700",
-              marginTop : 5,
-              marginBottom : 5
-            }}
-          >
-            {formatTime(hours.endMiddleHour)}
-            {/* : {formatTime(hours.endMiddleMin)} */}
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-            }}
-          >
-            {formatTime(hours.endAfterHour)}
-            {/* : {formatTime(hours.endAfterMin)} */}
-          </Text>
-          <Icon
-            name="down"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 5 }}
-            onPress={DecreaseHourPressTwo}
-          />
+            height: 40,
+            width:'90%',
+            backgroundColor: 'rgba(139, 108, 88, 0.4)',
+            marginTop: 10,
+            borderRadius: 10,
+            alignItems:'center',
+          }}>
+            <Text style={{
+              padding: 10,
+              fontSize: 15,
+              color: 'rgba(139, 108, 88, 1)'
+            }}>Edit staff details</Text>
+          </TouchableOpacity>
         </View>
-
-        <View
-          style={{
-            flexDirection: "column",
-            marginLeft: 25,
-            alignItems: "center"
-          }}
-        >
-          <Icon
-            name="up"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 10, marginBottom: 5 }}
-            onPress={IncreaseMinutesPressTwo}
-          />
-          <Text
-            style={{
-              fontSize: 18,
-            }}
-          >
-            {/* {formatTime(hours.endBeforeHour)}  */}
-            {formatTime(hours.endBeforeMin)}
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              marginTop : 5,
-              marginBottom : 5
-            }}
-          >
-            {/* {formatTime(hours.endMiddleHour)} : */}
-            {formatTime(hours.endMiddleMin)}
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-            }}
-          >
-            {/* {formatTime(hours.endAfterHour)}  */}
-            {formatTime(hours.endAfterMin)}
-          </Text>
-          <Icon
-            name="down"
-            size={15}
-            color="#D9D8D8"
-            style={{ marginTop: 5 }}
-            onPress={DecreaseMinutesPressTwo}
-          />
-        </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 }

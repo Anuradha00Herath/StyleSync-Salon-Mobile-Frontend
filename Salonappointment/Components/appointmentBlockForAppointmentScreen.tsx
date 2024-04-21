@@ -5,7 +5,7 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
   const { customer, service, startTime, endTime, gender } = appointment;
 
   return (
-    <View style={{  // Main container
+    <View style={{  
         width: '90%',
         height: 'auto',
         backgroundColor: "#EFEFEF",
@@ -67,7 +67,7 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
               marginBottom: 10
             }}
             onPress={() =>
-              navigation.navigate("AppointmentCustomerInfo", {appointment:appointment})}
+              navigation.navigate("CustomerInfo", {appointment:appointment})}
             >
               <Text style={{
                 color: 'white',

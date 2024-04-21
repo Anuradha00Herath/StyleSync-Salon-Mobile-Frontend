@@ -8,7 +8,7 @@ export function IncreaseHours(startBeforeHour, startMiddleHour, startAfterHour) 
     let tempMiddleHour = startMiddleHour + 1;
     let tempAfterHour = startAfterHour + 1;
 
-    // Handle hour overflow (if it exceeds 23, reset to 0)
+    
     if (tempBeforeHour > 23) {
         tempBeforeHour = 0;
     }
@@ -31,7 +31,6 @@ export function IncreaseMinutes(startBeforeMin, startMiddleMin, startAfterMin) {
     let tempMiddleMin = startMiddleMin + 1;
     let tempAfterMin = startAfterMin + 1;
 
-    // Handle hour overflow (if it exceeds 59, reset to 0)
     if (tempBeforeMin > 59) {
         tempBeforeMin = 0;
     }
@@ -54,7 +53,7 @@ export function DecreaseHours(startBeforeHour, startMiddleHour, startAfterHour){
     let tempMiddleHour = startMiddleHour - 1;
     let tempAfterHour = startAfterHour - 1;
 
-    // Handle hour overflow (if it exceeds 23, reset to 0)
+
     if (tempBeforeHour < 0) {
         tempBeforeHour = 23;
     }
@@ -77,7 +76,6 @@ export function DecreaseMinutes(startBeforeMin, startMiddleMin, startAfterMin) {
     let tempMiddleMin = startMiddleMin - 1;
     let tempAfterMin = startAfterMin - 1;
 
-    // Handle hour overflow (if it exceeds 59, reset to 0)
     if (tempBeforeMin < 0) {
         tempBeforeMin = 59;
     }
