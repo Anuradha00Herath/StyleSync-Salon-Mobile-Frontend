@@ -14,21 +14,19 @@ const backImg=require("../assets/StyleSync.jpeg")
 
 export function SalonServices({ route }){
   const navigation = useNavigation<StackNavigationProp<any>>();
-    //const navigation = useNavigation();
     const { staffId } = route.params;
     const [loading, setLoading] = useState(false);
     const [selectServices, setSelectServices] = useState([]);
+   
     useFocusEffect(
       React.useCallback(() => {
-
-  
         fetchBusinessHours();
-  
         return () => {
           // Clean up function
         };
       }, [staffId])
     );
+    
     const fetchBusinessHours = async () => {
       try {
         setLoading(true);
@@ -107,7 +105,7 @@ export function SalonServices({ route }){
                           <SeparatorLineWithText lineColor={"gray"}/>
                        </View>
                    ))}
-                   <AddMore onPress={() =>navigation.navigate("Staff")}/>
+                   <AddMore onPress={() =>navigation.navigate("AddMoreDetails")}/>
                  <FlatButton text='Continue' onPress={() =>navigation.navigate("Staff")} />
          </View>
     </ImageBackground>

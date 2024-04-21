@@ -7,9 +7,7 @@ import BusinessHours from "./P03_Business_Hours/BusinessHours";
 import SelectServices from "./P04_Select_Services/SelectServices";
 import { SalonServices} from "./P05_Salon_Services/SalonServices";
 import HairService from "./P06_Service_Type/HairService";
-import NailService from "./P06_Service_Type/NailService";
 import Page06EditDetails from "./P06_Service_Type/Page06EditDetails";
-import Facials from "./P06_Service_Type/Facials";
 import AddMoreDetails from "./P06_Service_Type/AddMoreDetails";
 import Staff from "./P07_Add_Staff/Staff";
 import StaffMemberDetails from "./P07_Add_Staff/StaffMemberDetails";
@@ -49,16 +47,6 @@ export default function App() {
                     }
                 }/>
                 <Stack.Screen name="HairService" component={HairService} options={
-                    {
-                        cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
-                    }
-                }/>
-                <Stack.Screen name="NailService" component={NailService} options={
-                    {
-                        cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
-                    }
-                }/>
-              <Stack.Screen name="Facials" component={Facials} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }

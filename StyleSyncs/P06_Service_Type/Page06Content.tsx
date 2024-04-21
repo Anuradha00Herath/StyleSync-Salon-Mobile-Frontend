@@ -9,7 +9,6 @@ import { AddMore}  from "../Component/AddMore";
 
 export function Page06Content({Service,service, staffId, handleFetchService}){
   const navigation = useNavigation<StackNavigationProp<any>>();
-    //const navigation = useNavigation();
 
     return(
         

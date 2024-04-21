@@ -78,6 +78,7 @@ export function SelectServicesContent({ staffId }) {
     }
 
   };
+  //generating an array of selected service names based on the checkboxes 
   const selectedServiceNames = services
       .filter((service, index) => selectedCheck[index])
       .map((service) => service);

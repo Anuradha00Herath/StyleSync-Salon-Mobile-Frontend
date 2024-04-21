@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, Text,  Alert } from "react-native";
 import RadioGroup, { RadioGroup as RadioGroupType, RadioButtonProps } from 'react-native-radio-buttons-group';
 import { globaleStyles } from "../Component/globaleStyles";
 import { FlatButton } from "../Component/FlatButton";
@@ -42,18 +42,13 @@ return (
             radioButtons={radioButtons} 
             onPress={setSelectedRadio}
             selectedId={selectedRadio}
-            containerStyle={styles.container}
+            containerStyle={{ alignItems:"flex-start"}}
         />
         <FlatButton text='Continue' onPress={handleNavigation}/>
     </View>
 );
 }
 
-const styles= StyleSheet.create({
-    container:{
-        alignItems:"flex-start"
-      }
-});
 
 
 

@@ -14,6 +14,7 @@ export default function HairService({route}){
   const [service, setService] = useState([]);
   useFocusEffect(
     React.useCallback(()=>{
+      setService([]);
       fetchServiceName();
     },[staffId])
   );
