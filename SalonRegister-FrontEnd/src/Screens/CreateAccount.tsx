@@ -2,6 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { View, Text, TextInput, TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
+import axios from 'axios';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { CreateAccountStyles } from '../Styles/CreateAccount';
 import { Button } from '../Component/Button';
@@ -9,27 +10,28 @@ import { Background } from '../Component/Background';
 import { Header } from '../Component/Header';
 
 function FillingArea(p:any) {
-    const [salonName, setSalonName] = useState('');
-    const [mobileNumber, setMobileNumber] = useState('');
+    const [name, setName] = useState('');
+    const [contactNo, setContactNo] = useState('');
     const [email, setEmail] = useState('');
     const [salonNameError, setSalonNameError] = useState('');
     const [mobileNumberError, setMobileNumberError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const validateInputs = () => {
         let isValid = true;
 
-        if (!salonName.trim()) {
+        if (!name.trim()) {
             setSalonNameError('*Salon name field is required');
             isValid = false;
         } else {
             setSalonNameError('');
         }
 
-        if (!mobileNumber.trim()) {
+        if (!contactNo.trim()) {
             setMobileNumberError('*Number field is required');
             isValid = false;
-        } else if (!/^(\+94)[0-9]{9}$/.test(mobileNumber)){
+        } else if (!/^(\+94)[0-9]{9}$/.test(contactNo)){
             setMobileNumberError('*Number Should be in correct format');
             isValid = false;
         } else {
@@ -49,11 +51,31 @@ function FillingArea(p:any) {
         return isValid;
     };
     const stack = p.stack;
-    const gotoValidateNumber = () => {
+    
+    const handleSubmit = async() => {
         if (validateInputs()) {
-            stack.navigate('ValidateNumber', { mobileNumber });
+            try{
+                setLoading(true);
+                const url = 'https://stylesync-backend-test.onrender.com/app/v1/salon/register-salon/step1';
+                const response = await axios.post(url, { name, contactNo, email });
+                const result = response.data;
+                const { message, status} = result;
+
+                if(status == 201){
+                    console.log('Success: ', message);
+                    stack.navigate('ValidateNumber', {email});
+                } else if (status === 400) {
+                    console.log('Failed', message);
+                } else {
+                    console.log('Something went wrong!');
+                }
+
+            } catch (error) {
+                console.log(error);
+            } 
+             
         }
-    };
+    }
 
     const gotoLogin = () => {
         stack.navigate('Login');
@@ -78,8 +100,8 @@ function FillingArea(p:any) {
                                 placeholder="Enter Salon Name"
                                 placeholderTextColor={'#2E2528'}
                                 style={CreateAccountStyles.InputText}
-                                value={salonName}
-                                onChangeText={text => setSalonName(text)}
+                                value={name}
+                                onChangeText={text => setName(text)}
                             />
                         </View>
                         {salonNameError ? <Text style={CreateAccountStyles.ErrorText}>{salonNameError}</Text> : null}
@@ -89,8 +111,8 @@ function FillingArea(p:any) {
                                 placeholderTextColor={'#2E2528'}
                                 inputMode="tel"
                                 style={CreateAccountStyles.InputText}
-                                value={mobileNumber}
-                                onChangeText={text => setMobileNumber(text)}
+                                value={contactNo}
+                                onChangeText={text => setContactNo(text)}
                             />
                         </View>
                         {mobileNumberError ? <Text style={CreateAccountStyles.ErrorText}>{mobileNumberError}</Text> : null}
@@ -106,7 +128,7 @@ function FillingArea(p:any) {
                         </View>
                         {emailError ? <Text style={CreateAccountStyles.ErrorText}>{emailError}</Text> : null}
                     </View>
-                    <Button title={'Next'} onPress={gotoValidateNumber} />
+                    <Button title={'Next'} onPress={handleSubmit} />
                     <View style={CreateAccountStyles.BottomSection}>
                         <Text
                             style={CreateAccountStyles.BottomText}>
