@@ -16,8 +16,6 @@ export function AppointmentSet({ startTime, appointments, navigation}) {
             marginTop: 9,
           }}
         ></View>
-
-        {/* Display start time */}
         <Text style={{ marginHorizontal: 5, fontSize: 12 }}>{startTime}</Text>
         <View
           style={{
@@ -30,7 +28,6 @@ export function AppointmentSet({ startTime, appointments, navigation}) {
         ></View>
       </View>
       
-      {/* Render AppointmentBlock for each appointment */}
       <View style={{ width:'95%', height: 'auto', flexDirection: 'row', flexWrap: 'wrap' }}>
         {appointments.map((appointment: any, index: React.Key) => (
           <AppointmentBlock 

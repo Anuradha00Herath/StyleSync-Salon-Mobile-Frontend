@@ -100,7 +100,6 @@ export default function AppointmentScreen({navigation}) {
           onPress ={()=> setCalender(renderCalenderExpand())}
         >
           {calender}
-          {/* <CalenderExpand currentDate={undefined} /> */}
         </TouchableOpacity>
         <View
           style={{
