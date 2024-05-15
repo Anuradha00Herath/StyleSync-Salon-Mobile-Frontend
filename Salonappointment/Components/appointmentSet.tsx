@@ -28,7 +28,7 @@ export function AppointmentSet({ startTime, appointments, navigation}) {
         ></View>
       </View>
       
-      <View style={{ width:'95%', height: 'auto', flexDirection: 'row', flexWrap: 'wrap' }}>
+      <View style={{ width:'95%', height: 'auto', flexWrap: 'wrap' }}>
         {appointments.map((appointment: any, index: React.Key) => (
           <AppointmentBlock 
           key={index} 

@@ -6,19 +6,120 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 export function AppointmentBlock({ appointment, navigation }) {
   const { id, customer, staff, service, gender } = appointment;
-  // 
+  //
   // const navigation = useNavigation<StackNavigationProp<any>>();
   return (
     <View
       style={{
-        width: 175,
-        height: 227.5,
-        backgroundColor: "#EFEFEF",
-        margin: 10,
+        width: "95%",
+        height: "auto",
+        //backgroundColor: "#EFEFEF",
+        // margin: 10,
         borderRadius: 10,
+        padding: 10,
+        flexDirection: "row",
       }}
     >
+      <View>
+        <Image
+          source={require("../assets/images.jpg")}
+          style={{
+            width: 40,
+            height: 40,
+            borderColor: "green",
+            borderWidth: 2,
+            borderRadius: 20,
+            marginTop: 8,
+          }}
+        ></Image>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 12,
+          }}
+        >
+          {staff.name}
+        </Text>
+      </View>
+
       <View
+        style={{
+          backgroundColor: "#EFEFEF",
+          width: "90%",
+          marginLeft: 10,
+          borderRadius: 25,
+          padding: 10,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+          }}
+        >
+          <Image
+            source={require("../assets/images.jpg")}
+            style={{
+              width: 100,
+              height: 100,
+              borderColor: "rgba(0,0,0,0.3)",
+              borderWidth: 0.5,
+              borderRadius: 20,
+            }}
+          ></Image>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "64%"
+            }}
+          >
+            <View
+              style={{
+                marginLeft: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 12,
+                  marginBottom: 8,
+                }}
+              >
+                {customer.name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 17,
+                  fontWeight: "600",
+                  marginBottom: 8,
+                }}
+              >
+                {service.name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "800",
+                  marginBottom: 10,
+                }}
+              >
+                LKR{service.price}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 10,
+                }}
+              >
+                {gender} | 1 attempts
+              </Text>
+            </View>
+            <View style={{}}>
+              <Text>info</Text>
+              <Text>cancel</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      {/* <View
         style={{
           flexDirection: "row",
           height: "auto",
@@ -158,7 +259,7 @@ export function AppointmentBlock({ appointment, navigation }) {
         >
           View info
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }
