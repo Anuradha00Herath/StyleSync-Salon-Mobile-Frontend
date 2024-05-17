@@ -23,8 +23,8 @@ export function Page06Sub({
 
   const handleSave = async () => {
     if (!serviceName || !duration || !price) {
-      alert("Please fill in all fields."); // Alert user about missing information
-      return; // Prevent navigation back and data update if fields are empty
+      alert("Please fill in all fields."); 
+      return; 
     }
     try {
       const url =

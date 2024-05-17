@@ -13,11 +13,10 @@ export  function AddMoreContant(){
     const [price, setPrice] = useState("");
     const handleSave = () => {
         if (!serviceName || !duration || !price) {
-          alert("Please fill in all fields."); // Alert user about missing information
-          return; // Prevent navigation back and data update if fields are empty
+          alert("Please fill in all fields."); 
+          return; 
         }
-        navigation.goBack(); // Go back to the previous screen (HairService)
-        // Call the provided onUpdateService function to update the data (assuming it exists)
+        navigation.goBack(); 
       };
     return(
        
@@ -47,7 +46,7 @@ export  function AddMoreContant(){
             </View>
 
             <View style={styles.buttonContainer}>
-                <Button text={"OK"}  onPress={() =>navigation.goBack()} onPress1={() =>navigation.goBack()} />
+                <Button text={"OK"}  onPress={handleSave} onPress1={() =>navigation.goBack()} />
             </View>
                 
         </View>
