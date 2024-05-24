@@ -3,6 +3,7 @@ import { View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { StackNavigationProp } from "@react-navigation/stack";
+import Icon from "react-native-vector-icons/AntDesign";
 
 export function AppointmentBlock({ appointment, navigation }) {
   const { id, customer, staff, service, gender } = appointment;
@@ -22,7 +23,7 @@ export function AppointmentBlock({ appointment, navigation }) {
     >
       <View>
         <Image
-          source={require("../assets/images.jpg")}
+          source={require("../assets/man.jpg")}
           style={{
             width: 40,
             height: 40,
@@ -44,7 +45,7 @@ export function AppointmentBlock({ appointment, navigation }) {
 
       <View
         style={{
-          backgroundColor: "#EFEFEF",
+          backgroundColor: "#fdfdfd",
           width: "90%",
           marginLeft: 10,
           borderRadius: 25,
@@ -57,7 +58,7 @@ export function AppointmentBlock({ appointment, navigation }) {
           }}
         >
           <Image
-            source={require("../assets/images.jpg")}
+            source={require("../assets/man.jpg")}
             style={{
               width: 100,
               height: 100,
@@ -70,7 +71,7 @@ export function AppointmentBlock({ appointment, navigation }) {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              width: "64%"
+              width: "64%",
             }}
           >
             <View
@@ -112,9 +113,21 @@ export function AppointmentBlock({ appointment, navigation }) {
                 {gender} | 1 attempts
               </Text>
             </View>
-            <View style={{}}>
-              <Text>info</Text>
-              <Text>cancel</Text>
+            <View style={{
+              marginTop: 10
+
+            }}>
+              <Icon
+                name="right"
+                size={18}
+                color={"black"}
+                
+                onPress={() =>
+                  navigation.navigate("CustomerInfo", {
+                    appointment: appointment,
+                  })
+                }
+              />
             </View>
           </View>
         </View>

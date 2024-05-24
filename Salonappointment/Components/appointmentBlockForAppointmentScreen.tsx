@@ -31,7 +31,7 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
               alignSelf: 'center'
             }}>
               <Image
-                source={require("../assets/images.jpg")}
+                source={require("../assets/man.jpg")}
                 style={{
                   width: 45,
                   height: 45,
