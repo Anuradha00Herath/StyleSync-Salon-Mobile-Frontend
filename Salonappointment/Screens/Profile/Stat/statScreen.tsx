@@ -11,7 +11,7 @@ import Ionicons from "@expo/vector-icons/Ionicons.js";
 
 const { width, height } = Dimensions.get("screen");
 
-export default function StatScreen() {
+export default function StatScreen({navigation}) {
   const pieData = [
     { value: 10, color: "#177AD5" },
     { value: 4, color: "#F5A623" },
@@ -67,7 +67,7 @@ export default function StatScreen() {
             name="arrow-back-outline"
             size={25}
             color="black"
-          />
+            onPress={()=>navigation.goBack()}/>
           <Text
             style={{
               fontSize: 25,

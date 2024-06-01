@@ -20,7 +20,7 @@ const EventStatus = {
 };
 
 import { AppointmentSetTwo } from "../../Components/appointmentSetForAppointmentScreen";
-import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
+import mockAppointments from "../../Navigation/GetDataFromBackend/AppointmentDetails";
 
 function renderCalender(){
   return <Calendar currentDate={new Date()} />

@@ -10,7 +10,7 @@ import {
 import Calendar from "../../Components/calenderInHome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../Components/appointmentSet";
-import mockAppointments from "./GetDataFromBackend/AppointmentDetails";
+import mockAppointments from "../../Navigation/GetDataFromBackend/AppointmentDetails";
 import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("screen");
