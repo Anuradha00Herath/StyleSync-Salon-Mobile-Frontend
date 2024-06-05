@@ -85,70 +85,8 @@ export default function ProfileScreen({ navigation }) {
         </Text>
         <View
           style={{
-            flexDirection: "row",
-            alignSelf: "center",
-          }}
-        >
-          <Image
-            source={require("../../assets/images.jpg")}
-            style={{
-              width: 30,
-              height: 30,
-              backgroundColor: "#FDFDFD",
-              borderRadius: 100,
-              marginTop: 29,
-              alignSelf: "center",
-              borderWidth: 1,
-              borderColor: "black",
-            }}
-          ></Image>
-          <Image
-            source={require("../../assets/images.jpg")}
-            style={{
-              width: 30,
-              height: 30,
-              backgroundColor: "#FDFDFD",
-              borderRadius: 100,
-              marginTop: 29,
-              alignSelf: "center",
-              borderWidth: 1,
-              borderColor: "black",
-              marginLeft: -15,
-            }}
-          ></Image>
-          <Image
-            source={require("../../assets/images.jpg")}
-            style={{
-              width: 30,
-              height: 30,
-              backgroundColor: "#FDFDFD",
-              borderRadius: 100,
-              marginTop: 29,
-              alignSelf: "center",
-              borderWidth: 1,
-              borderColor: "black",
-              marginLeft: -15,
-            }}
-          ></Image>
-          <Image
-            source={require("../../assets/images.jpg")}
-            style={{
-              width: 30,
-              height: 30,
-              backgroundColor: "#FDFDFD",
-              borderRadius: 100,
-              marginTop: 29,
-              alignSelf: "center",
-              borderWidth: 1,
-              borderColor: "black",
-              marginLeft: 15,
-            }}
-          ></Image>
-        </View>
-        <View
-          style={{
             width: "100%",
-            height: "47%",
+            height: "55%",
             backgroundColor: "white",
             alignSelf: "center",
             position: "absolute",

@@ -9,8 +9,11 @@ import EditLoginDetails from './Screens/Profile/Settings/Accounts & Secuirity/ed
 import EditSalonProfile from './Screens/Profile/Settings/Accounts & Secuirity/edit-salon-profile';
 import EditLocation from './Screens/Profile/Settings/Accounts & Secuirity/edit-location';
 import EditSalonAddress from './Screens/Profile/Settings/Accounts & Secuirity/edit-salon-address';
-import EditStaffMembersProfiles from './Screens/Profile/Settings/Accounts & Secuirity/edit-staff-members-profiles';
-
+import StaffListView from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/staff-members-list';
+import EditStaffProfile from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/edit-staff-member-profile';
+import EditProfile from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/edit-profile';
+import EditService from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/edit-services';
+import EditWorkingDays from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Working Days/edit-working-days-and-hours';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -24,7 +27,11 @@ export default function App() {
         <Stack.Screen name="EditSalonProfile" component={EditSalonProfile} options={{ headerShown: false }} />
         <Stack.Screen name="EditLocation" component={EditLocation} options={{ headerShown: false }} />
         <Stack.Screen name="EditSalonAddress" component={EditSalonAddress} options={{ headerShown: false }} />
-        <Stack.Screen name="EditStaffMembersProfiles" component={EditStaffMembersProfiles} options={{ headerShown: false }} />
+        <Stack.Screen name="StaffListView" component={StaffListView} options={{ headerShown: false }} />
+        <Stack.Screen name="EditStaffProfile" component={EditStaffProfile} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false}}/>
+        <Stack.Screen name="EditService" component={EditService} options={{ headerShown: false}}/>
+        <Stack.Screen name="EditWorkingDays" component={EditWorkingDays} options={{headerShown:false}}/>
         <Stack.Screen name="StatScreen" component={StatScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

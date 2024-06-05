@@ -1,10 +1,52 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  KeyboardAvoidingView,
+  ScrollView,
+  Pressable,
+  Platform,
+  GestureResponderEvent,
+  StyleSheet,
+  Button,
+  TouchableOpacity
+} from "react-native";
+import { TextInputArea } from "../../../../../Components/text-input-area-in-settings";
+import * as ImagePicker from 'expo-image-picker';
+import { TouchableArea } from "../../../../../Components/touchable-area-in-profile";
 
-import { DropdownList, TouchableArea } from "../../../Components/touchable-area-in-profile";
+export default function EditStaffProfile({ navigation }) {
+    const [image, setImage] = useState(require("../../../../../assets/images.jpg"));
+    useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'android') {
+            const libraryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (libraryStatus.status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!');
+            }
+    
+            const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+            if (cameraStatus.status !== 'granted') {
+              alert('Sorry, we need camera permissions to make this work!');
+            }
+          }
+        })();
+      }, []);
 
-export default function SettingsScreen({navigation}) {
+      const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+          setImage(result);
+        }
+      };
   return (
     <View>
       <View
@@ -21,21 +63,20 @@ export default function SettingsScreen({navigation}) {
             marginTop: 5,
           }}
           name="arrow-back-outline"
-          size={25}
+          size={22}
           color="black"
-          onPress={()=>navigation.goBack()}/>
+          onPress={() => navigation.goBack()}
+        />
         <Text
           style={{
-            fontSize: 25,
+            fontSize: 22,
             fontWeight: "bold",
           }}
         >
-          Settings
+          Edit Anuradha's Profile
         </Text>
       </View>
-      <ScrollView>
-        {/* General Settings */}
-        <Text
+      <Text
           style={{
             fontSize: 15,
             fontWeight: "bold",
@@ -50,25 +91,10 @@ export default function SettingsScreen({navigation}) {
             alignSelf: "center",
           }}
         >
-          <TouchableArea name="Dark Mode" iconName="moon" option="switch"/>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            alignSelf: "center",
-          }}
-        >
-          <DropdownList name="Language" iconName="language" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            alignSelf: "center",
-          }}
-        >
           <TouchableArea name="Notifications" iconName="notifications" option="switch"/>
         </TouchableOpacity>
 
-        {/* Account Seetings */}
-        <Text
+      <Text
           style={{
             fontSize: 15,
             fontWeight: "bold",
@@ -78,56 +104,30 @@ export default function SettingsScreen({navigation}) {
         >
           Account & Secuirity
         </Text>
-        <TouchableOpacity
+      <TouchableOpacity
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditLogin")}
+          onPress={() => navigation.navigate("EditProfile")}
         >
-          <TouchableArea name="Edit Login Details" iconName="log-in" option="touch"/>
+          <TouchableArea name="Edit Profile" iconName="person" option="touch"/>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditSalonProfile")}
+          onPress={() => navigation.navigate("EditService")}
         >
-          <TouchableArea name="Edit Salon Profile" iconName="bag-handle" option="touch"/>
+          <TouchableArea name="Edit Services" iconName="cut" option="touch"/>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditSalonAddress")}
+          onPress={() => navigation.navigate("EditWorkingDays")}
         >
-          <TouchableArea name="Edit Salon Address" iconName="pencil" option="touch"/>
+          <TouchableArea name="Edit Working Days" iconName="today" option="touch"/>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            alignSelf: "center",
-          }}
-          onPress={() => navigation.navigate("EditLocation")}
-        >
-          <TouchableArea name="Edit Location" iconName="location" option="touch"/>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            alignSelf: "center",
-          }}
-          onPress={() => navigation.navigate("StaffListView")}
-        >
-          <TouchableArea name="Edit Staff Members Profiles" iconName="people" option="touch"/>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{
-            alignSelf: "center",
-          }}
-        >
-          <TouchableArea name="Log Out" iconName="log-out" option=""/>
-        </TouchableOpacity>
-
-        {/* Other Settings */}
         <Text
           style={{
             fontSize: 15,
@@ -159,7 +159,6 @@ export default function SettingsScreen({navigation}) {
         >
           <TouchableArea name="Help" iconName="help-buoy" option="touch"/>
         </TouchableOpacity>
-      </ScrollView>
     </View>
   );
 }

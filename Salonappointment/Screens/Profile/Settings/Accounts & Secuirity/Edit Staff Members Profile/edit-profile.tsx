@@ -1,18 +1,51 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Image,
-  Button,
-  TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  Pressable,
+  Platform,
+  GestureResponderEvent,
+  StyleSheet,
+  Button,
+  TouchableOpacity
 } from "react-native";
-import { TextInputArea } from "../../../../Components/text-input-area-in-settings";
+import { TextInputArea } from "../../../../../Components/text-input-area-in-settings";
+import * as ImagePicker from 'expo-image-picker';
 
-export default function EditSalonAddress({ navigation }) {
+export default function EditProfile({ navigation }) {
+    const [image, setImage] = useState(require("../../../../../assets/images.jpg"));
+    useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'android') {
+            const libraryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (libraryStatus.status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!');
+            }
+    
+            const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+            if (cameraStatus.status !== 'granted') {
+              alert('Sorry, we need camera permissions to make this work!');
+            }
+          }
+        })();
+      }, []);
 
+      const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+          setImage(result);
+        }
+      };
   return (
     <View>
       <View
@@ -39,18 +72,45 @@ export default function EditSalonAddress({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          Edit Salon Address
+          Edit Staff Profile
         </Text>
       </View>
-      <Image
-        source={require("../../../../assets/Salon.png")}
+      <View
         style={{
-          width: 150,
-          height: 150,
-          marginTop: 50,
-          alignSelf: "center",
+          flexDirection: "row",
+          justifyContent: "center",
+          marginBottom: 30
         }}
-      ></Image>
+      >
+        <Image
+          source={image}
+          style={{
+            width: 150,
+            height: 150,
+            marginTop: 50,
+            alignSelf: "center",
+            borderRadius: 150,
+          }}
+        ></Image>
+        <View
+          style={{
+            marginTop: 165,
+            marginLeft: -40,
+            backgroundColor: "rgba(0,0,0,0.2)",
+            padding: 5,
+            height: "auto",
+            borderRadius: 50,
+          }}
+        >
+          <Ionicons
+            name="camera-outline"
+            size={25}
+            color="white"
+            onPress={pickImage}
+          />
+        </View>
+      </View>
+
       <KeyboardAvoidingView behavior="height">
         <ScrollView
           style={{
@@ -58,29 +118,22 @@ export default function EditSalonAddress({ navigation }) {
           }}
         >
           <TextInputArea
-            name="Address Line 1"
-            value="No. 256"
+            name="Name"
+            value="Name of Person"
             editable={true}
             isSecure={false}
             placeholder={""}
           />
           <TextInputArea
-            name="Address Line 2"
-            value="Katubedda"
+            name="Mobile Number"
+            value="+9412589632"
             editable={true}
             isSecure={false}
             placeholder={""}
           />
           <TextInputArea
-            name="Address Line 3"
-            value="Moratuwa"
-            editable={true}
-            isSecure={false}
-            placeholder={""}
-          />
-          <TextInputArea
-            name="City"
-            value="Colombo"
+            name="Targeting Gender"
+            value="All"
             editable={true}
             isSecure={false}
             placeholder={""}
@@ -137,7 +190,6 @@ export default function EditSalonAddress({ navigation }) {
           </View>
         </View>
         </ScrollView>
-
       </KeyboardAvoidingView>
     </View>
   );
