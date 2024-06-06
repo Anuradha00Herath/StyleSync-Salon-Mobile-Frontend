@@ -12,11 +12,17 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../Components/appointmentSet";
 import mockAppointments from "../../Navigation/GetDataFromBackend/AppointmentDetails";
 import { useNavigation } from "@react-navigation/native";
+import axios from 'axios';
 
 const { width, height } = Dimensions.get("screen");
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({navigation,route}) {
+  // const defaultSalonId = 1;
+  // const { salonId = defaultSalonId } = route?.params || {};
+
+  
   const [refresh, setRefresh] = useState(false);
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -28,11 +34,56 @@ export default function HomeScreen({navigation}) {
 
   useEffect(() => {
     if (refresh) {
-      setRefresh(false);
+      const fetchAppointments = async() => {
+        try{
+          const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-appointment-to-salon";
+          const response = await axios.get(url, { params: { salonId:1} });
+          
+          setAppointments(response.data.data);
+          console.log(response.data.data);
+          console.log(response.data)
+        }catch(error){
+          console.log(error);
+        }
+          fetchAppointments();
+          setRefresh(false);
+        
+      } 
     }
   }, [refresh]);
+
+  // const fetchAppointments = async () => {
+  //   try {
+  //     const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-appointment-to-salon";
+      
+  //     const response = await axios.get(url, { params: {  salonId: 1} });
+  //     setAppointments(response.data.data);
+  //     console.log(response.data.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchAppointments();
+  // }, []);
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setRefresh(true);
+  //   }, 5000); 
+
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (refresh) {
+  //     fetchAppointments();
+  //     setRefresh(false);
+  //   }
+  // }, [refresh]);
   const groupedAppointments = {};
-  mockAppointments.forEach((appointment) => {
+  appointments.forEach((appointment) => {
     const startTime = appointment.startTime;
     if (groupedAppointments[startTime]) {
       groupedAppointments[startTime].push(appointment);
