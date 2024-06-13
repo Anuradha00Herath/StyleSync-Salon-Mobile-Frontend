@@ -6,8 +6,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/AntDesign";
 
 export function AppointmentBlock({ appointment, navigation }) {
-  const { id, customer, staff, service, gender } = appointment;
-  //
+  const { id, customerAppointmentBlock, staff, serviceAppointmentBlock, gender } = appointment;
+ 
   // const navigation = useNavigation<StackNavigationProp<any>>();
   return (
     <View
@@ -85,7 +85,7 @@ export function AppointmentBlock({ appointment, navigation }) {
                   marginBottom: 8,
                 }}
               >
-                {customer.name}
+                {customerAppointmentBlock[0].customer.name }
               </Text>
               <Text
                 style={{
@@ -94,7 +94,7 @@ export function AppointmentBlock({ appointment, navigation }) {
                   marginBottom: 8,
                 }}
               >
-                {service.name}
+                {serviceAppointmentBlock[0].service.name}
               </Text>
               <Text
                 style={{
@@ -103,14 +103,14 @@ export function AppointmentBlock({ appointment, navigation }) {
                   marginBottom: 10,
                 }}
               >
-                LKR{service.price}
+                LKR{serviceAppointmentBlock[0].service.price}
               </Text>
               <Text
                 style={{
                   fontSize: 10,
                 }}
               >
-                {gender} | 1 attempts
+                { customerAppointmentBlock[0].customer.gender} | 1 attempts
               </Text>
             </View>
             <View style={{

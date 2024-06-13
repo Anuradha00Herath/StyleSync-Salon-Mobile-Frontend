@@ -42,7 +42,7 @@ export function AppointmentSetTwo({staffName, appointments, navigation}) {
         ></View>
       </View>
       <View style={{
-            width:'95%',
+            width:'100%',
             height: 'auto',
             flexDirection: 'row',
             flexWrap: 'wrap'

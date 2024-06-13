@@ -12,6 +12,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../Components/appointmentSet";
 import mockAppointments from "../../Navigation/GetDataFromBackend/AppointmentDetails";
 import { useNavigation } from "@react-navigation/native";
+import moment from 'moment';
 import axios from 'axios';
 
 const { width, height } = Dimensions.get("screen");
@@ -20,9 +21,36 @@ export default function HomeScreen({navigation,route}) {
   // const defaultSalonId = 1;
   // const { salonId = defaultSalonId } = route?.params || {};
 
-  
+  //const { salonId} = route.params
   const [refresh, setRefresh] = useState(false);
   const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+ 
+  const fetchAppointments = async () => {
+    try {
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-appointment-to-salon";
+      const currentDate = moment.utc().startOf('day').toISOString();
+      const currentTime = moment().format('HH:mm:ss');
+      console.log('Request Parameters:', { 
+        salonId: 1, 
+        date: currentDate, 
+        time: currentTime 
+      });
+      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate, time: currentTime  } });
+      setAppointments(response.data.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -34,54 +62,17 @@ export default function HomeScreen({navigation,route}) {
 
   useEffect(() => {
     if (refresh) {
-      const fetchAppointments = async() => {
-        try{
-          const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-appointment-to-salon";
-          const response = await axios.get(url, { params: { salonId:1} });
-          
-          setAppointments(response.data.data);
-          console.log(response.data.data);
-          console.log(response.data)
-        }catch(error){
-          console.log(error);
-        }
-          fetchAppointments();
-          setRefresh(false);
-        
-      } 
+      setRefresh(false);
     }
   }, [refresh]);
 
-  // const fetchAppointments = async () => {
-  //   try {
-  //     const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-appointment-to-salon";
-      
-  //     const response = await axios.get(url, { params: {  salonId: 1} });
-  //     setAppointments(response.data.data);
-  //     console.log(response.data.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  // const currentTime = moment();
+  // const filteredAppointments = appointments.filter(appointment => moment(appointment.endTime, 'HH:mm:ss').isAfter(currentTime));
+  const sortedAppointments = appointments.sort((a, b) => {
+    return moment(a.startTime, 'HH:mm:ss').diff(moment(b.startTime, 'HH:mm:ss'));
+  });
 
-  // useEffect(() => {
-  //   fetchAppointments();
-  // }, []);
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     setRefresh(true);
-  //   }, 5000); 
-
-  //   return () => clearInterval(intervalId);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (refresh) {
-  //     fetchAppointments();
-  //     setRefresh(false);
-  //   }
-  // }, [refresh]);
+  
   const groupedAppointments = {};
   appointments.forEach((appointment) => {
     const startTime = appointment.startTime;

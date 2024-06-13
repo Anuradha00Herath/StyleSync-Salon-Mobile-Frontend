@@ -7,16 +7,59 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  FlatList
 } from "react-native";
+import moment from 'moment';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Ionicons from "../../node_modules/@expo/vector-icons/Ionicons";
 import { AppointmentBlock } from "../../Components/appointmentBlock";
+import axios from 'axios';
 const { width, height } = Dimensions.get("screen");
 
 
 export default function CustomerInfo({ route ,navigation}) { 
  
   const {appointment} = route.params;
+  const {customerId, customerAppointmentBlock, staff, serviceAppointmentBlock, gender,date,endTime } = appointment;
+
+  const [refresh, setRefresh] = useState(false);
+  const [appointmentsHistory, setAppointmentsHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  const fetchAppointmentsHistory = async () => {
+    try {
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-customer-History";
+      const currentDate = moment.utc().startOf('day').toISOString();
+      
+      console.log('Request Parameters:', { 
+        salonId: 1, 
+        date: currentDate, 
+        endtime: endTime ,
+        customerId:customerAppointmentBlock[0].customerId
+      });
+      const response = await axios.get(url, { params: { salonId: 1,date: currentDate, endtime: endTime,  customerId:customerAppointmentBlock[0].customerId} });
+      setAppointmentsHistory(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.error('Error fetching appointment history:', error);
+      setError(error.message || 'Request failed');
+    }finally {
+      setLoading(false);
+    }
+  };
+  
+
+  useEffect(() => {
+    fetchAppointmentsHistory();
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
 
   return (
     <View
@@ -83,7 +126,7 @@ export default function CustomerInfo({ route ,navigation}) {
                 fontWeight: "bold",
               }}
             >
-              {appointment.staff.name}
+              {staff.name}
             </Text>
           </View>
           <View
@@ -109,14 +152,14 @@ export default function CustomerInfo({ route ,navigation}) {
                 marginTop: 12,
               }}
             >
-              {appointment.customer.name}
+              {customerAppointmentBlock[0].customer.name}
             </Text>
             <Text
               style={{
                 fontSize: 12,
               }}
             >
-              {appointment.customer.number}
+              {customerAppointmentBlock[0].customer.number}
             </Text>
           </View>
           <View
@@ -148,8 +191,8 @@ export default function CustomerInfo({ route ,navigation}) {
               marginTop: 12,
             }}
           >
-            <Text>{appointment.service.name}</Text>
-            <Text>{appointment.service.price}</Text>
+            <Text>{serviceAppointmentBlock[0].service.name}</Text>
+            <Text>{serviceAppointmentBlock[0].service.price}</Text>
           </View>
           <View
             style={{
@@ -160,8 +203,8 @@ export default function CustomerInfo({ route ,navigation}) {
               marginTop: 12,
             }}
           >
-            <Text>{appointment.date}</Text>
-            <Text>{appointment.startTime}</Text>
+            <Text>{new Date(customerAppointmentBlock[0].date).toISOString().split('T')[0]}</Text>
+            <Text>{customerAppointmentBlock[0].startTime}</Text>
           </View>
           <View
             style={{
@@ -170,7 +213,7 @@ export default function CustomerInfo({ route ,navigation}) {
               width: "90%",
               alignSelf: "center",
               marginTop: 12,
-              borderColor: "#EFEFEF"
+              borderColor: "#EFEFEF",
             }}
           ></View>
           <Text
@@ -183,18 +226,22 @@ export default function CustomerInfo({ route ,navigation}) {
           >
             History
           </Text>
+          
+          {appointmentsHistory.map((item, index) => (
           <View
+          key={index}
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
-              width: "90%",
-              alignSelf: "center",
-              marginTop: 12,
+              justifyContent: "flex-start",
+             width: "90%",
+             alignSelf: "center",
+              marginTop: 12,   
             }}
           >
             <View
               style={{
-                flexDirection: "row",
+                flexDirection: "row", 
+                width:"50%"
               }}
             >
               <Ionicons
@@ -209,14 +256,26 @@ export default function CustomerInfo({ route ,navigation}) {
                   marginLeft: 10,
                 }}
               >
-                Service Name
+                {item.serviceAppointmentBlock[0].service.name}
               </Text>
             </View>
-
-            <Text>Date</Text>
-            <Text>Price</Text>
+            <View
+            style={{
+              flexDirection: "row", 
+              flexGrow:1,
+              justifyContent: "space-between",
+            }}>
+            <View>
+            <Text>{new Date(item.date).toISOString().split('T')[0]}</Text>
+            </View>
+            <View>
+            <Text>{item.serviceAppointmentBlock[0].service.price}</Text>
+            </View>
+            </View>
           </View>
-          <View
+        
+          ))}
+          {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
@@ -248,7 +307,7 @@ export default function CustomerInfo({ route ,navigation}) {
 
             <Text>Date</Text>
             <Text>Price</Text>
-          </View>
+          </View> */}
           <View
             style={{
               borderTopWidth: 1,

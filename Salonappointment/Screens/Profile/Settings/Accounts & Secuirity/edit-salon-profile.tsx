@@ -15,8 +15,113 @@ import {
 } from "react-native";
 import { TextInputArea } from "../../../../Components/text-input-area-in-settings";
 import * as ImagePicker from 'expo-image-picker';
+import axios from "axios";
 
 export default function EditSalonProfile({ navigation }) {
+    
+  const [refresh, setRefresh] = useState(false);
+  const [details, setDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [name, setName]       =useState("");
+  const [contactNo, setContactNo] =useState("");
+  const [error, setError] = useState("");
+  const [gender, setGender]=useState("All")
+
+  const fetchDetails = async() =>{
+    try{
+      setLoading(true);
+      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon-profileDetails";
+      console.log('Request parameters',{salonId: 1, });
+      const response = await axios.get(url, {params:{salonId: 1}});
+      const addressData =response.data.data[0];
+      setDetails(addressData);
+      setName(addressData.name);
+      setContactNo(addressData.contactNo);
+      console.log(response.data)
+
+    }catch(error){
+      console.error(error);
+    }finally{
+      setLoading(false);
+    }
+  };
+
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!name.trim()) {
+      setError("*Name field is required");
+      isValid = false;
+      alert("Name field is required");
+    } else {
+      setError("");
+    }
+
+    if (!gender.trim()) {
+      setError("*Gender field is required");
+      isValid = false;
+      alert("Gender field is required");
+    } else {
+      setError("");
+    }
+
+    if (!contactNo.trim()) {
+      setError("*Conatct field is required");
+      isValid = false;
+      alert("Conatct field is required");
+    } else if (!/^(\+94)[0-9]{9}$/.test(contactNo)) {
+      setError("*Number Should be in correct format");
+      isValid = false;
+      alert("Number Should be in correct format");
+    } else {
+      setError("");
+    }
+    return isValid;
+  };
+
+  const handleSubmit = async () => {
+    if (validateInputs()){
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-profile";
+      const response = await axios.put(url, {
+        salonId: 1,
+        name,
+        contactNo
+      });
+
+     console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+    }else {
+      console.log({ error });
+    }
+ 
+};
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRefresh(true);
+    }, 5000); 
+  
+    return () => clearInterval(intervalId);
+  }, []);
+
+
     const [image, setImage] = useState(require("../../../../assets/images.jpg"));
     useEffect(() => {
         (async () => {
@@ -46,6 +151,8 @@ export default function EditSalonProfile({ navigation }) {
           setImage(result);
         }
       };
+
+
   return (
     <View>
       <View
@@ -119,24 +226,27 @@ export default function EditSalonProfile({ navigation }) {
         >
           <TextInputArea
             name="Salon Name"
-            value="Name of Salon"
+            value={name}
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text) => setName(text)}
           />
           <TextInputArea
             name="Mobile Number"
-            value="+9412589632"
+            value={contactNo }
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text) => setContactNo(text)}
           />
           <TextInputArea
             name="Targeting Gender"
-            value="All"
+            value={gender}
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text)=> setGender(text)}
           />
           <View
           style={{
@@ -150,7 +260,7 @@ export default function EditSalonProfile({ navigation }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.goBack()}>
               <View
                 style={{
                   backgroundColor: "#F5F5F5",
@@ -169,7 +279,7 @@ export default function EditSalonProfile({ navigation }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSubmit}>
               <View
                 style={{
                   backgroundColor: "#8B6C58",

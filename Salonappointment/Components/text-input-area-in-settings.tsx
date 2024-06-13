@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 
-export function TextInputArea({ name, value , editable, isSecure, placeholder }) {
+export function TextInputArea({ name, value , editable, isSecure, placeholder, onChangeText }) {
 
   return (
     <View
@@ -22,7 +22,7 @@ export function TextInputArea({ name, value , editable, isSecure, placeholder })
             padding: 10,
             marginTop: 8
         }}
-        editable={editable} value={value} secureTextEntry={isSecure} placeholder={placeholder}></TextInput>
+        editable={editable} value={value} secureTextEntry={isSecure} placeholder={placeholder} onChangeText={onChangeText}></TextInput>
       </View>
     </View>
   );

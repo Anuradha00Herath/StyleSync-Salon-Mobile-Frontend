@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,92 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  ActivityIndicator
 } from "react-native";
 import { TextInputArea } from "../../../../Components/text-input-area-in-settings";
+import axios from 'axios';
 
 export default function EditSalonAddress({ navigation }) {
+  const [refresh, setRefresh] = useState(false);
+  const [address, setAddress] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const[line1 , setLine1]=useState("");
+  const[line2 ,setLine2]=useState("");
+  const[city ,setCity]=useState("");
+  const[country, setCountry] =useState("");
 
+  const fetchAddress = async () => {
+    try {
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon-address";
+      console.log('Request Parameters:', { 
+        salonId: 1, 
+      });
+      const response = await axios.get(url, { params: {  salonId: 1} });
+      const addressData = response.data.data[0];
+      setAddress(addressData);
+      setLine1(addressData.line1);
+      setLine2(addressData.line2);
+      setCity(addressData.city);
+      setCountry(addressData.country);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    
+      try {
+        setLoading(true);
+        const url =
+          "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-address";
+        const response = await axios.put(url, {
+          salonId: 1,
+          line1,
+          line2,
+          city,
+          country,
+        });
+
+       console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+   
+  };
+
+  useEffect(() => {
+    fetchAddress();
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRefresh(true);
+    }, 5000); 
+  
+    return () => clearInterval(intervalId);
+  }, []);
+
+  if (loading || !address) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  //const {line1,line2,city,country} = address;
   return (
     <View>
       <View
@@ -59,31 +140,35 @@ export default function EditSalonAddress({ navigation }) {
         >
           <TextInputArea
             name="Address Line 1"
-            value="No. 256"
+            value={line1}
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text) => setLine1(text)}
           />
           <TextInputArea
             name="Address Line 2"
-            value="Katubedda"
+            value={line2}
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text) => setLine2(text)}
           />
           <TextInputArea
-            name="Address Line 3"
-            value="Moratuwa"
+            name="city"
+            value={city}
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text) => setCity(text)}
           />
           <TextInputArea
-            name="City"
-            value="Colombo"
+            name="country"
+            value={country}
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text) => setCountry(text)}
           />
           <View
           style={{
@@ -97,7 +182,7 @@ export default function EditSalonAddress({ navigation }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <View
                 style={{
                   backgroundColor: "#F5F5F5",
@@ -116,7 +201,7 @@ export default function EditSalonAddress({ navigation }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSubmit}>
               <View
                 style={{
                   backgroundColor: "#8B6C58",

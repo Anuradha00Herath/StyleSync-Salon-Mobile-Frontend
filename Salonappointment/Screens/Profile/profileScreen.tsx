@@ -8,14 +8,71 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
   Switch,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons.js";
+import moment from 'moment';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get("screen");
 
 export default function ProfileScreen({ navigation }) {
+const [refresh, setRefresh] = useState(false);
+const [Details , setDetails] = useState(null);
+const [loading, setLoading] = useState(false);
+
+const fetchDetails = async () => {
+  try {
+    setLoading(true);
+    const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_details";
+    const currentDate = moment.utc().startOf('day').toISOString();
+    console.log('Request Parameters:', { 
+      salonId: 1, 
+      date:currentDate
+    });
+    const response = await axios.get(url, { params: {  salonId: 1, date: currentDate} });
+    setDetails(response.data.data);
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }finally {
+    setLoading(false);
+  }
+};
+
+
+
+useEffect(() => {
+  fetchDetails();
+}, []);
+
+useEffect(() => {
+  const intervalId = setInterval(() => {
+    setRefresh(true);
+  }, 5000); 
+
+  return () => clearInterval(intervalId);
+}, []);
+
+useEffect(() => {
+  if (refresh) {
+    setRefresh(false);
+  }
+}, [refresh]);
+
+if (loading || !Details) {
   return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  );
+}
+
+const { salon, staffCount, customerCount, staff } = Details;
+  
+return ( 
+
     <View
       style={{
         flex: 1,
@@ -31,6 +88,7 @@ export default function ProfileScreen({ navigation }) {
           height: height,
         }}
       >
+        
         <Text
           style={{
             color: "#FDFDFD",
@@ -60,7 +118,7 @@ export default function ProfileScreen({ navigation }) {
             }}
           ></Image>
         </View>
-
+        
         <Text
           style={{
             color: "#FDFDFD",
@@ -70,7 +128,7 @@ export default function ProfileScreen({ navigation }) {
             alignSelf: "center",
           }}
         >
-          Salon Name
+         {salon.name}
         </Text>
         <Text
           style={{
@@ -81,7 +139,7 @@ export default function ProfileScreen({ navigation }) {
             alignSelf: "center",
           }}
         >
-          No. 123, Salon Street, Salon.
+          {salon.line1}, {salon.line2}, {salon.city}, {salon.country}
         </Text>
         <View
           style={{
@@ -111,6 +169,7 @@ export default function ProfileScreen({ navigation }) {
               borderColor: "rgba(10, 10, 10, 0.1)",
               shadowRadius: 10,
               shadowColor: "black",
+              marginBottom:30
             }}
           >
             <View
@@ -128,7 +187,7 @@ export default function ProfileScreen({ navigation }) {
                   fontSize: 15,
                 }}
               >
-                50
+               {customerCount}
               </Text>
               <Text
                 style={{
@@ -210,7 +269,7 @@ export default function ProfileScreen({ navigation }) {
                   fontSize: 15,
                 }}
               >
-                5
+                {staffCount}
               </Text>
               <Text
                 style={{
@@ -230,13 +289,15 @@ export default function ProfileScreen({ navigation }) {
               </Text>
             </View>
           </View>
+          <ScrollView>
           <View
             style={{
+              marginHorizontal: 15,
               borderWidth: 1,
               borderColor: "rgba(10, 10, 10, 0.1)",
               width: "90%",
               height: 60,
-              marginTop: 30,
+              //marginTop: 30,
               borderRadius: 10,
               flexDirection: "row",
               justifyContent: "space-between",
@@ -271,7 +332,7 @@ export default function ProfileScreen({ navigation }) {
                     fontWeight: "bold",
                   }}
                 >
-                  Salon Name
+                  {salon.name}
                 </Text>
                 <Text
                   style={{
@@ -305,8 +366,12 @@ export default function ProfileScreen({ navigation }) {
               value={true}
             />
           </View>
+          
+          {staff.map(staff => ( 
           <View
+          key={staff.staffID}
             style={{
+              marginHorizontal: 15,
               borderWidth: 1,
               borderColor: "rgba(10, 10, 10, 0.1)",
               width: "90%",
@@ -317,7 +382,9 @@ export default function ProfileScreen({ navigation }) {
               justifyContent: "space-between",
             }}
           >
+           
             <View
+           
               style={{
                 flexDirection: "row",
               }}
@@ -335,6 +402,7 @@ export default function ProfileScreen({ navigation }) {
                   marginLeft: 5,
                 }}
               ></Image>
+              
               <View
                 style={{
                   marginLeft: 10,
@@ -346,7 +414,7 @@ export default function ProfileScreen({ navigation }) {
                     fontWeight: "bold",
                   }}
                 >
-                  Staff Name
+                  {staff.name}
                 </Text>
                 <Text
                   style={{
@@ -366,11 +434,12 @@ export default function ProfileScreen({ navigation }) {
                       marginLeft: 5,
                     }}
                   ></Image>{" "}
-                  09:00 - 19:00
+                 {staff.openDays[0].openHour}- {staff.openDays[0].closeHour}
                 </Text>
               </View>
+              
             </View>
-
+        
             <Switch
               style={{}}
               trackColor={{ false: "#767577", true: "#2e2528" }}
@@ -380,11 +449,14 @@ export default function ProfileScreen({ navigation }) {
               value={false}
             />
           </View>
+            ))}
+            
           <TouchableOpacity
             onPress={() => navigation.navigate("SettingScreen")}
           >
             <View
               style={{
+                marginHorizontal: 15,
                 borderWidth: 1,
                 borderColor: "rgba(10, 10, 10, 0.1)",
                 width: "90%",
@@ -440,6 +512,7 @@ export default function ProfileScreen({ navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate("StatScreen")}>
             <View
               style={{
+                marginHorizontal: 15,
                 borderWidth: 1,
                 borderColor: "rgba(10, 10, 10, 0.1)",
                 width: "90%",
@@ -448,6 +521,7 @@ export default function ProfileScreen({ navigation }) {
                 borderRadius: 10,
                 flexDirection: "row",
                 justifyContent: "space-between",
+                marginBottom:30
               }}
             >
               <View
@@ -491,8 +565,11 @@ export default function ProfileScreen({ navigation }) {
               />
             </View>
           </TouchableOpacity>
+          </ScrollView>
         </View>
       </ImageBackground>
     </View>
-  );
+  
+
+);
 }

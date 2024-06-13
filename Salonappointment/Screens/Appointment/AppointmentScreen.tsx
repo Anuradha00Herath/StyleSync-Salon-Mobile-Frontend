@@ -21,10 +21,11 @@ const EventStatus = {
 
 import { AppointmentSetTwo } from "../../Components/appointmentSetForAppointmentScreen";
 import mockAppointments from "../../Navigation/GetDataFromBackend/AppointmentDetails";
+import moment from 'moment';
+import axios from 'axios';
 
 function renderCalender(){
   return <Calendar currentDate={new Date()} />
-
 }
 
 function renderCalenderExpand(){
@@ -32,11 +33,40 @@ function renderCalenderExpand(){
 }
 
 export default function AppointmentScreen({navigation}) {
+
   const [refresh, setRefresh] = useState(false);
   const [calender, setCalender] = useState(renderCalender());
   const [selectedStatus, setSelectedStatus] = useState<string>(
-    EventStatus.ONGOING
-  );
+    EventStatus.ONGOING);
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchAppointments = async (selectedStatus) => {
+    if(selectedStatus == EventStatus.ONGOING){
+    try {
+      setLoading(true);
+      const currentDate = moment.utc().startOf('day').toISOString();
+      const currentTime = moment().format('HH:mm:ss');
+      
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-ongoing-appoinment";
+      console.log('Request Parameters:', { 
+        salonId: 1, 
+        date: currentDate, 
+        time: currentTime 
+      });
+      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate, time: currentTime  } });
+      setAppointments(response.data.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }}
+  };
+
+  useEffect(() => {
+    fetchAppointments(selectedStatus);
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -56,7 +86,7 @@ export default function AppointmentScreen({navigation}) {
   };
 
   const groupedAppointments = {};
-  mockAppointments.forEach((appointment) => {
+  appointments.forEach((appointment) => {
     const staffName = appointment.staff.name;
     if (groupedAppointments[staffName]) {
       groupedAppointments[staffName].push(appointment);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -8,33 +8,130 @@ import {
 } from "react-native";
 import { PieChart, BarChart } from "react-native-gifted-charts";
 import Ionicons from "@expo/vector-icons/Ionicons.js";
+import moment from "moment";
+import axios from "axios";
 
 const { width, height } = Dimensions.get("screen");
 
 export default function StatScreen({navigation}) {
-  const pieData = [
-    { value: 10, color: "#177AD5" },
-    { value: 4, color: "#F5A623" },
-    { value: 2, color: "lightgray" },
-  ];
-  const barData = [
-    { value: 25, label: "M" },
-    { value: 50, label: "T", frontColor: "#177AD5" },
-    { value: 74, label: "W", frontColor: "#177AD5" },
-    { value: 32, label: "T" },
-    { value: 60, label: "F", frontColor: "#177AD5" },
-    { value: 25, label: "S" },
-    { value: 30, label: "S" },
-  ];
-  var curr = new Date(); // get current date
-  var first = curr.getDate() - curr.getDay();
-  first = first - 6;
-  var firstdayOb = new Date(curr.setDate(first));
-  var options = { day: "numeric", month: "short" };
-  var firstday = firstdayOb.toLocaleDateString("en-GB", Object(options));
-  var firstdayTemp = new Date(firstdayOb);
-  var lastdayOb = new Date(firstdayTemp.setDate(firstdayTemp.getDate() + 6));
-  var lastday = lastdayOb.toLocaleDateString("en-GB", Object(options));
+
+  const [refresh , setRefresh] =useState(false);
+  const[dayState , setDayState] =useState([]);
+  const [weekState , setWeekState] =useState([]);
+  const[loading , setLoading] =useState(false);
+
+  const fetchDayState = async () =>{
+    try{
+      setLoading(true);
+      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_appoinment_stat"
+      const currentDate = moment.utc().startOf('day').toISOString();
+      console.log('Request Parameters:', { 
+        salonId: 1, 
+        date: currentDate, 
+      });
+      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate } });
+      setDayState(response.data.data);
+      console.log(response.data);
+    }catch(error){
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchWeekState = async () =>{
+    try{
+      setLoading(true);
+      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_Weekappoinment_stat"
+      const currentDate = moment.utc().startOf('day').toISOString();
+      console.log('Request Parameters:', { 
+        salonId: 1, 
+        date: currentDate, 
+      });
+      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate } });
+      setWeekState(response.data.data);
+      console.log(response.data);
+    }catch(error){
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchDayState();
+  }, []);
+  useEffect(() => {
+    fetchWeekState();
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRefresh(true);
+    }, 5000); 
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
+
+  // const pieData = [
+  //   { value: 10, color: "#177AD5" },
+  //   { value: 4, color: "#F5A623" },
+  //   { value: 2, color: "lightgray" },
+  // ];
+  const colors = ["#177AD5", "#F5A623", "#4CAF50", "#FF5722", "#9C27B0", "#00BCD4", "#FFC107", "#E91E63"];
+
+  const renderPieData = () => {
+    return dayState.map((staff, index) => ({
+      value: staff.count,
+      color: colors[index % colors.length],
+    }));
+  };
+
+  // const barData = [
+  //   { value: 25, label: "M" },
+  //   { value: 50, label: "T", frontColor: "#177AD5" },
+  //   { value: 74, label: "W", frontColor: "#177AD5" },
+  //   { value: 32, label: "T" },
+  //   { value: 60, label: "F", frontColor: "#177AD5" },
+  //   { value: 25, label: "S" },
+  //   { value: 30, label: "S" },
+  // ];
+
+  const barData = Object.keys(weekState).map((day, index) => ({
+    value: weekState[day],
+    label: day.charAt(0),
+    frontColor: "#177AD5"
+  }));
+
+  // var curr = new Date(); // get current date
+  // var first = curr.getDate() - curr.getDay();
+  // first = first - 6;
+  // var firstdayOb = new Date(curr.setDate(first));
+  // var options = { day: "numeric", month: "short" };
+  // var firstday = firstdayOb.toLocaleDateString("en-GB", Object(options));
+  // var firstdayTemp = new Date(firstdayOb);
+  // var lastdayOb = new Date(firstdayTemp.setDate(firstdayTemp.getDate() + 6));
+  // var lastday = lastdayOb.toLocaleDateString("en-GB", Object(options));
+
+var today = new Date();
+var dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+var sundayDate = new Date(today);
+sundayDate.setDate(today.getDate() - dayOfWeek); // Set to previous Sunday
+var saturdayDate = new Date(sundayDate);
+saturdayDate.setDate(sundayDate.getDate() + 6); // Set to Saturday
+var options = { day: "numeric", month: "short" };
+var sundayDateString = sundayDate.toLocaleDateString("en-GB", Object(options));
+var saturdayDateString = saturdayDate.toLocaleDateString("en-GB", Object(options));
+
+  const totalAppointmentsForWeek = Object.values(weekState).reduce((a, b) => a + b, 0);
+ const averageAppointmentsPerDay = Math.floor(totalAppointmentsForWeek / 7);
 
   return (
     <View
@@ -99,7 +196,7 @@ export default function StatScreen({navigation}) {
               fontSize: 15,
             }}
           >
-            {firstday}-{lastday}
+            {sundayDateString}-{saturdayDateString}
           </Text>
         </View>
         <View
@@ -114,7 +211,7 @@ export default function StatScreen({navigation}) {
               fontWeight: "bold",
             }}
           >
-            45 Appointments
+          {averageAppointmentsPerDay} Appointments
           </Text>
           <Text
             style={{
@@ -165,12 +262,12 @@ export default function StatScreen({navigation}) {
               donut
               radius={80}
               innerRadius={50}
-              data={pieData}
+              data={renderPieData()}
               centerLabelComponent={() => {
                 return (
                   <View>
                     <Text style={{ fontSize: 20, textAlign: "center" }}>
-                      16
+                    {dayState.reduce((total, staff) => total + staff.count, 0)}
                     </Text>
                     <Text style={{ fontSize: 10, textAlign: "center" }}>
                       Appointments
@@ -188,7 +285,9 @@ export default function StatScreen({navigation}) {
             marginRight: 25,
           }}
         >
+          {dayState.map((staff, index) => (
           <View
+            key={index}
             style={{
               flexDirection: "row",
               marginTop: 5,
@@ -200,7 +299,7 @@ export default function StatScreen({navigation}) {
                 flexDirection: "row",
               }}
             >
-              <Ionicons name="ellipse" size={20} color="#177AD5" />
+              <Ionicons name="ellipse" size={20} color={colors[index % colors.length]}/>
               <Text
                 style={{
                   fontSize: 15,
@@ -208,7 +307,7 @@ export default function StatScreen({navigation}) {
                   marginLeft: 10,
                 }}
               >
-                Paul
+                {staff.staffName}
               </Text>
             </View>
             <Text
@@ -218,10 +317,11 @@ export default function StatScreen({navigation}) {
                 marginLeft: 10,
               }}
             >
-              16
+              {staff.count}
             </Text>
           </View>
-          <View
+          ))}
+          {/* <View
             style={{
               flexDirection: "row",
               marginTop: 5,
@@ -253,8 +353,8 @@ export default function StatScreen({navigation}) {
             >
               4
             </Text>
-          </View>
-        </View>
+          </View>*/}
+        </View> 
       </View>
     </View>
   );

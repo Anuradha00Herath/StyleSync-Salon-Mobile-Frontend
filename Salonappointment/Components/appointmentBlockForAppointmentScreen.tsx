@@ -2,11 +2,11 @@ import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 
 export function AppointmentBlockTwo({ appointment , navigation}) {
-  const { customer, service, startTime, endTime, gender } = appointment;
+  const { startTime, endTime, gender,customerAppointmentBlock, serviceAppointmentBlock} = appointment;
 
   return (
     <View style={{  
-        width: '90%',
+        width: '95%',
         height: 'auto',
         backgroundColor: "#EFEFEF",
         margin: 10,
@@ -16,19 +16,21 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
       }}
     >
         <View style={{
-            marginHorizontal: 5,
+           // marginHorizontal: 5,
             marginTop: 10,
             flexDirection: "row",
             flexWrap: "wrap",
             width: "60%",
             alignItems: 'center',
+            // backgroundColor: "#FFBF00",
         }}>
             <View style={{
               margin: 8,
               flexDirection: "row",
               flexWrap: "wrap",
               width: "90%",
-              alignSelf: 'center'
+              alignSelf: 'center',
+              
             }}>
               <Image
                 source={require("../assets/man.jpg")}
@@ -45,13 +47,13 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
                   marginLeft: 5,
                   fontWeight: "bold",
                 }}>
-                  {customer.name}
+                  {customerAppointmentBlock[0].customer.name}
                 </Text>
                 <Text style={{
                   marginLeft: 5,
                   fontWeight: "bold",
                 }}>
-                  ({customer.gender})
+                  ({customerAppointmentBlock[0].customer.gender})
                 </Text>
               </View>
             </View>
@@ -78,23 +80,24 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
         </View>
         <View
           style={{
-              marginHorizontal: 5,
+              //marginHorizontal: 5,
               marginTop: 10,
               marginRight: 13,
               flexWrap: "wrap",
-              width: 'auto'
+              width: 'auto',
+              // backgroundColor: "#DE3163",
           }}>
               <Text style={{
-              marginTop: 4
-            }}>{service.name}</Text>
+              marginTop: 4,
+            }}>{serviceAppointmentBlock[0].service.name}</Text>
               <Text style={{
-              marginTop: 4
-            }}>{gender}</Text>
+              marginTop: 4,
+            }}>{customerAppointmentBlock[0].customer.gender}</Text>
               <Text style={{
-              marginTop: 4
-            }}>{service.price}</Text>
+              marginTop: 4,
+            }}>{serviceAppointmentBlock[0].service.price}</Text>
               <Text style={{
-              marginTop: 4
+              marginTop: 4,
             }}>{startTime} - {endTime}</Text>
         </View>
     </View>
