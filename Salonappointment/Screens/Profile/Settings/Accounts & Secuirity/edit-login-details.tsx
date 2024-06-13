@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -10,9 +10,59 @@ import {
   ScrollView,
 } from "react-native";
 import { TextInputArea } from "../../../../Components/text-input-area-in-settings";
+import axios from "axios";
 
 export default function EditLoginDetails({ navigation }) {
   const [isEdit, setIsEdit] = useState(false);
+
+  const [refresh, setRefresh] = useState(false);
+  const [details, setDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail]       =useState("");
+  const [username, setUsername] =useState("");
+  const [password , setPassword] =useState("");
+  const [error, setError] = useState("");
+ 
+
+  const fetchDetails = async() =>{
+    try{
+      setLoading(true);
+      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon-ConfirmationInformation";
+      console.log('Request parameters',{salonId: 1, });
+      const response = await axios.get(url, {params:{salonId: 1}});
+      
+      const addressData =response.data.data[0];
+      setDetails(addressData);
+      setEmail(addressData.email);
+      setUsername(addressData.username ||addressData.email );
+      setPassword(addressData.password);
+      console.log(response.data)
+      console.log(addressData.password)
+      console.log(addressData.email)
+
+    }catch(error){
+      console.error(error);
+    }finally{
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRefresh(true);
+    }, 5000); 
+  
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <View>
@@ -60,31 +110,34 @@ export default function EditLoginDetails({ navigation }) {
         >
           <TextInputArea
             name="Email"
-            value="abc.hsfdj.com"
+            value={email}
             editable={false}
             isSecure={false}
             placeholder={""}
+            onChangeText={email}
+            
           />
           <TextInputArea
             name="Username"
-            value="abc.hsfdj.com"
+            value={username}
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={(text) => setUsername(text)}
           />
-          <EditPassword isEdit={isEdit} setIsEdit={setIsEdit}/>
+          <EditPassword isEdit={isEdit} setIsEdit={setIsEdit} password={password}/>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
   );
 }
-function EditPassword({ isEdit, setIsEdit }) {
+function EditPassword({ isEdit, setIsEdit,password }) {
     const onPress = () => setIsEdit(false);
     const onPress2 = () => setIsEdit(true);
   if (isEdit === true) {
     return (
       <View>
-        <TextInputArea
+        {/* <TextInputArea
           name="Enter Current Password"
           value=""
           editable={true}
@@ -104,7 +157,7 @@ function EditPassword({ isEdit, setIsEdit }) {
           editable={true}
           isSecure={true}
           placeholder={"Confirm New Password"}
-        />
+        /> */}
         <View
           style={{
             flexDirection: "row",
@@ -163,10 +216,11 @@ function EditPassword({ isEdit, setIsEdit }) {
       <View>
         <TextInputArea
           name="Password"
-          value="abc.hsfdj.com"
+          value={password}
           editable={false}
           isSecure={true}
           placeholder={""}
+          onChangeText={password}
         />
         <Text
           style={{

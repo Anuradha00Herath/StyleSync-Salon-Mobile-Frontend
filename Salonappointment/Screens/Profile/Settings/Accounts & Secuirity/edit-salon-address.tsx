@@ -20,6 +20,7 @@ export default function EditSalonAddress({ navigation }) {
   const[line1 , setLine1]=useState("");
   const[line2 ,setLine2]=useState("");
   const[city ,setCity]=useState("");
+  const[error, setError]=useState("")
   const[country, setCountry] =useState("");
 
   const fetchAddress = async () => {
@@ -44,8 +45,36 @@ export default function EditSalonAddress({ navigation }) {
     }
   };
 
-  const handleSubmit = async () => {
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!line1.trim() || !line2.trim()) {
+      setError("*line1,line2 field is required");
+      isValid = false;
+      alert("line1,line2 field is required");
+    } else {
+      setError("");
+    }
+    if (!city.trim()) {
+      setError("*city field is required");
+      isValid = false;
+      alert("city field is required");
+    } else {
+      setError("");
+    }
+    if (!country.trim()) {
+      setError("*country field is required");
+      isValid = false;
+      alert("country field is required");
+    } else {
+      setError("");
+    }
     
+    return isValid;
+  };
+
+  const handleSubmit = async () => {
+      if (validateInputs()){
       try {
         setLoading(true);
         const url =
@@ -64,6 +93,9 @@ export default function EditSalonAddress({ navigation }) {
       } finally {
         setLoading(false);
       }
+    }else {
+      console.log({ error });
+    }
    
   };
 
