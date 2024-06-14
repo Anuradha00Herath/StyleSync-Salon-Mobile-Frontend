@@ -15,46 +15,46 @@ import axios from "axios";
 import moment from 'moment';
 
 export default function StaffListView({ navigation }) {
-  // const [refresh, setRefresh] = useState(false);
-  // const [Details , setDetails] = useState([]);
-  // const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [Details , setDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // const fetchDetails = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_staff_members";
-  //     const currentDate = moment.utc().startOf('day').toISOString();
-  //     console.log('Request Parameters:', { 
-  //       salonId: 1, 
-  //       date:currentDate
-  //     });
-  //     const response = await axios.get(url, { params: {  salonId: 1, date: currentDate} });
-  //     setDetails(response.data.data);
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const fetchDetails = async () => {
+    try {
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_staff_members";
+      const currentDate = moment.utc().startOf('day').toISOString();
+      console.log('Request Parameters:', { 
+        salonId: 1, 
+        date:currentDate
+      });
+      const response = await axios.get(url, { params: {  salonId: 1, date: currentDate} });
+      setDetails(response.data.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchDetails();
-  // }, []);
+  useEffect(() => {
+    fetchDetails();
+  }, []);
   
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     setRefresh(true);
-  //   }, 5000); 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRefresh(true);
+    }, 5000); 
   
-  //   return () => clearInterval(intervalId);
-  // }, []);
+    return () => clearInterval(intervalId);
+  }, []);
   
-  // useEffect(() => {
-  //   if (refresh) {
-  //     setRefresh(false);
-  //   }
-  // }, [refresh]);
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
   
 
   return (
@@ -95,18 +95,16 @@ export default function StaffListView({ navigation }) {
           alignSelf: "center",
         }}
       ></Image>
-      {/* <ScrollView>
-      {Details.map(details =>(
-       
-      <TouchableOpacity onPress={() => navigation.navigate("EditStaffProfile")}>
-         key={details.staffID}
-        <StaffMember  name={details.staff[0].name} openHour= {details.openDays[0].openHour} closeHour={details.openDays[0].closeHour}/>
+      <ScrollView>
+      {Details.map((details, index) =>(
+      <TouchableOpacity 
+      key={index}
+      onPress={() => navigation.navigate("EditStaffProfile" ,{name:details.staff.name ,Id:details.staffID})}>
+        
+      <StaffMember  name={details.staff.name} openHour= {details.staff.openDays[0].openHour} closeHour={details.staff.openDays[0].closeHour}/>
       </TouchableOpacity>
       ))}
-      </ScrollView> */}
-      <TouchableOpacity onPress={() => navigation.navigate("EditStaffProfile")}>
-        <StaffMember name={"Anurasha herath"} openHour={9.00} closeHour={12.00} />
-      </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }

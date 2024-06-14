@@ -2,7 +2,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { Image, View, Text } from "react-native";
 
-export function ServiceShow() {
+export function ServiceShow({service}) {
+  const {name,price,duration} =service
   return (
     <View>
       <View
@@ -32,7 +33,7 @@ export function ServiceShow() {
                 fontWeight: "bold",
               }}
             >
-              Mens Hair Cut
+              {name}
             </Text>
             <View
               style={{
@@ -48,7 +49,7 @@ export function ServiceShow() {
                   fontSize: 15,
                 }}
               >
-                40min
+               {duration}
               </Text>
             </View>
           </View>
@@ -64,7 +65,7 @@ export function ServiceShow() {
                 marginRight: 5,
               }}
             >
-              LKR250
+              LKR{price}
             </Text>
         <Ionicons
           name="chevron-forward"

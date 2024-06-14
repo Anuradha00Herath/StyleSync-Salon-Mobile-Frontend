@@ -15,8 +15,10 @@ import {
 } from "react-native";
 import { TextInputArea } from "../../../../../Components/text-input-area-in-settings";
 import * as ImagePicker from 'expo-image-picker';
+import axios from "axios";
 
-export default function EditProfile({ navigation }) {
+export default function EditProfile({ navigation  }) {
+    
     const [image, setImage] = useState(require("../../../../../assets/images.jpg"));
     useEffect(() => {
         (async () => {
@@ -46,6 +48,113 @@ export default function EditProfile({ navigation }) {
           setImage(result);
         }
       };
+
+      const [refresh, setRefresh] = useState(false);
+  const [details, setDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [name, setName]       =useState("");
+  const [contactNo, setContactNo] =useState("");
+  const [error, setError] = useState("");
+  const [gender, setGender]=useState("All")
+
+  const fetchDetails = async() =>{
+    try{
+      setLoading(true);
+      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_staff_member_profileDetails";
+      console.log('Request parameters',
+        {salonId: 1,
+         staffId:1
+       });
+      const response = await axios.get(url, {params:{salonId: 1,staffId:1}});
+      const addressData =response.data.data[0];
+      setDetails(addressData);
+      setName(addressData.staff.name);
+      setContactNo(addressData.staff.staffContact[0].contactNo);
+      console.log(response.data)
+
+    }catch(error){
+      console.error(error);
+    }finally{
+      setLoading(false);
+    }
+  };
+
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!name.trim()) {
+      setError("*Name field is required");
+      isValid = false;
+      alert("Name field is required");
+    } else {
+      setError("");
+    }
+
+    if (!gender.trim()) {
+      setError("*Gender field is required");
+      isValid = false;
+      alert("Gender field is required");
+    } else {
+      setError("");
+    }
+
+    if (!contactNo.trim()) {
+      setError("*Conatct field is required");
+      isValid = false;
+      alert("Conatct field is required");
+    } else if (!/^(\+94)[0-9]{9}$/.test(contactNo)) {
+      setError("*Number Should be in correct format");
+      isValid = false;
+      alert("Number Should be in correct format");
+    } else {
+      setError("");
+    }
+    return isValid;
+  };
+
+  const handleSubmit = async () => {
+    if (validateInputs()){
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_staff_member_profileDetails";
+      const response = await axios.put(url, {
+        salonId: 1,
+        staffId:1,
+        name,
+        contactNo
+      });
+
+     console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+    }else {
+      console.log({ error });
+    }
+ 
+};
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRefresh(true);
+    }, 5000); 
+  
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <View>
       <View
@@ -119,19 +228,19 @@ export default function EditProfile({ navigation }) {
         >
           <TextInputArea
             name="Name"
-            value="Name of Person"
+            value={name}
             editable={true}
             isSecure={false}
             placeholder={""}
-            onChangeText={false}
+            onChangeText={(text) => setName(text)}
           />
           <TextInputArea
             name="Mobile Number"
-            value="+9412589632"
+            value={contactNo}
             editable={true}
             isSecure={false}
             placeholder={""}
-            onChangeText={false}
+            onChangeText={(text) => setContactNo(text)}
           />
           <TextInputArea
             name="Targeting Gender"
@@ -139,7 +248,7 @@ export default function EditProfile({ navigation }) {
             editable={true}
             isSecure={false}
             placeholder={""}
-            onChangeText={false}
+            onChangeText={(text)=> setGender(text)}
           />
           <View
           style={{
@@ -153,7 +262,7 @@ export default function EditProfile({ navigation }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <View
                 style={{
                   backgroundColor: "#F5F5F5",
@@ -172,7 +281,7 @@ export default function EditProfile({ navigation }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity  onPress={handleSubmit}>
               <View
                 style={{
                   backgroundColor: "#8B6C58",

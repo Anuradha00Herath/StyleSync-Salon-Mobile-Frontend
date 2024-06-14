@@ -2,7 +2,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { View, Text } from "react-native";
 
-export function WorkingDaysAndHours({name, time}){
+export function WorkingDaysAndHours({name, openHour,closeHour,isOpen}){
+    const formattedTime = isOpen ? `${openHour} - ${closeHour}` : 'Closed';
     return(
         <View style={{
             flexDirection:"row",
@@ -27,7 +28,7 @@ export function WorkingDaysAndHours({name, time}){
             style={{
                 fontSize: 15
             }}
-            >{time}</Text>
+            >{formattedTime}</Text>
             </View>
             <Ionicons
           name="chevron-forward"

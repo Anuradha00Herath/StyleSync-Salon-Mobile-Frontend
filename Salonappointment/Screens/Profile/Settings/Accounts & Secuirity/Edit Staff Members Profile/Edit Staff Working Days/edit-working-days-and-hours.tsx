@@ -1,9 +1,47 @@
-import React from "react";
+import React, { useState,useEffect } from 'react';
 import { TouchableOpacity, View, Image, Text } from "react-native";
 import { WorkingDaysAndHours } from "../../../../../../Components/working-days-and-hours";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import axios from 'axios';
 
 export default function EditWorkingDays({ navigation }) {
+  const [businessHours, setBusinessHours] = useState([]);
+  const [loading,setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
+  const fetchBusinessHours = async () => {
+    try {
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/time/get-opendays-and-hours";
+      const response = await axios.get(url, { params: { staffId:1 } });
+      const sortedBusinessHours = response.data.data.sort((a, b) => {
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        return daysOfWeek.indexOf(a.dayName) - daysOfWeek.indexOf(b.dayName);
+      });
+      setBusinessHours(sortedBusinessHours);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }};
+
+    useEffect(() => {
+      fetchBusinessHours();
+    }, []);
+  
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setRefresh(true);
+      }, 5000); 
+  
+      return () => clearInterval(intervalId);
+    }, []);
+  
+    useEffect(() => {
+      if (refresh) {
+        setRefresh(false);
+      }
+    }, [refresh]);
   return (
     <View>
       <View
@@ -48,27 +86,11 @@ export default function EditWorkingDays({ navigation }) {
         marginTop: 30,
       }}
       >
-      <TouchableOpacity>
-        <WorkingDaysAndHours name="Monday" time="12.00 - 13.00" />
+         {businessHours.map(day => (
+      <TouchableOpacity key={day.dayName}>
+        <WorkingDaysAndHours name={day.dayName} openHour={day.openHour} closeHour={day.closeHour} isOpen={day.isOpen}/>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <WorkingDaysAndHours name="Tuesday" time="12.00 - 13.00" />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <WorkingDaysAndHours name="Wednesday" time="12.00 - 13.00" />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <WorkingDaysAndHours name="Thursday" time="12.00 - 13.00" />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <WorkingDaysAndHours name="Friday" time="12.00 - 13.00" />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <WorkingDaysAndHours name="Satuday" time="Closed" />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <WorkingDaysAndHours name="Sunday" time="Closed" />
-      </TouchableOpacity>
+         ))}
 
       </View>
     </View>

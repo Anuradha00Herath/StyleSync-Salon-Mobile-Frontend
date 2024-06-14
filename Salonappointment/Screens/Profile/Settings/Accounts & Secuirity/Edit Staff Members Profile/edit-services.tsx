@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -12,8 +12,69 @@ import {
 import { TextInputArea } from "../../../../../Components/text-input-area-in-settings";
 import { StaffMember } from "../../../../../Components/list-view-of-staff-members";
 import { ServiceShow } from "../../../../../Components/service-show";
+import axios from "axios";
 
 export default function EditService({ navigation }) {
+
+  const [refresh, setRefresh] = useState(false);
+  const [service, setService] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+ 
+  const fetchService = async () => {
+    try {
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_staff_members_Service";
+      console.log('Request Parameters:', { 
+        staffId:1, 
+      });
+      const response = await axios.get(url, { params: { staffId:1 } });
+      setService(response.data.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchService();
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRefresh(true);
+    }, 5000); 
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
+
+  // const groupedservice = {};
+  // service.forEach((service) => {
+  //   const serviceType = service.serviceType;
+  //   if (groupedservice[serviceType]) {
+  //     groupedservice[serviceType].push(service);
+  //   } else {
+  //     groupedservice[serviceType] = [service];
+  //   }
+  // });
+  const groupedservice = service.reduce((acc, service) => {
+    const serviceType = service.serviceType;
+    if (acc[serviceType]) {
+      acc[serviceType].push(service);
+    } else {
+      acc[serviceType] = [service];
+    }
+    return acc;
+  }, {});
+
   return (
     <View>
       <View
@@ -52,6 +113,9 @@ export default function EditService({ navigation }) {
           alignSelf: "center",
         }}
       ></Image>
+      <ScrollView>
+      {Object.keys(groupedservice ).map((serviceType) => (
+      <View key={serviceType}>
       <Text
           style={{
             fontSize: 15,
@@ -60,15 +124,17 @@ export default function EditService({ navigation }) {
             marginLeft: 15,
           }}
         >
-          Hair Services
+          {serviceType}
         </Text>
-      <TouchableOpacity>
-          <ServiceShow/>
+        {groupedservice[serviceType].map((service) => (
+      <TouchableOpacity key={service.id}>
+          <ServiceShow service={service}/>
       </TouchableOpacity>
-      <TouchableOpacity>
-          <ServiceShow/>
-      </TouchableOpacity>
-      <Text
+        ))}
+      </View>
+      ))}
+      </ScrollView>
+      {/* <Text
           style={{
             fontSize: 15,
             fontWeight: "bold",
@@ -83,7 +149,7 @@ export default function EditService({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity>
           <ServiceShow/>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

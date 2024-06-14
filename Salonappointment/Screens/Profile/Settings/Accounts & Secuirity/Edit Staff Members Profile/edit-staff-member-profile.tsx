@@ -17,7 +17,8 @@ import { TextInputArea } from "../../../../../Components/text-input-area-in-sett
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableArea } from "../../../../../Components/touchable-area-in-profile";
 
-export default function EditStaffProfile({ navigation }) {
+export default function EditStaffProfile({ navigation ,route }) {
+  const {name, Id} =  route.params; 
     const [image, setImage] = useState(require("../../../../../assets/images.jpg"));
     useEffect(() => {
         (async () => {
@@ -73,7 +74,7 @@ export default function EditStaffProfile({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          Edit Anuradha's Profile
+          Edit {name}'s Profile
         </Text>
       </View>
       <Text
@@ -116,7 +117,7 @@ export default function EditStaffProfile({ navigation }) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditService")}
+          onPress={() => navigation.navigate("EditService" )}
         >
           <TouchableArea name="Edit Services" iconName="cut" option="touch"/>
         </TouchableOpacity>
@@ -124,7 +125,7 @@ export default function EditStaffProfile({ navigation }) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditWorkingDays")}
+          onPress={() => navigation.navigate("EditWorkingDays" )}
         >
           <TouchableArea name="Edit Working Days" iconName="today" option="touch"/>
         </TouchableOpacity>
