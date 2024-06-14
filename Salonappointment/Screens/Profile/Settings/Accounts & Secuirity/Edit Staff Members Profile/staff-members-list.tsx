@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -12,9 +12,51 @@ import {
 import { TextInputArea } from "../../../../../Components/text-input-area-in-settings";
 import { StaffMember } from "../../../../../Components/list-view-of-staff-members";
 import axios from "axios";
+import moment from 'moment';
 
 export default function StaffListView({ navigation }) {
+  // const [refresh, setRefresh] = useState(false);
+  // const [Details , setDetails] = useState([]);
+  // const [loading, setLoading] = useState(false);
+
+  // const fetchDetails = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_staff_members";
+  //     const currentDate = moment.utc().startOf('day').toISOString();
+  //     console.log('Request Parameters:', { 
+  //       salonId: 1, 
+  //       date:currentDate
+  //     });
+  //     const response = await axios.get(url, { params: {  salonId: 1, date: currentDate} });
+  //     setDetails(response.data.data);
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchDetails();
+  // }, []);
   
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setRefresh(true);
+  //   }, 5000); 
+  
+  //   return () => clearInterval(intervalId);
+  // }, []);
+  
+  // useEffect(() => {
+  //   if (refresh) {
+  //     setRefresh(false);
+  //   }
+  // }, [refresh]);
+  
+
   return (
     <View>
       <View
@@ -53,11 +95,17 @@ export default function StaffListView({ navigation }) {
           alignSelf: "center",
         }}
       ></Image>
+      {/* <ScrollView>
+      {Details.map(details =>(
+       
       <TouchableOpacity onPress={() => navigation.navigate("EditStaffProfile")}>
-        <StaffMember />
+         key={details.staffID}
+        <StaffMember  name={details.staff[0].name} openHour= {details.openDays[0].openHour} closeHour={details.openDays[0].closeHour}/>
       </TouchableOpacity>
+      ))}
+      </ScrollView> */}
       <TouchableOpacity onPress={() => navigation.navigate("EditStaffProfile")}>
-        <StaffMember />
+        <StaffMember name={"Anurasha herath"} openHour={9.00} closeHour={12.00} />
       </TouchableOpacity>
     </View>
   );

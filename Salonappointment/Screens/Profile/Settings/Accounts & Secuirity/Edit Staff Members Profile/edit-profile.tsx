@@ -117,13 +117,13 @@ export default function EditProfile({ navigation }) {
             alignSelf: "center",
           }}
         >
-          {/* <TextInputArea
+          <TextInputArea
             name="Name"
             value="Name of Person"
             editable={true}
             isSecure={false}
             placeholder={""}
-            onChangeText={}
+            onChangeText={false}
           />
           <TextInputArea
             name="Mobile Number"
@@ -131,6 +131,7 @@ export default function EditProfile({ navigation }) {
             editable={true}
             isSecure={false}
             placeholder={""}
+            onChangeText={false}
           />
           <TextInputArea
             name="Targeting Gender"
@@ -138,7 +139,8 @@ export default function EditProfile({ navigation }) {
             editable={true}
             isSecure={false}
             placeholder={""}
-          /> */}
+            onChangeText={false}
+          />
           <View
           style={{
             flexDirection: "row",

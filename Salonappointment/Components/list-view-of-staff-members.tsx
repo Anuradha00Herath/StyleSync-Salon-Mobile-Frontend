@@ -2,7 +2,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { Image, View, Text } from "react-native";
 
-export function StaffMember() {
+export function StaffMember({name,openHour,closeHour}) {
   return (
     <View>
       <View
@@ -43,7 +43,7 @@ export function StaffMember() {
                 fontWeight: "bold",
               }}
             >
-              Anuradha Herath
+             {name}
             </Text>
             <View
               style={{
@@ -59,7 +59,7 @@ export function StaffMember() {
                   fontSize: 15,
                 }}
               >
-                09:00 - 19:00
+                {openHour} - {closeHour}
               </Text>
             </View>
           </View>
