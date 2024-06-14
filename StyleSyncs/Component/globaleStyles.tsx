@@ -1,6 +1,6 @@
 import {  StyleSheet} from 'react-native';
 
-export const imageStyles= StyleSheet.create({
+export const imageStyles = StyleSheet.create({
     container:{
         flex:1,
         resizeMode:"cover"
@@ -10,7 +10,7 @@ export const imageStyles= StyleSheet.create({
       // barStyle:"dark-content",
        },
 });
-export const globaleStyles=StyleSheet.create({
+export const globaleStyles = StyleSheet.create({
     topic:{
         color:"black",
         fontSize:16,

@@ -108,8 +108,8 @@ export function PersanalInformationContent({ topic }) {
   ];
 
   return (
-    <View style={[globaleStyles.back, { marginTop: 280 }]}>
-      <View style={{ flex: 1, justifyContent: "flex-start" }}>
+    <View style = {[globaleStyles.back, { marginTop: 280 }]}>
+      <View style = {{ flex: 1, justifyContent: "flex-start" }}>
         <Text style={globaleStyles.topic}>{topic}</Text>
         <TextInput
           style={styles.Text}

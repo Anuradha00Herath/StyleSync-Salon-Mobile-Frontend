@@ -8,7 +8,7 @@ const backImg=require("../assets/StyleSync.jpeg")
 
 export default function SelectTeam() {
     return (
-          <ImageBackground source={backImg} style={imageStyles.container}>
+          <ImageBackground source = {backImg} style = {imageStyles.container}>
             <StatusBar/>
             <AppName/>
             <SelectTeamContent/>
