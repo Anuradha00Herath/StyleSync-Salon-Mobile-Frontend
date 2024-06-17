@@ -12,8 +12,11 @@ import EditSalonAddress from './Screens/Profile/Settings/Accounts & Secuirity/ed
 import StaffListView from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/staff-members-list';
 import EditStaffProfile from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/edit-staff-member-profile';
 import EditProfile from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/edit-profile';
-import EditService from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/edit-services';
+import ShowService from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Member Services/show-services';
+import EditService from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Member Services/edit-services';
 import EditWorkingDays from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Working Days/edit-working-days-and-hours';
+import SetTime from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Working Days/edit-day';
+import  SetBreakTime from './Screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Working Days/SetBreaksTime'
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -31,8 +34,12 @@ export default function App() {
         <Stack.Screen name="EditStaffProfile" component={EditStaffProfile} options={{ headerShown: false }} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false}}/>
         <Stack.Screen name="EditService" component={EditService} options={{ headerShown: false}}/>
+        <Stack.Screen name="ShowService" component={ShowService} options={{ headerShown: false}}/>
         <Stack.Screen name="EditWorkingDays" component={EditWorkingDays} options={{headerShown:false}}/>
+        <Stack.Screen name="SetTime" component={SetTime} options={{ headerShown: false }} />
+        <Stack.Screen name="SetBreakTime" component={SetBreakTime} options={{ headerShown: false }} />
         <Stack.Screen name="StatScreen" component={StatScreen} options={{ headerShown: false }} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

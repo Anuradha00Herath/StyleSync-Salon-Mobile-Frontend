@@ -18,7 +18,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { TouchableArea } from "../../../../../Components/touchable-area-in-profile";
 
 export default function EditStaffProfile({ navigation ,route }) {
-  const {name, Id} =  route.params; 
+  const {name, Id ,salonId} =  route.params; 
     const [image, setImage] = useState(require("../../../../../assets/images.jpg"));
     useEffect(() => {
         (async () => {
@@ -109,7 +109,7 @@ export default function EditStaffProfile({ navigation ,route }) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditProfile")}
+          onPress={() => navigation.navigate("EditProfile" ,{Id:Id,salonId:salonId})}
         >
           <TouchableArea name="Edit Profile" iconName="person" option="touch"/>
         </TouchableOpacity>
@@ -117,7 +117,7 @@ export default function EditStaffProfile({ navigation ,route }) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditService" )}
+          onPress={() => navigation.navigate("ShowService" ,{Id:Id,salonId:salonId ,name:name})}
         >
           <TouchableArea name="Edit Services" iconName="cut" option="touch"/>
         </TouchableOpacity>
@@ -125,7 +125,7 @@ export default function EditStaffProfile({ navigation ,route }) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditWorkingDays" )}
+          onPress={() => navigation.navigate("EditWorkingDays",{Id:Id,salonId:salonId,name:name} )}
         >
           <TouchableArea name="Edit Working Days" iconName="today" option="touch"/>
         </TouchableOpacity>

@@ -14,6 +14,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons.js";
 import moment from 'moment';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -21,6 +22,8 @@ export default function ProfileScreen({ navigation }) {
 const [refresh, setRefresh] = useState(false);
 const [Details , setDetails] = useState(null);
 const [loading, setLoading] = useState(false);
+const salonId=1
+
 
 const fetchDetails = async () => {
   try {
@@ -28,10 +31,10 @@ const fetchDetails = async () => {
     const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_details";
     const currentDate = moment.utc().startOf('day').toISOString();
     console.log('Request Parameters:', { 
-      salonId: 1, 
+      salonId: salonId, 
       date:currentDate
     });
-    const response = await axios.get(url, { params: {  salonId: 1, date: currentDate} });
+    const response = await axios.get(url, { params: {  salonId:salonId , date: currentDate} });
     setDetails(response.data.data);
     console.log(response.data);
   } catch (error) {
@@ -40,26 +43,30 @@ const fetchDetails = async () => {
     setLoading(false);
   }
 };
+useFocusEffect(
+  React.useCallback(()=>{
+    setDetails([]);
+    fetchDetails();
+  },[salonId])
+);
 
+// useEffect(() => {
+//   fetchDetails();
+// }, [salonId]);
 
+// useEffect(() => {
+//   const intervalId = setInterval(() => {
+//     setRefresh(true);
+//   }, 5000); 
 
-useEffect(() => {
-  fetchDetails();
-}, []);
+//   return () => clearInterval(intervalId);
+// }, []);
 
-useEffect(() => {
-  const intervalId = setInterval(() => {
-    setRefresh(true);
-  }, 5000); 
-
-  return () => clearInterval(intervalId);
-}, []);
-
-useEffect(() => {
-  if (refresh) {
-    setRefresh(false);
-  }
-}, [refresh]);
+// useEffect(() => {
+//   if (refresh) {
+//     setRefresh(false);
+//   }
+// }, [refresh]);
 
 if (loading || !Details) {
   return (
@@ -434,7 +441,7 @@ return (
                       marginLeft: 5,
                     }}
                   ></Image>{" "}
-                 {staff.openDays[0].openHour}- {staff.openDays[0].closeHour}
+                 {/* {staff.openDays[0].openHour}- {staff.openDays[0].closeHour} */}
                 </Text>
               </View>
               
@@ -452,7 +459,7 @@ return (
             ))}
             
           <TouchableOpacity
-            onPress={() => navigation.navigate("SettingScreen")}
+            onPress={() => navigation.navigate("SettingScreen" , {salonId:salon.id})}
           >
             <View
               style={{
@@ -509,7 +516,7 @@ return (
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("StatScreen")}>
+          <TouchableOpacity onPress={() => navigation.navigate("StatScreen" ,{salonId:salon.id})}>
             <View
               style={{
                 marginHorizontal: 15,

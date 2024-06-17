@@ -13,8 +13,8 @@ import axios from "axios";
 
 const { width, height } = Dimensions.get("screen");
 
-export default function StatScreen({navigation}) {
-
+export default function StatScreen({navigation ,route}) {
+  const {Id ,salonId} =  route.params;
   const [refresh , setRefresh] =useState(false);
   const[dayState , setDayState] =useState([]);
   const [weekState , setWeekState] =useState([]);
@@ -26,10 +26,10 @@ export default function StatScreen({navigation}) {
       const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_appoinment_stat"
       const currentDate = moment.utc().startOf('day').toISOString();
       console.log('Request Parameters:', { 
-        salonId: 1, 
+        salonId: salonId, 
         date: currentDate, 
       });
-      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate } });
+      const response = await axios.get(url, { params: {  salonId: salonId,date: currentDate } });
       setDayState(response.data.data);
       console.log(response.data);
     }catch(error){
@@ -45,10 +45,10 @@ export default function StatScreen({navigation}) {
       const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_Weekappoinment_stat"
       const currentDate = moment.utc().startOf('day').toISOString();
       console.log('Request Parameters:', { 
-        salonId: 1, 
+        salonId:salonId, 
         date: currentDate, 
       });
-      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate } });
+      const response = await axios.get(url, { params: {  salonId:salonId ,date: currentDate } });
       setWeekState(response.data.data);
       console.log(response.data);
     }catch(error){

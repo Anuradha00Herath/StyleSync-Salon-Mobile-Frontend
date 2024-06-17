@@ -17,8 +17,8 @@ import { TextInputArea } from "../../../../Components/text-input-area-in-setting
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 
-export default function EditSalonProfile({ navigation }) {
-    
+export default function EditSalonProfile({ navigation ,route}) {
+  const {salonId} = route.params;
   const [refresh, setRefresh] = useState(false);
   const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -31,8 +31,8 @@ export default function EditSalonProfile({ navigation }) {
     try{
       setLoading(true);
       const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon-profileDetails";
-      console.log('Request parameters',{salonId: 1, });
-      const response = await axios.get(url, {params:{salonId: 1}});
+      console.log('Request parameters',{salonId: salonId, });
+      const response = await axios.get(url, {params:{salonId: salonId}});
       const addressData =response.data.data[0];
       setDetails(addressData);
       setName(addressData.name);
@@ -86,12 +86,13 @@ export default function EditSalonProfile({ navigation }) {
       const url =
         "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-profile";
       const response = await axios.put(url, {
-        salonId: 1,
+        salonId: salonId,
         name,
         contactNo
       });
 
      console.log(response.data);
+     navigation.goBack()
     } catch (error) {
       console.log(error);
     } finally {
@@ -107,19 +108,6 @@ export default function EditSalonProfile({ navigation }) {
     fetchDetails();
   }, []);
 
-  useEffect(() => {
-    if (refresh) {
-      setRefresh(false);
-    }
-  }, [refresh]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setRefresh(true);
-    }, 5000); 
-  
-    return () => clearInterval(intervalId);
-  }, []);
 
 
     const [image, setImage] = useState(require("../../../../assets/images.jpg"));

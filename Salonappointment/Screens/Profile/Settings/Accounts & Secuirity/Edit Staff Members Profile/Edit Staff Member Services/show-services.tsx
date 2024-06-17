@@ -9,26 +9,28 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import { TextInputArea } from "../../../../../Components/text-input-area-in-settings";
-import { StaffMember } from "../../../../../Components/list-view-of-staff-members";
-import { ServiceShow } from "../../../../../Components/service-show";
+import { TextInputArea } from "../../../../../../Components/text-input-area-in-settings";
+import { StaffMember } from "../../../../../../Components/list-view-of-staff-members";
+import { ServiceShow } from "../../../../../../Components/service-show";
 import axios from "axios";
+import { useFocusEffect } from '@react-navigation/native';
 
-export default function EditService({ navigation }) {
 
+export default function ShowService({ navigation ,route}) {
+  const {Id ,name} =  route.params;
   const [refresh, setRefresh] = useState(false);
   const [service, setService] = useState([]);
   const [loading, setLoading] = useState(false);
 
- 
+  
   const fetchService = async () => {
     try {
       setLoading(true);
       const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_staff_members_Service";
       console.log('Request Parameters:', { 
-        staffId:1, 
+        staffId:Id, 
       });
-      const response = await axios.get(url, { params: { staffId:1 } });
+      const response = await axios.get(url, { params: { staffId:Id } });
       setService(response.data.data);
       console.log(response.data);
     } catch (error) {
@@ -38,42 +40,49 @@ export default function EditService({ navigation }) {
     }
   };
 
-  useEffect(() => {
-    fetchService();
-  }, []);
+  useFocusEffect(
+    React.useCallback(()=>{
+      setService([]);
+      fetchService();
+    },[Id])
+  );
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setRefresh(true);
-    }, 5000); 
+  // useEffect(() => {
+  //   fetchService();
+  // }, []);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setRefresh(true);
+  //   }, 5000); 
 
-  useEffect(() => {
-    if (refresh) {
-      setRefresh(false);
-    }
-  }, [refresh]);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
-  // const groupedservice = {};
-  // service.forEach((service) => {
-  //   const serviceType = service.serviceType;
-  //   if (groupedservice[serviceType]) {
-  //     groupedservice[serviceType].push(service);
-  //   } else {
-  //     groupedservice[serviceType] = [service];
+  // useEffect(() => {
+  //   if (refresh) {
+  //     setRefresh(false);
   //   }
-  // });
-  const groupedservice = service.reduce((acc, service) => {
+  // }, [refresh]);
+
+  const groupedservice = {};
+  service.forEach((service) => {
     const serviceType = service.serviceType;
-    if (acc[serviceType]) {
-      acc[serviceType].push(service);
+    if (groupedservice[serviceType]) {
+      groupedservice[serviceType].push(service);
     } else {
-      acc[serviceType] = [service];
+      groupedservice[serviceType] = [service];
     }
-    return acc;
-  }, {});
+  });
+  // const groupedservice = service.reduce((acc, service) => {
+  //   const serviceType = service.serviceType;
+  //   if (acc[serviceType]) {
+  //     acc[serviceType].push(service);
+  //   } else {
+  //     acc[serviceType] = [service];
+  //   }
+  //   return acc;
+  // }, {});
 
   return (
     <View>
@@ -101,11 +110,11 @@ export default function EditService({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          Anuradha's Services
+          {name}'s Services
         </Text>
       </View>
       <Image
-        source={require("../../../../../assets/Services.png")}
+        source={require("../../../../../../assets/Services.png")}
         style={{
           width: 250,
           height: 150,
@@ -118,18 +127,20 @@ export default function EditService({ navigation }) {
       <View key={serviceType}>
       <Text
           style={{
-            fontSize: 15,
+            fontSize: 18,
             fontWeight: "bold",
             marginTop: 15,
+            marginBottom:10,
             marginLeft: 15,
           }}
         >
           {serviceType}
         </Text>
         {groupedservice[serviceType].map((service) => (
-      <TouchableOpacity key={service.id}>
-          <ServiceShow service={service}/>
-      </TouchableOpacity>
+      <View key={service.id} 
+      >
+          <ServiceShow service={service} navigation={navigation} fetchService={fetchService}/>
+      </View>
         ))}
       </View>
       ))}

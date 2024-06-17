@@ -13,7 +13,9 @@ import {
 import { TextInputArea } from "../../../../Components/text-input-area-in-settings";
 import axios from 'axios';
 
-export default function EditSalonAddress({ navigation }) {
+export default function EditSalonAddress({ navigation , route }) {
+  const {salonId} = route.params;
+
   const [refresh, setRefresh] = useState(false);
   const [address, setAddress] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -28,9 +30,9 @@ export default function EditSalonAddress({ navigation }) {
       setLoading(true);
       const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon-address";
       console.log('Request Parameters:', { 
-        salonId: 1, 
+        salonId: salonId, 
       });
-      const response = await axios.get(url, { params: {  salonId: 1} });
+      const response = await axios.get(url, { params: {  salonId: salonId} });
       const addressData = response.data.data[0];
       setAddress(addressData);
       setLine1(addressData.line1);
@@ -38,6 +40,7 @@ export default function EditSalonAddress({ navigation }) {
       setCity(addressData.city);
       setCountry(addressData.country);
       console.log(response.data);
+      
     } catch (error) {
       console.error(error);
     }finally {
@@ -80,7 +83,7 @@ export default function EditSalonAddress({ navigation }) {
         const url =
           "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-address";
         const response = await axios.put(url, {
-          salonId: 1,
+          salonId: salonId,
           line1,
           line2,
           city,
@@ -88,6 +91,7 @@ export default function EditSalonAddress({ navigation }) {
         });
 
        console.log(response.data);
+       navigation.goBack();
       } catch (error) {
         console.log(error);
       } finally {
@@ -103,19 +107,7 @@ export default function EditSalonAddress({ navigation }) {
     fetchAddress();
   }, []);
 
-  useEffect(() => {
-    if (refresh) {
-      setRefresh(false);
-    }
-  }, [refresh]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setRefresh(true);
-    }, 5000); 
   
-    return () => clearInterval(intervalId);
-  }, []);
 
   if (loading || !address) {
     return (

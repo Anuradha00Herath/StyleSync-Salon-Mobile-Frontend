@@ -11,22 +11,20 @@ import Calendar from "../../Components/calenderInHome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../Components/appointmentSet";
 import mockAppointments from "../../Navigation/GetDataFromBackend/AppointmentDetails";
-import { useNavigation } from "@react-navigation/native";
+import {useFocusEffect , useNavigation } from "@react-navigation/native";
+
 import moment from 'moment';
 import axios from 'axios';
 
 const { width, height } = Dimensions.get("screen");
 
 export default function HomeScreen({navigation,route}) {
-  // const defaultSalonId = 1;
-  // const { salonId = defaultSalonId } = route?.params || {};
-
-  //const { salonId} = route.params
+  
   const [refresh, setRefresh] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const salonId =1
 
- 
   const fetchAppointments = async () => {
     try {
       setLoading(true);
@@ -34,11 +32,11 @@ export default function HomeScreen({navigation,route}) {
       const currentDate = moment.utc().startOf('day').toISOString();
       const currentTime = moment().format('HH:mm:ss');
       console.log('Request Parameters:', { 
-        salonId: 1, 
+        salonId: salonId, 
         date: currentDate, 
         time: currentTime 
       });
-      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate, time: currentTime  } });
+      const response = await axios.get(url, { params: {  salonId: salonId,date: currentDate, time: currentTime  } });
       setAppointments(response.data.data);
       console.log(response.data);
     } catch (error) {
@@ -48,9 +46,12 @@ export default function HomeScreen({navigation,route}) {
     }
   };
 
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
+  useFocusEffect(
+    React.useCallback(()=>{
+      setAppointments([]);
+      fetchAppointments();
+    },[salonId])
+  );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -63,6 +64,7 @@ export default function HomeScreen({navigation,route}) {
   useEffect(() => {
     if (refresh) {
       setRefresh(false);
+      //fetchAppointments();
     }
   }, [refresh]);
 

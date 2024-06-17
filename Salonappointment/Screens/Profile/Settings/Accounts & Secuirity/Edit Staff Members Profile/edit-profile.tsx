@@ -17,8 +17,8 @@ import { TextInputArea } from "../../../../../Components/text-input-area-in-sett
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 
-export default function EditProfile({ navigation  }) {
-    
+export default function EditProfile({ navigation ,route }) {
+  const {Id ,salonId} =  route.params;
     const [image, setImage] = useState(require("../../../../../assets/images.jpg"));
     useEffect(() => {
         (async () => {
@@ -49,7 +49,7 @@ export default function EditProfile({ navigation  }) {
         }
       };
 
-      const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [name, setName]       =useState("");
@@ -62,10 +62,10 @@ export default function EditProfile({ navigation  }) {
       setLoading(true);
       const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_staff_member_profileDetails";
       console.log('Request parameters',
-        {salonId: 1,
-         staffId:1
+        {salonId: salonId,
+         staffId:Id
        });
-      const response = await axios.get(url, {params:{salonId: 1,staffId:1}});
+      const response = await axios.get(url, {params:{salonId: salonId,staffId:Id}});
       const addressData =response.data.data[0];
       setDetails(addressData);
       setName(addressData.staff.name);
@@ -119,13 +119,14 @@ export default function EditProfile({ navigation  }) {
       const url =
         "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_staff_member_profileDetails";
       const response = await axios.put(url, {
-        salonId: 1,
-        staffId:1,
+        salonId: salonId,
+        staffId:Id,
         name,
         contactNo
       });
 
      console.log(response.data);
+     navigation.goBack();
     } catch (error) {
       console.log(error);
     } finally {
@@ -139,20 +140,6 @@ export default function EditProfile({ navigation  }) {
 
   useEffect(() => {
     fetchDetails();
-  }, []);
-
-  useEffect(() => {
-    if (refresh) {
-      setRefresh(false);
-    }
-  }, [refresh]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setRefresh(true);
-    }, 5000); 
-  
-    return () => clearInterval(intervalId);
   }, []);
 
   return (

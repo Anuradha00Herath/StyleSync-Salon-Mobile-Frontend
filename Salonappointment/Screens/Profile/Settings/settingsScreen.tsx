@@ -4,7 +4,8 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 
 import { DropdownList, TouchableArea } from "../../../Components/touchable-area-in-profile";
 
-export default function SettingsScreen({navigation}) {
+export default function SettingsScreen({navigation ,route}) {
+  const {salonId} = route.params;
   return (
     <View>
       <View
@@ -23,7 +24,9 @@ export default function SettingsScreen({navigation}) {
           name="arrow-back-outline"
           size={25}
           color="black"
-          onPress={()=>navigation.goBack()}/>
+          onPress={()=>navigation.goBack()}
+          // onPress={() => navigation.navigate("Profile")}
+          />
         <Text
           style={{
             fontSize: 25,
@@ -82,7 +85,7 @@ export default function SettingsScreen({navigation}) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditLogin")}
+          onPress={() => navigation.navigate("EditLogin" ,{salonId:salonId})}
         >
           <TouchableArea name="Edit Login Details" iconName="log-in" option="touch"/>
         </TouchableOpacity>
@@ -90,7 +93,7 @@ export default function SettingsScreen({navigation}) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditSalonProfile")}
+          onPress={() => navigation.navigate("EditSalonProfile" , {salonId:salonId})}
         >
           <TouchableArea name="Edit Salon Profile" iconName="bag-handle" option="touch"/>
         </TouchableOpacity>
@@ -98,7 +101,7 @@ export default function SettingsScreen({navigation}) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditSalonAddress")}
+          onPress={() => navigation.navigate("EditSalonAddress" ,{salonId:salonId})}
         >
           <TouchableArea name="Edit Salon Address" iconName="pencil" option="touch"/>
         </TouchableOpacity>
@@ -106,7 +109,7 @@ export default function SettingsScreen({navigation}) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("EditLocation")}
+          onPress={() => navigation.navigate("EditLocation" ,{salonId:salonId})}
         >
           <TouchableArea name="Edit Location" iconName="location" option="touch"/>
         </TouchableOpacity>
@@ -114,7 +117,7 @@ export default function SettingsScreen({navigation}) {
           style={{
             alignSelf: "center",
           }}
-          onPress={() => navigation.navigate("StaffListView")}
+          onPress={() => navigation.navigate("StaffListView" ,{salonId:salonId})}
         >
           <TouchableArea name="Edit Staff Members Profiles" iconName="people" option="touch"/>
         </TouchableOpacity>

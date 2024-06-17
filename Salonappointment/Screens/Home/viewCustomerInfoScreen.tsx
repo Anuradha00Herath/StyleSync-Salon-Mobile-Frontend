@@ -34,12 +34,12 @@ export default function CustomerInfo({ route ,navigation}) {
       const currentDate = moment.utc().startOf('day').toISOString();
       
       console.log('Request Parameters:', { 
-        salonId: 1, 
+        salonId:staff.salonStaff[0].salonId, 
         date: currentDate, 
         endtime: endTime ,
         customerId:customerAppointmentBlock[0].customerId
       });
-      const response = await axios.get(url, { params: { salonId: 1,date: currentDate, endtime: endTime,  customerId:customerAppointmentBlock[0].customerId} });
+      const response = await axios.get(url, { params: { salonId:staff.salonStaff[0].salonId,date: currentDate, endtime: endTime,  customerId:customerAppointmentBlock[0].customerId} });
       setAppointmentsHistory(response.data.data);
       console.log(response.data.data);
     } catch (error) {

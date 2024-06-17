@@ -13,8 +13,10 @@ import { TextInputArea } from "../../../../../Components/text-input-area-in-sett
 import { StaffMember } from "../../../../../Components/list-view-of-staff-members";
 import axios from "axios";
 import moment from 'moment';
+import { useFocusEffect } from '@react-navigation/native';
 
-export default function StaffListView({ navigation }) {
+export default function StaffListView({ navigation, route}) {
+  const {salonId} = route.params;
   const [refresh, setRefresh] = useState(false);
   const [Details , setDetails] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,10 +27,10 @@ export default function StaffListView({ navigation }) {
       const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon_staff_members";
       const currentDate = moment.utc().startOf('day').toISOString();
       console.log('Request Parameters:', { 
-        salonId: 1, 
+        salonId: salonId, 
         date:currentDate
       });
-      const response = await axios.get(url, { params: {  salonId: 1, date: currentDate} });
+      const response = await axios.get(url, { params: {  salonId: salonId, date: currentDate} });
       setDetails(response.data.data);
       console.log(response.data);
     } catch (error) {
@@ -38,23 +40,30 @@ export default function StaffListView({ navigation }) {
     }
   };
 
-  useEffect(() => {
-    fetchDetails();
-  }, []);
+  useFocusEffect(
+    React.useCallback(()=>{
+      setDetails([]);
+      fetchDetails();
+    },[salonId])
+  );
+
+  // useEffect(() => {
+  //   fetchDetails();
+  // }, []);
   
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setRefresh(true);
-    }, 5000); 
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setRefresh(true);
+  //   }, 5000); 
   
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
   
-  useEffect(() => {
-    if (refresh) {
-      setRefresh(false);
-    }
-  }, [refresh]);
+  // useEffect(() => {
+  //   if (refresh) {
+  //     setRefresh(false);
+  //   }
+  // }, [refresh]);
   
 
   return (
@@ -99,9 +108,9 @@ export default function StaffListView({ navigation }) {
       {Details.map((details, index) =>(
       <TouchableOpacity 
       key={index}
-      onPress={() => navigation.navigate("EditStaffProfile" ,{name:details.staff.name ,Id:details.staffID})}>
+      onPress={() => navigation.navigate("EditStaffProfile" ,{name:details.staff.name ,Id:details.staffID ,salonId:details.salonId})}>
         
-      <StaffMember  name={details.staff.name} openHour= {details.staff.openDays[0].openHour} closeHour={details.staff.openDays[0].closeHour}/>
+      <StaffMember  name={details.staff.name} openHour={details.staff.openDays.openHour} closeHour={details.staff.openDays.closeHour}/>
       </TouchableOpacity>
       ))}
       </ScrollView>
