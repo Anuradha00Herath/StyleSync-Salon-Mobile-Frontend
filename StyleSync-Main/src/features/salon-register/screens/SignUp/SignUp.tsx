@@ -3,7 +3,7 @@
 import { View, Text, TextInput, TouchableOpacity, Alert,StatusBar } from 'react-native';
 import React, { useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Icon from '@expo/vector-icons/AntDesign';
+import { Icon } from '@rneui/themed'
 import { SignUp } from './style';
 import { Button } from '../../components/Button';
 import { Background } from '../../components/Background';
@@ -77,9 +77,9 @@ function FillingArea(p:any) {
                                 <View
                                     style={SignUp.Icon}>
                                     <Icon
-                                        size={25}
+                                        size={20}
                                         color={'black'}
-                                        //name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
+                                        name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
                                         type="ionicon"
                                     />
                                 </View>
@@ -102,9 +102,9 @@ function FillingArea(p:any) {
                                 <View
                                     style={SignUp.Icon}>
                                     <Icon
-                                        size={25}
+                                        size={20}
                                         color={'black'}
-                                        //name={isConfirmPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
+                                        name={isConfirmPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
                                         type="ionicon"
                                     />
                                 </View>

@@ -1,16 +1,14 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-import { View, Text, TextInput, TouchableOpacity,StatusBar} from 'react-native';
-import React, { useState } from 'react';
-import axios from 'axios';
+import React ,{useState} from "react";
+import { View, Text, TextInput, TouchableOpacity,StatusBar,ImageBackground} from 'react-native';
+import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
+import { globalStyles } from "../../components/globalstyles";
+import { AppName } from "../../../staff-register/components/AppName";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { CreateAccountStyles } from './Style';
-import { Button } from '../../components/Button';
-import { Background } from '../../components/Background';
-import { Header } from '../../components/Header';
-import { globalStyle } from '../../components/globalStyle';
+import {CreateAccountStyles} from "./style";
+import { Button } from "../../components/Button";
+import axios from 'axios';
 
-function FillingArea(p:any) {
+export function CreateAccount({ navigation }) {
     const [name, setName] = useState('');
     const [contactNo, setContactNo] = useState('');
     const [email, setEmail] = useState('');
@@ -51,7 +49,7 @@ function FillingArea(p:any) {
 
         return isValid;
     };
-    const stack = p.stack;
+   
     
     const handleSubmit = async() => {
         if (validateInputs()) {
@@ -64,7 +62,7 @@ function FillingArea(p:any) {
 
                 if(status == 201){
                     console.log('Success: ', message);
-                    stack.navigate('ValidateNumber', {email ,number:contactNo});
+                     navigation.navigate("OTP",{email ,number:contactNo});
                 } else if (status === 400) {
                     console.log('Failed', message);
                 } else {
@@ -78,21 +76,19 @@ function FillingArea(p:any) {
         }
     }
 
-    const gotoLogin = () => {
-        stack.navigate('Login');
-    };
-
-
-    return (
-        <View style={[globalStyle.Bottomcontainer,{marginTop:240}]}>
-            <KeyboardAwareScrollView keyboardShouldPersistTaps={'never'}>
-                <View>
+    return(
+        <ImageBackground source={BACKGROUND_IMAGE} style={globalStyles.background}>
+              <StatusBar/>
+              <AppName/>
+              <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={'never'}>
+              <View style={[globalStyles.container ,{marginTop:240},]}>
+              <View>
                     <Text
-                        style={globalStyle.mainTopic}>
+                        style={globalStyles.mainTopic}>
                         {'Create Account'}
                     </Text>
                     <Text
-                        style={globalStyle.subTopic}>
+                        style={globalStyles.subTopic}>
                         {'Create account for your salon'}
                     </Text>
                     <View style={{ marginTop: 40 }}>
@@ -126,13 +122,13 @@ function FillingArea(p:any) {
                         </View>
                         {emailError ? <Text style={CreateAccountStyles.ErrorText}>{emailError}</Text> : null}
                     </View>
-                    <Button title={'Next'} onPress={handleSubmit} />
+                    <Button text={'Next'} onPress={handleSubmit} />
                     <View style={CreateAccountStyles.BottomSection}>
                         <Text
                             style={CreateAccountStyles.BottomText}>
                             {'Already have an account?    '}
                         </Text>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={gotoLogin}>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={()=>navigation.navigate("Login")}>
                             <Text
                                 style={CreateAccountStyles.BottomLogin}>
                                 {'Login'}
@@ -140,21 +136,9 @@ function FillingArea(p:any) {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
-        </View>
-    );
+
+              </View>
+              </KeyboardAwareScrollView>
+        </ImageBackground>
+    )
 }
-const CreateAccount = (props:any) => {
-    const stack = props.navigation;
-    return (
-        <View style={globalStyle.container}>
-            <Background />
-            <StatusBar/>
-            <Header />
-            <FillingArea stack={stack}/>
-        </View>
-
-    );
-};
-
-export default CreateAccount;

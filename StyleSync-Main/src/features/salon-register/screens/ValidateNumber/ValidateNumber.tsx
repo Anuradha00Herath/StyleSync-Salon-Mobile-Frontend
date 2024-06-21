@@ -14,7 +14,7 @@ function SubmitOTP(p:any) {
     //const { mobileNumber } = route ? route.params : { mobileNumber: '' };
     const stack = p.stack;
     const [countdown, setCountdown] = useState(180); // 3 minutes
-
+    const [otp , SetOtp] =useState("")
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -42,7 +42,7 @@ function SubmitOTP(p:any) {
                     </Text>
                     <Text
                         style={ValidateNumberStyles.SubHeading}>
-                        {'Enter the 6 digits code that we have sent in +9474 456 7129 within '}
+                        {'Enter the 6 digits code that we have sent in +94567890098 '}
                         <Text style={{ fontWeight: 'bold' }}>{`${minutes}:${seconds.toString().padStart(2, '0')}`}</Text>
                     </Text>
                 </View>
@@ -112,6 +112,7 @@ function BottomSe({ stack, handleResendOTP }: { stack: any; handleResendOTP: () 
 
 
 const ValidateNumber = (props:any) => {
+   
     const stack = props.navigation;
     return (
         <View style={globalStyle.container}>
