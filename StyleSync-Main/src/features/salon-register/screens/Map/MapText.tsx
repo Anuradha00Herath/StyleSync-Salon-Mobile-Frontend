@@ -1,36 +1,43 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-//import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 const styles = StyleSheet.create({
-    container: {
-        ...StyleSheet.absoluteFillObject,
-        height: '100%',
-        width: '100%',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    map: {
-        ...StyleSheet.absoluteFillObject,
-    },
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    height: "100%",
+    width: "100%",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
 });
 
 export default function MapText() {
-    return (
-        <View style={styles.container}>
-            {/* <MapView
-                provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                style={styles.map}
-                region={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
-                }}
-            >
-            </MapView> */}
-        </View>
-    );
+  const [coordinate, setCoordinate] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+  });
+
+  return (
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+        <Marker
+          draggable
+          coordinate={coordinate}
+          onDragEnd={(e) => setCoordinate(e.nativeEvent.coordinate)}
+        />
+      </MapView>
+    </View>
+  );
 }
-
-
