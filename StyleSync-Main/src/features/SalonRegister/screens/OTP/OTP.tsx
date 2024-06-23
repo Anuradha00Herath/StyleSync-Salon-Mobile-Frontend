@@ -67,7 +67,7 @@ export function OTP({ navigation,route }) {
                 ))}
                 </View>
                 <View>
-            <Button text={'Submit'} onPress={()=>navigation.navigate("InputAddress" ,{email})} />
+            <Button text={'Submit'} onPress={()=>navigation.navigate("SignUp",{email:email})} />
             <View>
                 <TouchableOpacity onPress={handleResendOTP}>
                     <Text

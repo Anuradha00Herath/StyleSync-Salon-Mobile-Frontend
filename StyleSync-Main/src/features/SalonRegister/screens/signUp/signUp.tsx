@@ -169,7 +169,7 @@ export function SignUp({ navigation ,route }) {
                         </View>
                         {confirmPasswordError? <Text style={ signUp .ErrorText}>{confirmPasswordError}</Text> : null}
                     </View>
-                    <Button text={'Sign up'} onPress={handleSubmit} />
+                    <Button text={'Sign up'} onPress={()=>(navigation.navigate("Login"))} />
                     <View style={signUp.BottomSection}>
                         <Text
                             style={signUp.BottomText}>
