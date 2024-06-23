@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { StyleSheet } from 'react-native';
 
 export const LoginStyles = StyleSheet.create({
@@ -15,7 +14,7 @@ export const LoginStyles = StyleSheet.create({
         alignSelf: 'center',
         //justifyContent: 'center',
         paddingLeft: 5,
-        marginTop: 10,
+        marginTop: 15,
         flexDirection: 'row',
         alignItems:'center',
     },

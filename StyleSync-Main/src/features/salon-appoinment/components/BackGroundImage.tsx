@@ -1,0 +1,1 @@
+export const BACKGROUND_IMAGE = require("../../../assets/background3.png")

@@ -4,19 +4,25 @@ import { CardStyleInterpolators,createStackNavigator} from '@react-navigation/st
 import StaffRegistorNavigation from "./src/navigations/staffRegistorNavigation";
 import AppNavigation from "./src/navigations/AppNavigation";
 import MapText from "./src/features/salon-register/screens/Map/MapText";
+import ShowAppoinments from './src/navigations/showAppoinmentNavigation';
+import  SalonRegistorNavigation from "./src/navigations/salonRegisterNavigation"
 
 const Stack =createStackNavigator();
 
 export default function App() {
     return(
         <NavigationContainer>
-            <Stack.Navigator initialRouteName=" AppNavigation  " screenOptions={{headerShown: false,}}> 
-            <Stack.Screen name=" AppNavigation " 
-                          component={ AppNavigation } 
-                          options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
-                 }/>
+            <Stack.Navigator initialRouteName="  SalonRegistorNavigation" screenOptions={{headerShown: false,}}> 
+                <Stack.Screen name="  SalonRegistorNavigation " 
+                            component={  SalonRegistorNavigation } 
+                            options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
+                    }/>
             {/* <Stack.Screen name="StaffRegistorNavigation" 
                           component={StaffRegistorNavigation} 
+                          options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
+                 }/> */}
+             {/* <Stack.Screen name=" ShowAppoinments " 
+                          component={ShowAppoinments} 
                           options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
                  }/> */}
            </Stack.Navigator>

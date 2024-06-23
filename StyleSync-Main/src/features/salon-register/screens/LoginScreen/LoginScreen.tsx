@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import { View, Text, TextInput, TouchableOpacity,StatusBar,ImageBackground} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@rneui/themed'
 //import Icon from '@expo/vector-icons/AntDesign';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -36,27 +36,62 @@ function LoginField(p:any) {
 function InputField( p:any) {
 
     const stack = p.stack;
-    const [isPasswordVisible, setPasswordVisible] = React.useState(false);
+    const [isPasswordVisible, setPasswordVisible] = React.useState(false); 
+    const [email, setEmail] =useState("");
+    const [password , setPassword]=useState("");
+    const [emailError, setEmailError] = useState('');
+    const [errorPassword , setErrorPassword] =useState("")
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!isPasswordVisible);
     };
+    const validateInputs = () => {
+        let isValid = true;
+
+        if (!email) {
+            setEmailError('*Email field is required');
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)){
+            setEmailError('*Email Should be in correct format');
+            isValid = false;
+        } else {
+            setEmailError('');
+        }
+        if (!password) {
+            setErrorPassword('pasword field is required');
+            isValid = false;
+        } else {
+            setErrorPassword('');
+        }
+        return isValid;
+    };
+
+    const handleSubmit = async() => {
+        if (validateInputs()) {
+            stack.navigate('ValidateNumber')
+        }}
+
 
     return (
         <View style={{ marginTop: 35 }}>
-            <View style={[LoginStyles.PasswordInputArea ,{justifyContent:"flex-start"}]}>
+            <View style={[LoginStyles.PasswordInputArea ,{justifyContent:"flex-start"}, emailError ? { borderColor: 'red' } : null]}>
                 <View style={{flex:1}}>
                     <TextInput
                                 placeholder="Enter Your Username / Email"
+                                value={email}
+                                onChangeText={text =>setEmail(text)}
                                 //style={LoginStyles.InputText}
                             />
                 </View>
+                {emailError ? <Text style={LoginStyles.ErrorText}>{emailError }</Text> : null}
             </View>
-            <View style={[LoginStyles.PasswordInputArea ,{justifyContent:"center"}]}>
+            <View style={[LoginStyles.PasswordInputArea ,{justifyContent:"center"} ,errorPassword? { borderColor: 'red' } : null]}>
                 <View style={{ flex: 1}}>
                     <TextInput
+                        value={password}
                         placeholder="Enter Your Password"
                         secureTextEntry={!isPasswordVisible}
+                        onChangeText={text =>setPassword(text)}
                         //style={LoginStyles.InputText}
                     />
                 </View>
@@ -65,13 +100,14 @@ function InputField( p:any) {
                     onPress={togglePasswordVisibility}>
                     <View  style={LoginStyles.Icon}>
                         <Icon
-                            size={25}
+                            size={20}
                             color={'black'}
-                            name={isPasswordVisible ? "eye-outline" : "eye"}
+                            name={isPasswordVisible ? "eye-outline" : "eye-off-outline"}
                             type="ionicon"
                         />
                     </View>
                 </TouchableOpacity>
+                {errorPassword? <Text style={LoginStyles.ErrorText}>{errorPassword }</Text> : null}
             </View>
             <BottomFeild stack={stack}/>
         </View>
@@ -127,3 +163,5 @@ const LoginScreen = (props:any) => {
 };
 
 export default LoginScreen;
+
+//export default function  LoginScreen({navigation,route}){}
