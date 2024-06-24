@@ -96,7 +96,7 @@ export default function SetBreakTime({route}) {
             </View>
               {/* <FlatButton text='Ok' onPress={type === "New" ? onHandleAddBreak: onHandleUpdate} /> */}
               <View style={{marginBottom:64}}>
-              <Button text={"Ok"} text1={"Cancle"} onPress={type === "New" ? onHandleAddBreak: onHandleUpdate} 
+              <Button text={"Ok"} text1={"Cancel"} onPress={type === "New" ? onHandleAddBreak: onHandleUpdate} 
                       onPress1={()=> navigation.goBack()}/>
               </View>
            </View>

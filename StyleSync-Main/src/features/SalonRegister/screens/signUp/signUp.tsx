@@ -93,21 +93,23 @@ export function SignUp({ navigation, route }) {
           password
         });
         const response = await axios.post(url, {
-            name,
-            email,
-            contactNo,
-            line1,
-            line2,
-            city,
-            country,
-            latitude,
-            longitude,
+            name:name,
+            email:email,
+            contactNo:contactNo,
+            line1:line1,
+            line2:line2,
+            city:city,
+            country:country,
+            latitude:latitude,
+            longitude:longitude,
+            username:username,
+          password:password
         });
         console.log(response.data);
         const result = response.data;
         const { message, status } = result;
 
-        if (status == 201) {
+        if (status == 200) {
           console.log("Success: ", message);
           navigation.navigate("Login");
         } else if (status === 400) {

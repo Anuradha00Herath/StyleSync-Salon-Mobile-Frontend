@@ -7,14 +7,16 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {LoginStyles} from "./styles";
 import { Icon } from '@rneui/themed'
 import { Button } from "../../components/Button";
+import axios from "axios";
 
 export function Login({ navigation }) {
 
-    const [isPasswordVisible, setPasswordVisible] = React.useState(false); 
+    const [isPasswordVisible, setPasswordVisible] = useState(false); 
     const [email, setEmail] =useState("");
     const [password , setPassword]=useState("");
     const [emailError, setEmailError] = useState('');
     const [errorPassword , setErrorPassword] =useState("")
+    const [loading, setLoading] = useState(false)
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!isPasswordVisible);
@@ -43,8 +45,27 @@ export function Login({ navigation }) {
 
     const handleSubmit = async() => {
         if (validateInputs()) {
-           {() => navigation.navigate("SignUp")}
-        }}
+            try {
+                setLoading(true);
+                const url = "https://stylesync-backend-test.onrender.com/app/v1/salon/salon-login";
+                const response = await axios.get(url, {params:{email,password}});
+                console.log(response.data.data[0].id);
+                const result = response.data;
+                const id = result.data[0].id
+                const { message, status } = result;
+                if (status == 201) {
+                  console.log("Success: ", id);
+                  navigation.navigate("SelectTeam", {id});
+                } else if (status === 400) {
+                  console.log("Failed", message);
+                } else {
+                  console.log("Something went wrong!");
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            }
+        }
    return(
       <ImageBackground source={BACKGROUND_IMAGE} style={globalStyles.background}>
          <StatusBar/>
@@ -78,7 +99,7 @@ export function Login({ navigation }) {
                     <View style={[LoginStyles.PasswordInputArea ,{justifyContent:"center"},errorPassword? { borderColor: 'red' } : null]}>
                         <View style={{ flex: 1}}>
                             <TextInput
-                                //value={password}
+                                value={password}
                                 placeholder="Enter Your Password"
                                 secureTextEntry={!isPasswordVisible}
                                 onChangeText={text =>setPassword(text)}

@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { ImageBackground,View ,Text,TextInput,StyleSheet,StatusBar} from "react-native";
+import {
+  ImageBackground,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  StatusBar,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { imageStyles } from "../../components/globaleStyles";
 import { AppName } from "../../components/AppName";
 //import { PersanalInformationContent } from "./PersanalInformationContent";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import { globaleStyles } from "../../components/globaleStyles";
-import { SelectList } from "react-native-dropdown-select-list"
+import { SelectList } from "react-native-dropdown-select-list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { FlatButton } from "../../components/FlatButton";
 import { styles } from "./styles";
-import{BACKGROUND_IMAGE} from "../../components/BackGroundImage"
+import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 import axios from "axios";
 
-const backImg=require("../../../../assets/StyleSync.jpeg")
+const backImg = require("../../../../assets/StyleSync.jpeg");
 
-export default function PersanalInformation({route}) {
-  const {topic} =  route.params; 
+export default function PersanalInformation({ route }) {
+  const { id, topic } = route.params;
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
@@ -71,7 +80,7 @@ export default function PersanalInformation({route}) {
         const url =
           "https://stylesync-backend-test.onrender.com/app/v1/staff/register-staff";
         const response = await axios.post(url, {
-          salonId: 1,
+          salonId: id,
           name,
           gender,
           staffContact,
@@ -89,8 +98,8 @@ export default function PersanalInformation({route}) {
 
         if (status === 201) {
           console.log("Success", message);
-          console.log("Success",messageTwo);
-          navigation.navigate("BusinessHours", {staffId:staff.id});
+          console.log("Success", messageTwo);
+          navigation.navigate("BusinessHours", { salonId:id,staffId: staff.id });
         } else if (status === 400) {
           console.log("Failed", message);
         } else {
@@ -110,36 +119,48 @@ export default function PersanalInformation({route}) {
     { key: "1", value: "Male" },
     { key: "2", value: "Female" },
   ];
-    return (
-      
-          <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
-          <StatusBar/>
-          <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={'never'}>
-          <View style={{flex:1,
-                          justifyContent:'space-between',
-                          }}>
-               <View style={{height:"28%"}}>
-                 <AppName/>
-               </View>
-               <View style={[globaleStyles.back,{height:"72%",}]}>
-                <View>
-                   <Text style={globaleStyles.topic}>{topic}</Text>
-                   <TextInput
-                     style={styles.Text}
-                     placeholder="Enter Your Name"
-                     value={name}
-                     onChangeText={(text) => setName(text)}
-                   />
-                   <View>
+  return (
+    <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
+      <StatusBar />
+      <View
+        style={{
+          display:"flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%",
+          
+        }}
+      >
+        <View >
+          <AppName />
+        </View>
+        <View style={{
+          height:"65%",
+          backgroundColor: "#FDFDFD", 
+          borderTopLeftRadius: 10, 
+        borderTopRightRadius: 10,
+        }}>
+              <View style={[globaleStyles.back]}>
+              <KeyboardAvoidingView behavior="height">
+                <ScrollView>
+                  <Text style={globaleStyles.topic}>{topic}</Text>
+                  <TextInput
+                    style={styles.Text}
+                    placeholder="Enter Your Name"
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                  />
+                  <View>
                     <SelectList
-                       setSelected={(value) => setGender(value)}
-                       data={data}
-                       save="value"
-                       placeholder="Choose Gender"
-                       inputStyles={{color: gender ? "#2E2528" : "#999999",
-                                     fontSize: 12,
-                       }}
-                       boxStyles={styles.boxStyles}
+                      setSelected={(value) => setGender(value)}
+                      data={data}
+                      save="value"
+                      placeholder="Choose Targeting Gender"
+                      inputStyles={{
+                        color: gender ? "#2E2528" : "#999999",
+                        fontSize: 12,
+                      }}
+                      boxStyles={styles.boxStyles}
                       search={false}
                       //closeicon={false}
                       dropdownStyles={styles.dropdownStyles}
@@ -147,23 +168,25 @@ export default function PersanalInformation({route}) {
                     />
                   </View>
 
-                 <TextInput
-                  style={styles.Text}
-                  placeholder="Contact Number"
-                  keyboardType="numeric"
-                  value={staffContact}
-                 onChangeText={(text) => setStaffContact(text)}
-                />
+                  <TextInput
+                    style={styles.Text}
+                    placeholder="Contact Number"
+                    keyboardType="numeric"
+                    value={staffContact}
+                    onChangeText={(text) => setStaffContact(text)}
+                  />
+                  <View style={{
+                  marginTop:30,
+                  marginBottom:190
+                }} >
+                  <FlatButton text="Continue" onPress={handleSubmit} />
                 </View>
-                  <FlatButton text='Continue' onPress={ handleSubmit}/>
-               </View>
-                
-            </View>
-            </KeyboardAwareScrollView>
-          </ImageBackground>
-      
-    );}
-
-   
-
-  
+                </ScrollView>
+                </KeyboardAvoidingView>
+              </View>
+          
+        </View>
+      </View>
+    </ImageBackground>
+  );
+}

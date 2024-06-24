@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  ImageBackground,
-  View,
-  Text,
-  Switch,
-  StatusBar
-} from "react-native";
+import { ImageBackground, View, Text, Switch, StatusBar } from "react-native";
 import { AppName } from "../../components/AppName";
 import { globaleStyles, imageStyles } from "../../components/globaleStyles";
 import { FlatButton } from "../../components/FlatButton";
@@ -14,16 +8,16 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Switch1 } from "../../components/Switch";
 import { TimePicker } from "../../components/TimePicker";
 import { AddMore } from "../../components/AddMore";
-import Icon from '@expo/vector-icons/AntDesign';
+import Icon from "@expo/vector-icons/AntDesign";
 import { SeparatorLineWithText } from "../../components/line";
-import {breaksStyle,setTimeStyle } from "./styles";
-import{BACKGROUND_IMAGE} from "../../components/BackGroundImage"
+import { breaksStyle, setTimeStyle } from "./styles";
+import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 import axios from "axios";
 
-const backImg=require("../../../../assets/StyleSync.jpeg")
+const backImg = require("../../../../assets/StyleSync.jpeg");
 
 export default function SetTime({ route, onPress }) {
-  const { staffId, name, isOpen, openHour, closeHour } = route.params;
+  const { salonId, staffId, name, isOpen, openHour, closeHour } = route.params;
   const [isEnabled, setIsEnabled] = useState(isOpen);
   const [openTime, setOpenTime] = useState(openHour);
   const [closeTime, setCloseTime] = useState(closeHour);
@@ -155,81 +149,102 @@ export default function SetTime({ route, onPress }) {
             </View>
           </View>
         </View>
-        <SeparatorLineWithText/>
+        <SeparatorLineWithText />
       </View>
     );
   }
 
   return (
     <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
-      <StatusBar/>
-      <AppName />
-      <View style={[globaleStyles.back, { marginTop: 200 }]}>
+      <StatusBar />
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%",
+        }}
+      >
         <View>
-        <View style={setTimeStyle.mainView}>
-          <View>
-            <Text style={globaleStyles.topic}>{name}</Text>
-          </View>
+          <AppName />
+        </View>
+        <View style={{
+          height:"65%",
+          backgroundColor: "#FDFDFD", 
+          borderTopLeftRadius: 10, 
+        borderTopRightRadius: 10,
+        }}>
           <View
-            style={setTimeStyle.View1}
+            style={{
+              width: "100%",
+              paddingTop: 26,
+              paddingHorizontal: 24,
+              backgroundColor: "#FDFDFD",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height:"100%"
+            }}
           >
             <View>
-              <Switch
-                trackColor={{ false: "#808080", true: "#000000" }}
-                thumbColor={isEnabled ? "#FFFFFF" : "#FFFFFF"}
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-                style={{
-                  transform: [{ scaleX: 1.0 }, { scaleY: 1.0 }],
-                  height: 25,
-                }}
-              />
+              <View style={setTimeStyle.mainView}>
+                <View>
+                  <Text style={globaleStyles.topic}>{name}</Text>
+                </View>
+                <View style={setTimeStyle.View1}>
+                  <View>
+                    <Switch
+                      trackColor={{ false: "#808080", true: "#000000" }}
+                      thumbColor={isEnabled ? "#FFFFFF" : "#FFFFFF"}
+                      onValueChange={toggleSwitch}
+                      value={isEnabled}
+                      style={{
+                        transform: [{ scaleX: 1.0 }, { scaleY: 1.0 }],
+                        height: 25,
+                      }}
+                    />
+                  </View>
+                  <View style={setTimeStyle.View2}>
+                    <Text style={setTimeStyle.switchText}>{getText()}</Text>
+                  </View>
+                </View>
+              </View>
+
+              {isEnabled && (
+                <>
+                  <Text style={globaleStyles.Stopic}>
+                    Set your business hours here. Head to opening calender from
+                    settings menu if you need to adjust hours for a single day.
+                  </Text>
+                  <TimePicker
+                    onOpenTime={openHour}
+                    onCloseTime={closeHour}
+                    onHandleOpenTimeValue={handleOpenTimeValue}
+                    onHandleCloseTimeValue={handleCloseTimeValue}
+                  />
+                  <Text style={setTimeStyle.breakTopic}>Breaks</Text>
+                  {breaks.map((b) => (
+                    <View key={b.breakStart}>
+                      <Breaks breakEnd={b.breakEnd} breakStart={b.breakStart} />
+                    </View>
+                  ))}
+                  <AddMore
+                    onPress={() =>
+                      navigation.navigate("SetBreakTime", {
+                        staffId: staffId,
+                        dayName: name,
+                        isOpen: isOpen,
+                        openHour: openHour,
+                        closeHour: closeHour,
+                        type: "New",
+                      })
+                    }
+                  />
+                </>
+              )}
             </View>
-            <View style={setTimeStyle.View2}>
-              <Text style={setTimeStyle.switchText}>{getText()}</Text>
-            </View>
+            <FlatButton text="Ok" onPress={onHandleOk} />
           </View>
         </View>
-
-        {isEnabled && (
-          <>
-            <Text style={globaleStyles.Stopic}>
-              Set your business hours here. Head to opening calender from
-              settings menu if you need to adjust hours for a single day.
-            </Text>
-            <TimePicker
-              onOpenTime={openHour}
-              onCloseTime={closeHour}
-              onHandleOpenTimeValue={handleOpenTimeValue}
-              onHandleCloseTimeValue={handleCloseTimeValue}
-            />
-            <Text style={setTimeStyle.breakTopic}>
-              Breaks
-            </Text>
-            {breaks.map((b) => (
-              <View key={b.breakStart}>
-                <Breaks
-                  breakEnd={b.breakEnd}
-                  breakStart={b.breakStart}
-                />
-              </View>
-            ))}
-            <AddMore
-              onPress={() =>
-                navigation.navigate("SetBreakTime", {
-                  staffId: staffId,
-                  dayName: name,
-                  isOpen: isOpen,
-                  openHour: openHour,
-                  closeHour: closeHour,
-                  type: "New",
-                })
-              }
-            />
-          </>
-        )}
-        </View>
-        <FlatButton text="Ok" onPress={onHandleOk} />
       </View>
     </ImageBackground>
   );

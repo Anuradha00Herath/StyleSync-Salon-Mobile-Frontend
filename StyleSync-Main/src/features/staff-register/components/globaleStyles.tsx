@@ -28,15 +28,12 @@ export const globaleStyles = StyleSheet.create({
         color:"gray"
        },
     back:{
-        flexGrow:1,
-        backgroundColor: "#FDFDFD", 
-        borderTopLeftRadius: 10, 
-        borderTopRightRadius: 10,
+        //flexGrow:1,
         // marginTop:280,
         width:'100%',
         paddingTop:26,
         paddingHorizontal:24,
-        justifyContent:'space-between'
+        backgroundColor:"#FDFDFD"
         //position:"relative"
     },
 })
