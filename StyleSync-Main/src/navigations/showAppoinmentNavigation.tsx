@@ -6,7 +6,7 @@ import CustomerInfo from '../features/salon-appoinment/screens/Home/viewCustomer
 import SettingsScreen from '../features/salon-appoinment/screens/Profile/Settings/settingsScreen';
 import StatScreen from '../features/salon-appoinment/screens/Profile/Stat/statScreen';
 import EditLoginDetails from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/EditSalonDetails/edit-login-details';
-import EditSalonProfile from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/EditSalonDetails/edit-location';
+import EditSalonProfile from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/EditSalonDetails/edit-salon-profile';
 import EditLocation from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/EditSalonDetails/edit-location';
 import EditSalonAddress from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/EditSalonDetails/edit-salon-address';
 import StaffListView from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/staff-members-list';

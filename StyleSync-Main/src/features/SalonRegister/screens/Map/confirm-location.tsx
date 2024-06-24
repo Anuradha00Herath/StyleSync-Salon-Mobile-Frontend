@@ -77,7 +77,7 @@ export default function ConfirmMap({ navigation, route }) {
             marginBottom: 30,
             borderRadius: 8,
           }}
-          onPress={() => navigation.navigate("OTP", {number:"123456", email:"hjbvsdjs"})}
+          onPress={()=>navigation.navigate("SignUp",{name, email, contactNo, line1, line2, city, country,latitude,longitude})}
         >
           <Text
             style={{
