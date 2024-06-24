@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { View, Text,  Alert } from "react-native";
 import RadioGroup, { RadioGroup as RadioGroupType, RadioButtonProps } from 'react-native-radio-buttons-group';
-import { globaleStyles } from "../Component/globaleStyles";
-import { FlatButton } from "../Component/FlatButton";
+import { globaleStyles } from "../../../Styles/StaffMemberRegistor/globaleStyles";
+import { FlatButton } from "../../../Component/StaffMemberRegister/FlatButton";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
@@ -20,11 +20,11 @@ export function SelectTeamContent() {
     // Function to handle navigation based on selected radio button
     const handleNavigation = () => {
        if (selectedRadio === '1' ) {
-         navigation.navigate('PersanalInformation' ,{name:"Your persanal Information"});
+         navigation.navigate('PersanalInformation' ,{topic:"Your persanal Information"});
        } else if (selectedRadio === '2') {
-         navigation.navigate('PersanalInformation' ,{name:"Staff persanal Information"});
+         navigation.navigate('PersanalInformation' ,{topic:"Staff persanal Information"});
        } else if(selectedRadio === '3'){
-         navigation.navigate('PersanalInformation',{name:"Your persanal Information"});
+         navigation.navigate('PersanalInformation',{topic:"Your persanal Information"});
        } else {
     // Alert if no option is selected
          Alert.alert('Sorry!', 'Please select an option',[

@@ -26,7 +26,7 @@ export default function App() {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
                 }/>
-                  <Stack.Screen name="PersanalInformation" component={PersanalInformation} options={
+                  {/* <Stack.Screen name="PersanalInformation" component={PersanalInformation} options={
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
@@ -80,7 +80,7 @@ export default function App() {
                     {
                         cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
                     }
-                }/>
+                }/> */}
 
           </Stack.Navigator>
     </NavigationContainer>

@@ -16,9 +16,9 @@ export default function App() {
                             options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
                     }/> */}
             <Stack.Screen name="StaffRegistorNavigation" 
-                          component={StaffRegistorNavigation} 
-                          options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
-                 }/>
+                        component={StaffRegistorNavigation} 
+                        options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
+                }/>
              {/* <Stack.Screen name=" ShowAppoinments " 
                           component={ShowAppoinments} 
                           options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
