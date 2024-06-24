@@ -443,7 +443,7 @@ return (
                       marginLeft: 5,
                     }}
                   ></Image>{" "}
-                  {/* {staff.openDays[0].openHour}- {staff.openDays[0].closeHour} */}
+                  {staff.openDays[0].openHour}- {staff.openDays[0].closeHour}
                 </Text>
               </View>
               

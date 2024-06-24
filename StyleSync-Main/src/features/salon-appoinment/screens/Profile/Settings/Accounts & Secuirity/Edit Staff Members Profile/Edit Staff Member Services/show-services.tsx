@@ -123,8 +123,10 @@ export default function ShowService({ navigation ,route}) {
         }}
       ></Image>
       <ScrollView>
+        <View style={{marginBottom:300,marginHorizontal:20}}>
       {Object.keys(groupedservice ).map((serviceType) => (
-      <View key={serviceType}>
+      <View key={serviceType}
+      >
       <Text
           style={{
             fontSize: 18,
@@ -144,6 +146,7 @@ export default function ShowService({ navigation ,route}) {
         ))}
       </View>
       ))}
+      </View>
       </ScrollView>
       {/* <Text
           style={{

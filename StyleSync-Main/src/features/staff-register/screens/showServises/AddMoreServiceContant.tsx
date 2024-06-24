@@ -20,7 +20,7 @@ export  function AddMoreContant(){
       };
     return(
        
-        <View style={[globaleStyles.back,{marginTop:300,justifyContent: 'space-between' }]}>
+        <View style={[globaleStyles.back,{marginTop:300,height:"65%" }]}>
             <View>
                 <Text style={globaleStyles.topic}>Pricing/Duration - {serviceName}</Text> 
                 <Text style={globaleStyles.Stopic}>When can client book with you</Text>

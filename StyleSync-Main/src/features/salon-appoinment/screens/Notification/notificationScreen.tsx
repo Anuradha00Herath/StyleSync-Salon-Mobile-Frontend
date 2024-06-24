@@ -91,7 +91,7 @@ export default function NotificationScreen(){
               }}>
                 Earlier
               </Text>
-              <View style={{backgroundColor:"#FDFEFE"}}>
+              <View style={{backgroundColor:"#FDFEFE" ,marginBottom:64}}>
               {mockAppointments.map((appointment, index) => (
               <View key={index} style={{flexDirection:'row',
                             justifyContent:'flex-start',

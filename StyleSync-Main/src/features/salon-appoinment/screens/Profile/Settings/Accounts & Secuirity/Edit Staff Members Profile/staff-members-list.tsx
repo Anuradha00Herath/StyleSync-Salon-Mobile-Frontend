@@ -47,25 +47,7 @@ export default function StaffListView({ navigation, route}) {
     },[salonId])
   );
 
-  // useEffect(() => {
-  //   fetchDetails();
-  // }, []);
-  
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     setRefresh(true);
-  //   }, 5000); 
-  
-  //   return () => clearInterval(intervalId);
-  // }, []);
-  
-  // useEffect(() => {
-  //   if (refresh) {
-  //     setRefresh(false);
-  //   }
-  // }, [refresh]);
-  
-
+ 
   return (
     <View >
       <View
@@ -110,7 +92,7 @@ export default function StaffListView({ navigation, route}) {
       <TouchableOpacity 
       key={index}
       onPress={() => navigation.navigate("EditStaffProfile" ,{name:details.staff.name ,Id:details.staffID ,salonId:details.salonId})}>
-      <StaffMember  name={details.staff.name} openHour={details.staff.openDays.openHour} closeHour={details.staff.openDays.closeHour}/>
+      <StaffMember  name={details.staff.name} openHour={details.staff.openDays[0].openHour} closeHour={details.staff.openDays[0].closeHour}/>
       </TouchableOpacity>
       ))}
         </View>

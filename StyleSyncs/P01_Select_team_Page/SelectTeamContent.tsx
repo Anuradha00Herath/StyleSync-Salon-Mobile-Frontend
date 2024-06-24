@@ -34,8 +34,8 @@ export function SelectTeamContent() {
 };
 
 return (
-    <View style = {[globaleStyles.back ,{marginTop:280}]}>
-        <Text style = {globaleStyles.topic}>
+    <View style={[globaleStyles.back ,{marginTop:280}]}>
+        <Text style={globaleStyles.topic}>
             What's Your Team? 
         </Text>
         <RadioGroup 

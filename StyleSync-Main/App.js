@@ -11,8 +11,8 @@ const Stack =createStackNavigator();
 export default function App() {
     return(
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="  SalonRegistorNavigation" screenOptions={{headerShown: false,}}> 
-                <Stack.Screen name="  SalonRegistorNavigation " 
+            <Stack.Navigator initialRouteName="StaffRegistorNavigation" screenOptions={{headerShown: false,}}> 
+                {/* <Stack.Screen name="  SalonRegistorNavigation " 
                             component={  SalonRegistorNavigation } 
                             options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
                     }/>

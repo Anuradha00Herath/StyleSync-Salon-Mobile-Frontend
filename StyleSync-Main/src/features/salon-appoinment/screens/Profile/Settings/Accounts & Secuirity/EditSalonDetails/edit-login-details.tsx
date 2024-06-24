@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  StyleSheet
 } from "react-native";
 import { TextInputArea } from "../../../../../components/text-input-area-in-settings";
 import axios from "axios";
@@ -51,19 +52,19 @@ export default function EditLoginDetails({ navigation, route }) {
     fetchDetails();
   }, []);
 
-  useEffect(() => {
-    if (refresh) {
-      setRefresh(false);
-    }
-  }, [refresh]);
+  // useEffect(() => {
+  //   if (refresh) {
+  //     setRefresh(false);
+  //   }
+  // }, [refresh]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setRefresh(true);
-    }, 5000); 
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setRefresh(true);
+  //   }, 5000); 
   
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
     <View>
