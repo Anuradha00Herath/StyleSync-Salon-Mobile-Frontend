@@ -15,6 +15,25 @@ export function StaffContent({ staffName }) {
    // Flatten the array of arrays into a single array of objects
    const flattenedStaff = staffName.flatMap(array => array);
 
+//    const handleDelete = async () => {
+//     try{
+//       setLoading(true);
+//       const url = "https://stylesync-backend-test.onrender.com/app/v1/service/delete-staff-service";
+//       const response = await axios.delete(url, { params: {serviceId, staffId} });
+//       const result = response.data;
+//       const {status, message} = result;
+//       if (status === 200){
+//         console.log("Success", message);
+//         handleFetchservice();
+//         //fetchBusinessHours();
+//       }
+//     }catch{
+//       console.log("error");
+//     }finally{
+//       setLoading(false);
+//     }
+//   }
+
    return (
        <View style={[globaleStyles.back,{marginTop:400}]}>
          <View>

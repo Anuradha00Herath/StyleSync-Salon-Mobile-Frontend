@@ -9,15 +9,12 @@ export  function Button({text,text1,onPress1,onPress} ){
                 <TouchableOpacity  onPress={onPress1}>
                         <Text style={styles.buttonText}>{text1}</Text>
                 </TouchableOpacity>                 
-
             </View>
             <View style={styles.button2}>
                  <TouchableOpacity  onPress={onPress}>
                         <Text style={styles.buttonText}>{text}</Text>
                 </TouchableOpacity>  
-
             </View>
-
         </View>
     )
 }

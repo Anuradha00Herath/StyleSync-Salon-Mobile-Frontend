@@ -50,7 +50,7 @@ export function EditServiceDetailsContent({
   };
   return (
     <View style={[
-        globaleStyles.back,{ marginTop: 300},]}>
+        globaleStyles.back,{ marginTop: 300,height:"65%"},]}>
       <View>
         <Text style={globaleStyles.topic}>
           Pricing/Duration - {serviceName}

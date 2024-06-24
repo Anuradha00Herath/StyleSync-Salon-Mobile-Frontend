@@ -114,14 +114,9 @@ export default function PersanalInformation({route}) {
       
           <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
           <StatusBar/>
-          <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={'never'}>
-          <View style={{flex:1,
-                          justifyContent:'space-between',
-                          }}>
-               <View style={{height:"28%"}}>
-                 <AppName/>
-               </View>
-               <View style={[globaleStyles.back,{height:"72%",}]}>
+          <AppName/>
+               <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={'never'}>
+               <View style={[globaleStyles.back,{marginTop:250,height:"72%"}]}>
                 <View>
                    <Text style={globaleStyles.topic}>{topic}</Text>
                    <TextInput
@@ -157,9 +152,9 @@ export default function PersanalInformation({route}) {
                 </View>
                   <FlatButton text='Continue' onPress={ handleSubmit}/>
                </View>
-                
-            </View>
-            </KeyboardAwareScrollView>
+               </KeyboardAwareScrollView>
+            
+            
           </ImageBackground>
       
     );}

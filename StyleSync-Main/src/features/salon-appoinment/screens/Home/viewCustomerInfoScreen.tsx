@@ -72,8 +72,7 @@ export default function CustomerInfo({ route ,navigation}) {
         <StatusBar />
         <ImageBackground source={BACKGROUND_IMAGE}
                          style={CustomerStyle.backgroundI}>
-          <Text
-            style={[CustomerStyle.salonName,{top: StatusBar.currentHeight + 20,}]}>
+          <Text style={[CustomerStyle.salonName,{top: StatusBar.currentHeight + 20,}]}>
             StyleSync
           </Text>
           <View style={CustomerStyle.container}>
