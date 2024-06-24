@@ -49,8 +49,13 @@ export function Login({ navigation }) {
       <ImageBackground source={BACKGROUND_IMAGE} style={globalStyles.background}>
          <StatusBar/>
          <AppName/>
+         <View style={{
+            height:200
+         }}>
+
+         </View>
          <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={'never'}>
-                <View style={[globalStyles.container ,{marginTop:280},]}>
+                <View style={[globalStyles.container,]}>
                     <View>
                         <Text
                             style={globalStyles.mainTopic}>

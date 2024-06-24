@@ -13,7 +13,7 @@ import {
 } from "react-native";
 //import { TextInputArea } from "../../../../components/text-input-area-in-settings";
 
-export default function EditSalonAddress({ navigation }) {
+export default function EditLocation({ navigation }) {
   const [location, setLocation] = useState({
     latitude: 6.791163502,
     longitude: 79.900496398,

@@ -51,28 +51,9 @@ export function CreateAccount({ navigation }) {
     };
    
     
-    const handleSubmit = async() => {
+    const handleSubmit = () => {
         if (validateInputs()) {
-            try{
-                setLoading(true);
-                const url = 'https://stylesync-backend-test.onrender.com/app/v1/salon/register-salon/step1';
-                const response = await axios.post(url, { name, contactNo, email });
-                const result = response.data;
-                const { message, status} = result;
-
-                if(status == 201){
-                    console.log('Success: ', message);
-                     navigation.navigate("OTP",{email ,number:contactNo});
-                } else if (status === 400) {
-                    console.log('Failed', message);
-                } else {
-                    console.log('Something went wrong!');
-                }
-
-            } catch (error) {
-                console.log(error);
-            } 
-             
+            navigation.navigate("InputAddress" ,{name:name,email:email,contactNo:contactNo})
         }
     }
 
@@ -80,8 +61,11 @@ export function CreateAccount({ navigation }) {
         <ImageBackground source={BACKGROUND_IMAGE} style={globalStyles.background}>
               <StatusBar/>
               <AppName/>
+              <View style={{
+            height:200
+         }}></View>
               <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={'never'}>
-              <View style={[globalStyles.container ,{marginTop:240},]}>
+              <View style={[globalStyles.container,]}>
               <View>
                     <Text
                         style={globalStyles.mainTopic}>

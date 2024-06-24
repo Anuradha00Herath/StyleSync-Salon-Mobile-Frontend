@@ -5,6 +5,8 @@ import {SignUp} from "../features/SalonRegister/screens/signUp/signUp"
 import{CreateAccount} from "../features/SalonRegister/screens/createAccount/createAccount"
 import{OTP} from "../features/SalonRegister/screens/OTP/OTP"
 import { InputAddress} from "../features/SalonRegister/screens/InputAddress/InputAddress";
+import MapText from "../features/SalonRegister/screens/Map/set-location";
+import ConfirmMap from "../features/SalonRegister/screens/Map/confirm-location";
 
 const Stack =createStackNavigator();
 
@@ -26,5 +28,12 @@ export default function SalonRegistorNavigation() {
               <Stack.Screen name="InputAddress" component={InputAddress} 
                                         options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
               }/>
+              <Stack.Screen name="SetMap" component={MapText} 
+                                        options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
+              }/>
+              <Stack.Screen name="ConfirmMap" component={ConfirmMap} 
+                                        options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
+              }/>
+
         </Stack.Navigator>
     )}
