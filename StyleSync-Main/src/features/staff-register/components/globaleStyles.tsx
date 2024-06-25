@@ -28,7 +28,7 @@ export const globaleStyles = StyleSheet.create({
         color:"gray"
        },
     back:{
-        //flexGrow:1,
+        flexGrow:1,
         // marginTop:280,
         width:'100%',
         paddingTop:26,

@@ -10,7 +10,7 @@ import { day } from "./styles";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 
-export function BusinessHoursContent({ staffId }) {
+export function BusinessHoursContent({ staffId, salonId }) {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [businessHours, setBusinessHours] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -91,7 +91,7 @@ export function BusinessHoursContent({ staffId }) {
       </View>
       <FlatButton
         text="Continue"
-        onPress={() => navigation.navigate("SelectServicesTypes", { staffId })}
+        onPress={() => navigation.navigate("SelectServicesTypes", { staffId,salonId })}
         // onPress={navigation.goBack()}
       />
     </View>

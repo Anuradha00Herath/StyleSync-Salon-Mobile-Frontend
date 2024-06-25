@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 // Screens
 import HomeScreen from "../features/salon-appoinment/screens/Home/Home";
 import AppointmentScreen from "../features/salon-appoinment/screens/Appointment/AppointmentScreen";
-import ProfileScreen from "../features/salon-appoinment/screens/Profile/profileScreen"
+import ProfileScreen from "../features/salon-appoinment/screens/Profile/profileScreen";
 import CustomerInfo from "../features/salon-appoinment/screens/Home/viewCustomerInfoScreen";
 import NotificationScreen from "../features/salon-appoinment/screens/Notification/notificationScreen";
 // Screen names
@@ -19,7 +19,8 @@ const notificationName = "Notification";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function MainContainer() {
+function MainContainer({ route }) {
+  const { salonId } = route.params;
   return (
     <Tab.Navigator
       initialRouteName={homeName}
@@ -48,21 +49,25 @@ function MainContainer() {
         name={homeName}
         component={HomeScreen}
         options={{ headerShown: false }}
+        initialParams={{ salonId: salonId }}
       />
       <Tab.Screen
         name={appointmentName}
         component={AppointmentScreen}
         options={{ headerShown: false }}
+        initialParams={{ salonId: salonId }}
       />
       <Tab.Screen
         name={profileName}
         component={ProfileScreen}
         options={{ headerShown: false }}
+        initialParams={{ salonId: salonId }}
       />
       <Tab.Screen
         name={notificationName}
         component={NotificationScreen}
         options={{ headerShown: false }}
+        initialParams={{ salonId: salonId }}
       />
     </Tab.Navigator>
   );
@@ -84,8 +89,5 @@ function Homestack() {
     </Stack.Navigator>
   );
 }
-
-
-
 
 export default MainContainer;

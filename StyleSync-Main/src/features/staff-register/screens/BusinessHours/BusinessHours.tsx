@@ -6,7 +6,7 @@ import { BusinessHoursContent } from "./BusinessHoursContent";
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 
 export default function BusinessHours({ route, navigation }) {
-  const { staffId } = route.params;
+  const { salonId ,staffId } = route.params;
   return (
     <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
       <StatusBar />
@@ -25,7 +25,7 @@ export default function BusinessHours({ route, navigation }) {
           borderTopLeftRadius: 10, 
         borderTopRightRadius: 10,
         }}>
-          <BusinessHoursContent staffId={staffId} />
+          <BusinessHoursContent staffId={staffId} salonId={salonId} />
         </View>
       </View>
     </ImageBackground>

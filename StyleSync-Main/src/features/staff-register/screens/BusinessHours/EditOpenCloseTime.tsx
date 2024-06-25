@@ -13,6 +13,7 @@ import { SeparatorLineWithText } from "../../components/line";
 import { breaksStyle, setTimeStyle } from "./styles";
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 import axios from "axios";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const backImg = require("../../../../assets/StyleSync.jpeg");
 
@@ -56,7 +57,7 @@ export default function SetTime({ route, onPress }) {
     setIsEnabled((isEnabled: any) => !isEnabled);
   };
   const getText = () => (isEnabled ? "Open" : "Closed");
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  const navigation = useNavigation<any>();
 
   const onHandleOk = async () => {
     try {
@@ -121,31 +122,35 @@ export default function SetTime({ route, onPress }) {
           </View>
           <View style={breaksStyle.subView}>
             <View style={breaksStyle.deleteView}>
-              <Icon
-                name="delete"
+            <Ionicons
+                style={{
+                  marginTop: 5,
+                }}
+                name="trash-outline"
                 size={20}
-                color={"#71797E"}
-                style={breaksStyle.icon}
+                color="black"
                 onPress={onHandleDelete}
               />
             </View>
             <View style={breaksStyle.rightView}>
-              <Icon
-                name="right"
-                size={20}
-                color={"#71797E"}
-                style={breaksStyle.icon}
-                onPress={() =>
-                  navigation.navigate("SetBreakTime", {
-                    staffId: staffId,
-                    dayName: name,
-                    isOpen: isOpen,
-                    openHour: openHour,
-                    closeHour: closeHour,
-                    type: "Update",
-                  })
-                }
-              />
+            <Ionicons
+          style={{
+            marginTop: 5,
+          }}
+          name="chevron-forward-outline"
+          size={22}
+          color="black"
+          onPress={() =>
+            navigation.navigate("SetBreakTime", {
+              staffId: staffId,
+              dayName: name,
+              isOpen: isOpen,
+              openHour: openHour,
+              closeHour: closeHour,
+              type: "Update",
+            })
+          }
+        />
             </View>
           </View>
         </View>

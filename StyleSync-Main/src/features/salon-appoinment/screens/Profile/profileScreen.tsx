@@ -19,12 +19,11 @@ import {BACKGROUND_IMAGE} from "../../components/BackGroundImage"
 
 const { width, height } = Dimensions.get("screen");
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen({ navigation,route }) {
 const [refresh, setRefresh] = useState(false);
 const [Details , setDetails] = useState(null);
 const [loading, setLoading] = useState(false);
-const salonId=1
-
+const {salonId} = route.params;
 
 const fetchDetails = async () => {
   try {
@@ -461,7 +460,7 @@ return (
             ))}
              </ScrollView>
           <TouchableOpacity
-            onPress={() => navigation.navigate("SettingScreen" , {salonId:salon.id})}
+            onPress={() => navigation.navigate("SettingScreen" , {salonId})}
           >
             <View
               style={{
@@ -518,7 +517,7 @@ return (
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("StatScreen" ,{salonId:salon.id})}>
+          <TouchableOpacity onPress={() => navigation.navigate("StatScreen" ,{salonId})}>
             <View
               style={{
                 marginHorizontal: 15,

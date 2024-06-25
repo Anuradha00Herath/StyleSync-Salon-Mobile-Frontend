@@ -12,11 +12,13 @@ import axios from 'axios';
 const { width, height } = Dimensions.get("screen");
 
 export default function HomeScreen({navigation,route}) {
+
+  const {salonId} = route.params;
+  console.log(salonId);
   
   const [refresh, setRefresh] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const salonId =1
 
   const fetchAppointments = async () => {
     try {

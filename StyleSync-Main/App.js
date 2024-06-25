@@ -12,14 +12,14 @@ export default function App() {
     return(
         <NavigationContainer>
             <Stack.Navigator initialRouteName="StaffRegistorNavigation" screenOptions={{headerShown: false,}}> 
-                {/* <Stack.Screen name="  SalonRegistorNavigation " 
+                <Stack.Screen name="  SalonRegistorNavigation " 
                             component={  SalonRegistorNavigation } 
                             options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
                     }/>
             {/* <Stack.Screen name="PersanalInformation" 
                           component={PersanalInformation} 
                           /> */}
-             {/* <Stack.Screen name=" ShowAppoinments " 
+             {/* * <Stack.Screen name=" ShowAppoinments " 
                           component={ShowAppoinments} 
                           options={{cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,}
                  }/> */}

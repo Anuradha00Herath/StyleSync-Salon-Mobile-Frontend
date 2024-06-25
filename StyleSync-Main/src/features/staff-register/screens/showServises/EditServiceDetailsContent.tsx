@@ -85,7 +85,7 @@ export function EditServiceDetailsContent({
 
       <View style={styles.buttonContainer}>
         <Button
-          text1={"Cancle"}
+          text1={"Cancel"}
           text={"Ok"}
           onPress={handleSave}
           onPress1={() =>navigation.goBack()}
