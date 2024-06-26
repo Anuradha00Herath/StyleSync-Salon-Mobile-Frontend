@@ -1,29 +1,56 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-import {
-  View,
-  Text,
-  Image,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
-//import { TextInputArea } from "../../../../components/text-input-area-in-settings";
+import { View, Text, TouchableOpacity } from "react-native";
+import axios from "axios";
 
-export default function EditLocation({ navigation }) {
-  const [location, setLocation] = useState({
-    latitude: 6.791163502,
-    longitude: 79.900496398,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
+export default function EditLocation({ navigation, route }) {
+  const { salonId } = route.params;
+  const [loading, setLoading] = useState(false);
+  const [latitude, setLatitude] = useState<number>(6.791163502);
+  const [longitude, setLongitude] = useState<number>(79.900496398);
+  const [dataFetched, setDataFetched] = useState(false); // New state variable
 
-  function onRegionChange({region}) {
-    setLocation(region);
-  }
+  const fetchDetails = async () => {
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get-salon-location";
+      console.log("Request parameters", { salonId });
+      const response = await axios.get(url, { params: { salonId } });
+      setLatitude(response.data.data[0].latitude);
+      setLongitude(response.data.data[0].longtitude);
+      setDataFetched(true); // Update state to trigger re-render
+      console.log(response.data.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  const handleChange = async () => {
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/update-location";
+      console.log("Request parameters", { salonId, latitude, longitude });
+      const response = await axios.put(url, { salonId, latitude, longitude });
+      fetchDetails();
+      navigation.goBack();
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View>
       <View
@@ -53,17 +80,14 @@ export default function EditLocation({ navigation }) {
           Change Location
         </Text>
       </View>
-      <MapView
-        style={{
-          height: "66%",
-          width: "100%",
-          alignSelf: "center",
-          marginTop: 10,
-          borderRadius: 20,
-        }}
-        initialRegion={location}
-        
-      ><Marker coordinate={{latitude: 6.79517502, longitude: 79.900866398}} draggable={true}/></MapView>
+      {dataFetched && (
+        <Map
+          latitude={latitude}
+          longitude={longitude}
+          setLatitude={setLatitude}
+          setLongitude={setLongitude}
+        />
+      )}
       <View
         style={{
           alignSelf: "center",
@@ -93,7 +117,6 @@ export default function EditLocation({ navigation }) {
         <Text
           style={{
             fontSize: 15,
-            //fontWeight: "bold",
             alignSelf: "center",
             marginTop: 5,
           }}
@@ -102,8 +125,6 @@ export default function EditLocation({ navigation }) {
         </Text>
         <View
           style={{
-            //   flexDirection: "row",
-            //   justifyContent: "space-between",
             marginTop: 15,
           }}
         >
@@ -113,7 +134,7 @@ export default function EditLocation({ navigation }) {
               alignSelf: "center",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleChange}>
               <View
                 style={{
                   backgroundColor: "#8B6C58",
@@ -132,7 +153,7 @@ export default function EditLocation({ navigation }) {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <View
                 style={{
                   backgroundColor: "#F5F5F5",
@@ -147,13 +168,37 @@ export default function EditLocation({ navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              width: "100%",
-            }}
-          ></View>
         </View>
       </View>
     </View>
+  );
+}
+
+function Map({ latitude, longitude, setLatitude, setLongitude }) {
+  return (
+    <MapView
+      style={{
+        height: "66%",
+        width: "100%",
+        alignSelf: "center",
+        marginTop: 10,
+        borderRadius: 20,
+      }}
+      initialRegion={{
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
+    >
+      <Marker
+        coordinate={{ latitude, longitude }}
+        draggable={true}
+        onDragEnd={(e) => {
+          setLatitude(e.nativeEvent.coordinate.latitude);
+          setLongitude(e.nativeEvent.coordinate.longitude);
+        }}
+      />
+    </MapView>
   );
 }

@@ -529,7 +529,7 @@ return (
                 borderRadius: 10,
                 flexDirection: "row",
                 justifyContent: "space-between",
-                marginBottom:30
+                marginBottom:50
               }}
             >
               <View

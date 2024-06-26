@@ -49,13 +49,20 @@ export function Login({ navigation }) {
                 setLoading(true);
                 const url = "https://stylesync-backend-test.onrender.com/app/v1/salon/salon-login";
                 const response = await axios.get(url, {params:{email,password}});
-                console.log(response.data.data[0].id);
+                console.log(response.data.count._count.staffID);
                 const result = response.data;
-                const id = result.data[0].id
+                const id = result.data[0].id;
+                const staffCount = result.count._count.staffID;
                 const { message, status } = result;
                 if (status == 201) {
                   console.log("Success: ", id);
-                  navigation.navigate("SelectTeam", {id});
+                  if(staffCount>0){
+                    navigation.navigate("Main", { salonId:id })
+                  }
+                  else{
+                    navigation.navigate("SelectTeam", {id});
+                  }
+                  
                 } else if (status === 400) {
                   console.log("Failed", message);
                 } else {

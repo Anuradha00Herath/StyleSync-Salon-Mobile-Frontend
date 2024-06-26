@@ -14,10 +14,9 @@ import CalenderExpand from "../../components/calenderInAppointment";
 import {BACKGROUND_IMAGE} from "../../components/BackGroundImage"
 const { width, height } = Dimensions.get("screen");
 const EventStatus = {
-  ONGOING: "ONGOING",
-  UPCOMING: "UPCOMING",
-  PAST: "PAST",
-  CANCELED: "CANCELED",
+  All: "All",
+  Canceled: "Canceled",
+  Rejected: "Rejected",
 };
 
 import { AppointmentSetTwo } from "../../components/appointmentSetForAppointmentScreen";
@@ -38,12 +37,12 @@ export default function AppointmentScreen({navigation}) {
   const [refresh, setRefresh] = useState(false);
   const [calender, setCalender] = useState(renderCalender());
   const [selectedStatus, setSelectedStatus] = useState<string>(
-    EventStatus.ONGOING);
+    EventStatus.All);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchAppointments = async (selectedStatus) => {
-    if(selectedStatus == EventStatus.ONGOING){
+    if(selectedStatus == EventStatus.All){
     try {
       setLoading(true);
       const currentDate = moment.utc().startOf('day').toISOString();
@@ -150,73 +149,55 @@ export default function AppointmentScreen({navigation}) {
             <TouchableOpacity
               style={[
                 styles.optionButton,
-                selectedStatus === EventStatus.ONGOING && styles.selectedOption,
+                selectedStatus === EventStatus.All && styles.selectedOption,
               ]}
-              onPress={() => handleStatusChange(EventStatus.ONGOING)}
+              onPress={() => handleStatusChange(EventStatus.All)}
             >
               <Text
                 style={[
                   styles.optionText,
-                  selectedStatus === EventStatus.ONGOING && styles.selectedText,
+                  selectedStatus === EventStatus.All && styles.selectedText,
                 ]}
               >
-                Ongoing
+                All Appointments
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.optionButton,
-                selectedStatus === EventStatus.UPCOMING &&
+                selectedStatus === EventStatus.Canceled &&
                   styles.selectedOption,
               ]}
-              onPress={() => handleStatusChange(EventStatus.UPCOMING)}
+              onPress={() => handleStatusChange(EventStatus.Canceled)}
             >
               <Text
                 style={[
                   styles.optionText,
-                  selectedStatus === EventStatus.UPCOMING &&
-                    styles.selectedText,
-                ]}
-              >
-                Upcoming
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.optionButton,
-                selectedStatus === EventStatus.PAST && styles.selectedOption,
-              ]}
-              onPress={() => handleStatusChange(EventStatus.PAST)}
-            >
-              <Text
-                style={[
-                  styles.optionText,
-                  selectedStatus === EventStatus.PAST && styles.selectedText,
-                ]}
-              >
-                Past
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.optionButton,
-                selectedStatus === EventStatus.CANCELED &&
-                  styles.selectedOption,
-              ]}
-              onPress={() => handleStatusChange(EventStatus.CANCELED)}
-            >
-              <Text
-                style={[
-                  styles.optionText,
-                  selectedStatus === EventStatus.CANCELED &&
+                  selectedStatus === EventStatus.Canceled &&
                     styles.selectedText,
                 ]}
               >
                 Canceled
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.Rejected && styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.Rejected)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.Rejected && styles.selectedText,
+                ]}
+              >
+                Rejected
+              </Text>
+            </TouchableOpacity>
           </View>
-          {selectedStatus === EventStatus.ONGOING && (
+          {selectedStatus === EventStatus.All && (
             <ScrollView>
               {Object.keys(groupedAppointments).map((staffName, index) => (
                 <AppointmentSetTwo
@@ -228,7 +209,7 @@ export default function AppointmentScreen({navigation}) {
               ))}
             </ScrollView>
           )}
-          {selectedStatus === EventStatus.UPCOMING && (
+          {selectedStatus === EventStatus.Canceled && (
             <ScrollView>
               {Object.keys(groupedAppointments).map((staffName, index) => (
                 <AppointmentSetTwo
@@ -240,7 +221,6 @@ export default function AppointmentScreen({navigation}) {
               ))}
             </ScrollView>
           )}
-          <View></View>
         </View>
       </ImageBackground>
     </View>
@@ -254,9 +234,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   optionButton: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 0,
     paddingVertical: 5,
-    marginRight: 10,
+    marginRight: 0,
   },
   optionText: {
     fontSize: 16,

@@ -29,11 +29,11 @@ export default function EditLoginDetails({ navigation, route }) {
   const fetchDetails = async() =>{
     try{
       setLoading(true);
-      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_salon-ConfirmationInformation";
+      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get-salon-login-info";
       console.log('Request parameters',{salonId: salonId, });
       const response = await axios.get(url, {params:{salonId: salonId}});
       
-      const addressData =response.data.data[0];
+      const addressData =response.data.data;
       setDetails(addressData);
       setEmail(addressData.email);
       setUsername(addressData.username ||addressData.email );
@@ -136,15 +136,18 @@ export default function EditLoginDetails({ navigation, route }) {
 function EditPassword({ isEdit, setIsEdit,password }) {
     const onPress = () => setIsEdit(false);
     const onPress2 = () => setIsEdit(true);
+    
   if (isEdit === true) {
     return (
+      
       <View>
-        {/* <TextInputArea
+        <TextInputArea
           name="Enter Current Password"
-          value=""
+          value={""}
           editable={true}
           isSecure={true}
           placeholder={"Current Password"}
+          onChangeText={""}
         />
         <TextInputArea
           name="Enter new Password"
@@ -152,6 +155,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
           editable={true}
           isSecure={true}
           placeholder={"New Password"}
+          onChangeText={""}
         />
         <TextInputArea
           name="Confirm new Password"
@@ -159,7 +163,8 @@ function EditPassword({ isEdit, setIsEdit,password }) {
           editable={true}
           isSecure={true}
           placeholder={"Confirm New Password"}
-        /> */}
+          onChangeText={""}
+        />
         <View
           style={{
             flexDirection: "row",
