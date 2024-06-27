@@ -96,7 +96,7 @@ export default function EditWorkingDays({ navigation,route }) {
       }}
       >
          {businessHours.map(day => (
-      <TouchableOpacity key={day.dayName}   onPress={() => navigation.navigate("SetTime" ,{staffId:Id, 
+      <TouchableOpacity key={day.dayName}   onPress={() => navigation.navigate("EditTime" ,{staffId:Id, 
                                                                                            name: day.dayName, 
                                                                                            isOpen: day.isOpen, 
                                                                                            openHour: day.openHour,

@@ -89,11 +89,19 @@ export default function StaffListView({ navigation, route}) {
       <ScrollView>
         <View style={{marginHorizontal:10}}>
       {Details.map((details, index) =>(
-      <TouchableOpacity 
+      <View
       key={index}
-      onPress={() => navigation.navigate("EditStaffProfile" ,{name:details.staff.name ,Id:details.staffID ,salonId:details.salonId})}>
-      <StaffMember  name={details.staff.name} openHour={details.staff.openDays[0].openHour} closeHour={details.staff.openDays[0].closeHour}/>
-      </TouchableOpacity>
+      >
+      <StaffMember  name={details.staff.name} 
+                    Id={details.staffID} 
+                    salonId= {details.salonId} 
+                    openHour={details.staff.openDays[0].openHour} 
+                    closeHour={details.staff.openDays[0].closeHour}
+                    fetchDetails={fetchDetails}
+                    onPress={() => navigation.navigate("EditStaffProfile" ,{name:details.staff.name ,
+                                                                            Id:details.staffID ,
+                                                                            salonId:details.salonId})}/>
+      </View>
       ))}
         </View>
       </ScrollView>

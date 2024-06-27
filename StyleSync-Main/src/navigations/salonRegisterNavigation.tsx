@@ -36,6 +36,9 @@ import EditProfile from "../features/salon-appoinment/screens/Profile/Settings/A
 import ShowService from "../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Member Services/show-services";
 import EditService from "../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile//Edit Staff Member Services/edit-services";
 import EditWorkingDays from "../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Working Days/edit-working-days-and-hours";
+import EditTime from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Working Days/edit-day';
+import CreateBreakTime from '../features/salon-appoinment/screens/Profile/Settings/Accounts & Secuirity/Edit Staff Members Profile/Edit Staff Working Days/SetBreaksTime'
+
 const Stack = createStackNavigator();
 
 export default function SalonRegistorNavigation() {
@@ -229,10 +232,20 @@ export default function SalonRegistorNavigation() {
         component={EditWorkingDays}
         options={{ headerShown: false }}
       />
+      <Stack.Screen 
+      name="EditTime" 
+      component={EditTime} 
+      options={{ headerShown: false }} 
+      />
       <Stack.Screen
         name="SetBreakTime"
         component={SetBreakTime}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen 
+      name="CreateBreakTime" 
+      component={CreateBreakTime} 
+      options={{ headerShown: false }} 
       />
       <Stack.Screen
         name="StatScreen"

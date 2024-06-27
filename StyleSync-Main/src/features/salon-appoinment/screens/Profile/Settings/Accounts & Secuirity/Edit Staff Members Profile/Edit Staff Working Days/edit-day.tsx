@@ -16,7 +16,7 @@ import { SeparatorLineWithText } from '../../../../../../components/line';
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
-export default function SetTime({navigation ,route, onPress}) {
+export default function EditTime({navigation ,route, onPress}) {
     const { staffId, name, isOpen, openHour, closeHour } = route.params;
     const [isEnabled, setIsEnabled] = useState(isOpen);
     const [openTime, setOpenTime] = useState(openHour);
@@ -149,7 +149,7 @@ export default function SetTime({navigation ,route, onPress}) {
                   color={"#71797E"}
                   style={{ width: 20, height: 20 }}
                   onPress={() =>
-                    navigation.navigate("SetBreakTime", {
+                    navigation.navigate("CreateBreakTime", {
                       staffId: staffId,
                       dayName: name,
                       isOpen: isOpen,
@@ -276,7 +276,7 @@ export default function SetTime({navigation ,route, onPress}) {
               }
             /> */}
             <TouchableOpacity  onPress={() =>
-                navigation.navigate("SetBreakTime", {
+                navigation.navigate("CreateBreakTime", {
                   staffId: staffId,
                   dayName: name,
                   isOpen: isOpen,

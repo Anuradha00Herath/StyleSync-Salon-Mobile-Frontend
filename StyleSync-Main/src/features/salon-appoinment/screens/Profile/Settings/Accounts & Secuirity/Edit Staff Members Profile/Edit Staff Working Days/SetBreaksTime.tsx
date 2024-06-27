@@ -4,7 +4,7 @@ import {  ImageBackground, View , StatusBar,Text,Image,TouchableOpacity} from "r
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TimePicker } from "../../../../../../components/TimePicker";
 
-export default function SetBreakTime({route,navigation}) {
+export default function CreateBreakTime({route,navigation}) {
     const{staffId , dayName,isOpen, openHour, closeHour, type}=route.params;
     const [bStart, setBStart]  = useState("12:00");
     const [bEnd, setBEnd] = useState("13:00");
@@ -31,7 +31,7 @@ export default function SetBreakTime({route,navigation}) {
           const result = response.data;
           const { message, status } = result;
           if (status === 201) {
-            navigation.navigate("SetTime", {staffId:staffId, name: dayName, isOpen: isOpen, openHour: openHour,closeHour:closeHour });
+            navigation.navigate("EditTime", {staffId:staffId, name: dayName, isOpen: isOpen, openHour: openHour,closeHour:closeHour });
             console.log("Success", message);
           } else {
             console.log("Error", message);
@@ -58,7 +58,11 @@ export default function SetBreakTime({route,navigation}) {
             const result = response.data;
             const { message, status } = result;
             if (status === 201) {
-                navigation.navigate("SetTime", {staffId:staffId, name: dayName, isOpen: isOpen, openHour: openHour,closeHour:closeHour });
+                navigation.navigate("EditTime", {staffId:staffId, 
+                                                name: dayName, 
+                                                isOpen: isOpen, 
+                                                openHour: openHour,
+                                                closeHour:closeHour });
               console.log("Success", message);
             } else {
               console.log("Error", message);

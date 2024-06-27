@@ -13,6 +13,8 @@ import {
 import { TextInputArea } from "../../../../../components/text-input-area-in-settings";
 import axios from "axios";
 
+// https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-ConfirmationInformation
+
 export default function EditLoginDetails({ navigation, route }) {
   const {salonId} = route.params;
 
@@ -24,6 +26,7 @@ export default function EditLoginDetails({ navigation, route }) {
   const [username, setUsername] =useState("");
   const [password , setPassword] =useState("");
   const [error, setError] = useState("");
+  
  
 
   const fetchDetails = async() =>{
@@ -48,23 +51,31 @@ export default function EditLoginDetails({ navigation, route }) {
       setLoading(false);
     }
   };
+  const handleSubmit = async () => {
+    
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-ConfirmationInformation";
+      const response = await axios.put(url, {
+        salonId: salonId,
+        username:username,
+        password:password
+      });
+
+     console.log(response.data);
+     navigation.goBack()
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+    };
   useEffect(() => {
     fetchDetails();
   }, []);
 
-  // useEffect(() => {
-  //   if (refresh) {
-  //     setRefresh(false);
-  //   }
-  // }, [refresh]);
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     setRefresh(true);
-  //   }, 5000); 
   
-  //   return () => clearInterval(intervalId);
-  // }, []);
 
   return (
     <View>
@@ -136,6 +147,9 @@ export default function EditLoginDetails({ navigation, route }) {
 function EditPassword({ isEdit, setIsEdit,password }) {
     const onPress = () => setIsEdit(false);
     const onPress2 = () => setIsEdit(true);
+    const[CurrentPassword ,setCurrentPasswod] =useState("");
+    const[newPassword ,setNewPasswod] =useState("");
+    const[ConfirmPassword,setConfirmPassword]=useState("");
     
   if (isEdit === true) {
     return (
@@ -147,7 +161,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
           editable={true}
           isSecure={true}
           placeholder={"Current Password"}
-          onChangeText={""}
+          onChangeText={(text) => setCurrentPasswod(text)}
         />
         <TextInputArea
           name="Enter new Password"
@@ -155,7 +169,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
           editable={true}
           isSecure={true}
           placeholder={"New Password"}
-          onChangeText={""}
+          onChangeText={(text) => setNewPasswod(text)}
         />
         <TextInputArea
           name="Confirm new Password"
@@ -163,7 +177,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
           editable={true}
           isSecure={true}
           placeholder={"Confirm New Password"}
-          onChangeText={""}
+          onChangeText={(text) => setConfirmPassword(text)}
         />
         <View
           style={{

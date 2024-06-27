@@ -60,7 +60,7 @@ export default function Staff({route}) {
             height: "65%",
           }}
         >
-          <StaffContent staffName={staff} salonId={salonId} />
+          <StaffContent staffName={staff} salonId={salonId} fetchServiceName={fetchServiceName} />
         </View>
       </View>
     </ImageBackground>

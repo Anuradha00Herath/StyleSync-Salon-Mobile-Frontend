@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState}from "react";
 import {
   View,
   Text,
@@ -15,31 +15,32 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AddMore } from "../../components/AddMore";
 import { FlatButton } from "../../components/FlatButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import axios from "axios";
 
-export function StaffContent({ staffName, salonId }) {
+export function StaffContent({ staffName, salonId ,fetchServiceName }) {
   const navigation = useNavigation<any>();
+  const [loading, setLoading] = useState(false);
   // Flatten the array of arrays into a single array of objects
   const flattenedStaff = staffName.flatMap((array) => array);
   
 
-  //    const handleDelete = async () => {
-  //     try{
-  //       setLoading(true);
-  //       const url = "https://stylesync-backend-test.onrender.com/app/v1/service/delete-staff-service";
-  //       const response = await axios.delete(url, { params: {serviceId, staffId} });
-  //       const result = response.data;
-  //       const {status, message} = result;
-  //       if (status === 200){
-  //         console.log("Success", message);
-  //         handleFetchservice();
-  //         //fetchBusinessHours();
-  //       }
-  //     }catch{
-  //       console.log("error");
-  //     }finally{
-  //       setLoading(false);
-  //     }
-  //   }
+     const handleDelete = async (staffId:any) => {
+      try{
+        setLoading(true);
+        const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/delete_staff_members";
+        const response = await axios.delete(url, { params: {salonId, staffId} });
+        const result = response.data;
+        const {status, message} = result;
+        if (status === 200){
+          console.log("Success", message);
+          fetchServiceName();
+        }
+      }catch{
+        console.log("error");
+      }finally{
+        setLoading(false);
+      }
+    }
 
   return (
     <View
@@ -62,6 +63,8 @@ export function StaffContent({ staffName, salonId }) {
             renderItem={({ item }) => (
               <StaffComponent
                 name={item.name}
+                handleDelete={() =>handleDelete(item.id)}
+                
                 // You can pass other props here if needed
               />
             )}
@@ -71,6 +74,7 @@ export function StaffContent({ staffName, salonId }) {
                   onPress={() =>
                     navigation.navigate("PersanalInformation", {
                       name: "Staff personal Information",
+                      id:salonId
                     })
                   }
                 />
@@ -87,7 +91,7 @@ export function StaffContent({ staffName, salonId }) {
   );
 }
 
-export function StaffComponent({ name }) {
+export function StaffComponent({ name,handleDelete }) {
   //console.log(name);
   return (
     <View>
@@ -100,7 +104,7 @@ export function StaffComponent({ name }) {
         </View>
 
         <View style={ContainerStyles.subView2}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleDelete}>
             <Ionicons
               style={{
                 marginTop: 5,

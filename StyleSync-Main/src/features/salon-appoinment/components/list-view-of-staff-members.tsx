@@ -1,8 +1,27 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React from "react";
-import { Image, View, Text } from "react-native";
+import React ,{ useState} from "react";
+import { Image, View, Text,TouchableOpacity  } from "react-native";
+import axios from "axios";
 
-export function StaffMember({name,openHour,closeHour}) {
+export function StaffMember({name,openHour,closeHour,Id,salonId,onPress,fetchDetails}) {
+  const [loading, setLoading] = useState(false);
+  const handleDelete = async () => {
+    try{
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/delete_staff_members";
+      const response = await axios.delete(url, { params: {salonId, staffId:Id} });
+      const result = response.data;
+      const {status, message} = result;
+      if (status === 200){
+        console.log("Success", message);
+        fetchDetails();
+      }
+    }catch{
+      console.log("error");
+    }finally{
+      setLoading(false);
+    }
+  }
   return (
     <View>
       <View
@@ -64,14 +83,29 @@ export function StaffMember({name,openHour,closeHour}) {
             </View>
           </View>
         </View>
+        <View style={{ flexDirection: "row",}}>
+          <TouchableOpacity onPress={handleDelete}>
         <Ionicons
+          style={{
+            paddingVertical: 17,
+            paddingRight:10
+          }}
+          name="trash"
+          size={25}
+          color="#000000"
+        />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
+         <Ionicons
           style={{
             paddingVertical: 17,
           }}
           name="chevron-forward"
           size={25}
-          color="grey"
+          color="#000000"
         />
+        </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

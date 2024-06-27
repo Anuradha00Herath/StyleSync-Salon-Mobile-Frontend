@@ -135,7 +135,7 @@ return (
             alignSelf: "center",
           }}
         >
-         {salon.name}
+         {salon[0].name}
         </Text>
         <Text
           style={{
@@ -146,7 +146,7 @@ return (
             alignSelf: "center",
           }}
         >
-          {salon.line1}, {salon.line2}, {salon.city}, {salon.country}
+          {salon[0].line1}, {salon[0].line2}, {salon[0].city}, {salon[0].country}
         </Text>
         <View
           style={{
