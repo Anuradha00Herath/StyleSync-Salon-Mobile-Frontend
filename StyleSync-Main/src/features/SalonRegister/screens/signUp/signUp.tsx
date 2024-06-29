@@ -45,6 +45,7 @@ export function SignUp({ navigation, route }) {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [salonId, setSalonId] = useState(null);
 
   const validateInputs = () => {
     let isValid = true;
@@ -107,11 +108,13 @@ export function SignUp({ navigation, route }) {
         });
         console.log(response.data);
         const result = response.data;
-        const { message, status } = result;
+        const { message, status, data } = result;
+        setSalonId(data.id);
+        console.log("Salon Id", salonId);
 
         if (status == 200) {
           console.log("Success: ", message);
-          navigation.navigate("Login");
+          navigation.navigate("AddImage", {name,email,contactNo, salonId:data.id});
         } else if (status === 400) {
           console.log("Failed", message);
         } else {

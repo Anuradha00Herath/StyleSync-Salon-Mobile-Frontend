@@ -46,7 +46,7 @@ export  function AddMoreContant(){
             </View>
 
             <View style={styles.buttonContainer}>
-                <Button text={"Ok"}  onPress={handleSave} onPress1={() =>navigation.goBack()} text1={"Cancle"} />
+                <Button text={"Ok"}  onPress={handleSave} onPress1={() =>navigation.goBack()} text1={"Cancel"} />
             </View>
                 
         </View>

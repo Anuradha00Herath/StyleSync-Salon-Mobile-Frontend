@@ -9,7 +9,7 @@ import { Button } from "../../components/Button";
 import axios from 'axios';
 
 export function OTP({ navigation,route }) {
-   const {number ,email} =route.params;
+   const {contactNo ,email,salonId} =route.params;
    const [countdown, setCountdown] = useState(180); // 3 minutes
    const [otp ,setOtp] =useState('');
    const [otpError , setOtpError] =useState('');
@@ -51,7 +51,7 @@ export function OTP({ navigation,route }) {
                     </Text>
                     <Text
                         style={ValidateNumberStyles.SubHeading}>
-                        {'Enter the 6 digits code that we have sent in '}{number}{" "}
+                        {'Enter the 6 digits code that we have sent in '}{email}{" "}
                         <Text style={{ fontWeight: 'bold' }}>{`${minutes}:${seconds.toString().padStart(2, '0')}`}</Text>
                     </Text>
                 </View>

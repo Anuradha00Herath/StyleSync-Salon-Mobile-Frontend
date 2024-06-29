@@ -6,28 +6,17 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
-  Pressable,
   Platform,
-  GestureResponderEvent,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import { TextInputArea } from "../../../salon-appoinment/components/text-input-area-in-settings";
-import * as ImagePicker from "expo-image-picker";
-import { Cloudinary } from "@cloudinary/url-gen";
+import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
-import { upload } from "cloudinary-react-native";
-import { sepia } from "@cloudinary/url-gen/actions/effect";
-import { StatusBar } from "expo-status-bar";
 
-export default function AddSalonImage({ navigation, route }) {
-  const { salonId, name, contactNo, email } = route.params;
-  const [refresh, setRefresh] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const [error, setError] = useState("");
+export default function AddStaffImage({ navigation ,route }) {
+  const {staffId ,salonId} =  route.params;
   const [image, setImage] = useState(null);
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "android") {
@@ -84,19 +73,53 @@ export default function AddSalonImage({ navigation, route }) {
     try {
       setLoading(true);
       const url =
-        "https://stylesync-backend-test.onrender.com/app/v1/salon/update-salon-image";
+        "https://stylesync-backend-test.onrender.com/app/v1/staff/update-staff-image";
       const response = await axios.put(url, {
         salonId: salonId,
+        staffId:staffId,
         image: image,
       });
       console.log(response.data);
-      navigation.navigate("OTP",{contactNo ,email,salonId});
+      navigation.navigate("Staff",{salonId});
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
+  const [details, setDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [name, setName]       =useState("");
+  const [contactNo, setContactNo] =useState("");
+  const [gender, setGender]=useState("All")
+
+  const fetchDetails = async() =>{
+    try{
+      setLoading(true);
+      const url="https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/get_staff_member_profileDetails";
+      console.log('Request parameters',
+        {salonId: salonId,
+         staffId:staffId
+       });
+      const response = await axios.get(url, {params:{salonId: salonId,staffId:staffId}});
+      const addressData =response.data.data[0];
+      setDetails(addressData);
+      setName(addressData.staff.name);
+      setContactNo(addressData.staff.staffContact[0].contactNo);
+      console.log(response.data)
+
+    }catch(error){
+      console.error(error);
+    }finally{
+      setLoading(false);
+    }
+  };
+
+  
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
 
   return (
     <View>
@@ -115,22 +138,20 @@ export default function AddSalonImage({ navigation, route }) {
             fontWeight: "bold",
           }}
         >
-          Edit Salon Profile
+          Edit Staff Profile
         </Text>
       </View>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
-          marginBottom: 30,
+          marginBottom: 30
         }}
       >
         <Image
-          source={
-            image === null
-              ? require("../../../../assets/images.jpg")
-              : { uri: image }
-          }
+          source={image === null
+            ? require("../../../../assets/images.jpg")
+            : { uri: image }}
           style={{
             width: 150,
             height: 150,
@@ -165,80 +186,80 @@ export default function AddSalonImage({ navigation, route }) {
           }}
         >
           <TextInputArea
-            name="Salon Name"
+            name="Name"
             value={name}
-            editable={false}
+            editable={true}
             isSecure={false}
             placeholder={""}
-            onChangeText={""}
+            onChangeText={(text) => setName(text)}
           />
           <TextInputArea
             name="Mobile Number"
             value={contactNo}
-            editable={false}
+            editable={true}
             isSecure={false}
             placeholder={""}
-            onChangeText={""}
+            onChangeText={(text) => setContactNo(text)}
           />
           <TextInputArea
             name="Targeting Gender"
-            value={email}
-            editable={false}
+            value="All"
+            editable={true}
             isSecure={false}
             placeholder={""}
-            onChangeText={""}
+            onChangeText={(text)=> setGender(text)}
           />
           <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 20,
+          }}
+        >
+          <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 20,
+              width: "40%",
             }}
           >
-            <View
-              style={{
-                width: "40%",
-              }}
-            >
-              <TouchableOpacity onPress={() => navigation.navigate("OTP",{contactNo ,email,salonId})}>
-                <View
-                  style={{
-                    backgroundColor: "#F5F5F5",
-                    borderRadius: 10,
-                    borderWidth: 1,
-                    padding: 9,
-                    alignItems: "center",
-                  }}
-                >
-                  <Text>Cancel</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                width: "40%",
-              }}
-            >
-              <TouchableOpacity onPress={handleSave}>
-                <View
-                  style={{
-                    backgroundColor: "#8B6C58",
-                    borderRadius: 10,
-                    padding: 10,
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                    }}
-                  >
-                    Save
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <View
+                style={{
+                  backgroundColor: "#F5F5F5",
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  padding: 9,
+                  alignItems: "center",
+                }}
+              >
+                <Text>Cancel</Text>
+              </View>
+            </TouchableOpacity>
           </View>
+          <View
+            style={{
+              width: "40%",
+            }}
+          >
+            <TouchableOpacity  onPress={handleSave}>
+              <View
+                style={{
+                  backgroundColor: "#8B6C58",
+                  borderRadius: 10,
+                  padding: 10,
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Save
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
