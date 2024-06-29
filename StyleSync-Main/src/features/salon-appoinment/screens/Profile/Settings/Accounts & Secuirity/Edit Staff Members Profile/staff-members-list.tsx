@@ -95,6 +95,7 @@ export default function StaffListView({ navigation, route}) {
       <StaffMember  name={details.staff.name} 
                     Id={details.staffID} 
                     salonId= {details.salonId} 
+                    isOpen={details.staff.openDays[0].isOpen}
                     openHour={details.staff.openDays[0].openHour} 
                     closeHour={details.staff.openDays[0].closeHour}
                     fetchDetails={fetchDetails}
