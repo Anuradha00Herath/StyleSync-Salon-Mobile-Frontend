@@ -152,7 +152,7 @@ export function ShowServicesType({ route }) {
             </View>
             <FlatButton
               text="Continue"
-              onPress={() => navigation.navigate("Staff",{salonId})}
+              onPress={() => navigation.navigate("AddStaffImage",{salonId,staffId})}
             />
           </View>
         </View>
