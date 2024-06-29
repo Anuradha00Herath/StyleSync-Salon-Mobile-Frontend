@@ -13,6 +13,7 @@ import Calendar from "../../components/calenderInHome";
 import CalenderExpand from "../../components/calenderInAppointment";
 import {BACKGROUND_IMAGE} from "../../components/BackGroundImage"
 const { width, height } = Dimensions.get("screen");
+import { useFocusEffect } from '@react-navigation/native';
 const EventStatus = {
   All: "All",
   Canceled: "Canceled",
@@ -28,33 +29,37 @@ function renderCalender(){
   return <Calendar currentDate={new Date()} />
 }
 
-function renderCalenderExpand(){
-  return <CalenderExpand currentDate={undefined} />
-}
+// function renderCalenderExpand(){
+//   return <CalenderExpand currentDate={undefined} />
+// }
 
-export default function AppointmentScreen({navigation}) {
-
+export default function AppointmentScreen({navigation ,route}) {
+  const {salonId} = route.params;
   const [refresh, setRefresh] = useState(false);
   const [calender, setCalender] = useState(renderCalender());
   const [selectedStatus, setSelectedStatus] = useState<string>(
     EventStatus.All);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const[date ,setDate] =useState<string | undefined>(moment().format('YYYY-MM-DD'));
+
+  
+  //console.log(date)
+  //console.log(selectedStatus)
+
+
 
   const fetchAppointments = async (selectedStatus) => {
     if(selectedStatus == EventStatus.All){
     try {
       setLoading(true);
-      const currentDate = moment.utc().startOf('day').toISOString();
-      const currentTime = moment().format('HH:mm:ss');
       
-      const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-ongoing-appoinment";
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-selectedate-appoinment";
       console.log('Request Parameters:', { 
-        salonId: 1, 
-        date: currentDate, 
-        time: currentTime 
+        salonId: salonId, 
+        date:date,  
       });
-      const response = await axios.get(url, { params: {  salonId: 1,date: currentDate, time: currentTime  } });
+      const response = await axios.get(url, { params: {  salonId: salonId,date:date}});
       setAppointments(response.data.data);
       console.log(response.data);
     } catch (error) {
@@ -62,11 +67,33 @@ export default function AppointmentScreen({navigation}) {
     }finally {
       setLoading(false);
     }}
+    else if(selectedStatus == EventStatus.Canceled){
+      try {
+        setLoading(true);
+        
+        const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-selectedate-cancle-appoinment";
+        console.log('Request Parameters:', { 
+          salonId: salonId, 
+          date:date,  
+        });
+        const response = await axios.get(url, { params: {salonId: salonId,date:date}});
+        setAppointments(response.data.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }finally {
+        setLoading(false);
+      }}
   };
 
-  useEffect(() => {
-    fetchAppointments(selectedStatus);
-  }, []);
+  // useEffect(() => {
+  //   fetchAppointments(selectedStatus);
+  // }, [salonId,selectedStatus]);
+  useFocusEffect(
+    React.useCallback(()=>{
+      fetchAppointments(selectedStatus);
+    },[salonId,selectedStatus,date])
+  );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -127,7 +154,7 @@ export default function AppointmentScreen({navigation}) {
             marginTop: 55,
             marginHorizontal: 30,
           }}
-          onPress ={()=> setCalender(renderCalenderExpand())}
+          onPress ={()=> setCalender(<CalenderExpand selectedDate={date} setSelectedDate={setDate} currentDate={undefined}/>)}
         >
           {calender}
         </TouchableOpacity>

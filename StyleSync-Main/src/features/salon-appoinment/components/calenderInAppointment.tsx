@@ -3,12 +3,16 @@ import { View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 interface CalendarProps {
-  currentDate: Date;
+ currentDate: Date;
+ selectedDate:string|undefined;
+ setSelectedDate:(date: string) => void;
 }
 
-const CalenderExpand: React.FC<CalendarProps> = () => {
 
-  const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+const CalenderExpand: React.FC<CalendarProps> = ({selectedDate,setSelectedDate}) => {
+
+  //const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+  
 
   const customTheme = {
     calendarBackground: 'rgba(10,10,10,0.5)',
@@ -33,6 +37,7 @@ const CalenderExpand: React.FC<CalendarProps> = () => {
          onDayPress={(day) => {
             console.log('selected day', day);
             setSelectedDate(day.dateString); 
+           
           }}
          monthFormat={'yyyy MMMM'}
          hideArrows={false}
