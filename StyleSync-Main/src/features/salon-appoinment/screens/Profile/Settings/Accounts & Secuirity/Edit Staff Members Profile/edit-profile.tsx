@@ -18,8 +18,15 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 
 export default function EditProfile({ navigation ,route }) {
-  const {Id ,salonId} =  route.params;
-    const [image, setImage] = useState(require("../../../../../../../assets/images.jpg"));
+    const {Id ,salonId} =  route.params;
+    const [refresh, setRefresh] = useState(false);
+    const [details, setDetails] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [name, setName]       =useState("");
+    const [contactNo, setContactNo] =useState("");
+    const [error, setError] = useState("");
+    const [gender, setGender]=useState("All")
+    const [image, setImage] = useState(null);
     useEffect(() => {
         (async () => {
           if (Platform.OS !== 'android') {
@@ -38,24 +45,40 @@ export default function EditProfile({ navigation ,route }) {
 
       const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,
         });
     
         if (!result.canceled) {
-          setImage(result);
+          let newfile = {
+            uri: result.assets[0].uri,
+            type: `test/${result.assets[0].uri.split(".")[1]}`,
+            name: `test.${result.assets[0].uri.split(".")[1]}`,
+          };
+          imageUpload(newfile);
         }
       };
+    
+      const imageUpload = (image) => {
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "StyleSync");
+        data.append("cloud_name", "dtnhlsuin");
+    
+        fetch("https://api.cloudinary.com/v1_1/dtnhlsuin/image/upload", {
+          method: "post",
+          body: data,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setImage(data.url);
+            console.log(data.url);
+          });
+      };
 
-  const [refresh, setRefresh] = useState(false);
-  const [details, setDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [name, setName]       =useState("");
-  const [contactNo, setContactNo] =useState("");
-  const [error, setError] = useState("");
-  const [gender, setGender]=useState("All")
+  
 
   const fetchDetails = async() =>{
     try{
@@ -70,6 +93,7 @@ export default function EditProfile({ navigation ,route }) {
       setDetails(addressData);
       setName(addressData.staff.name);
       setContactNo(addressData.staff.staffContact[0].contactNo);
+      setImage(addressData.staff.image);
       console.log(response.data)
 
     }catch(error){
@@ -124,8 +148,15 @@ export default function EditProfile({ navigation ,route }) {
         name,
         contactNo
       });
+      const urlTwo =
+      "https://stylesync-backend-test.onrender.com/app/v1/staff/update-staff-image";
+    const responseTwo = await axios.put(urlTwo, {
+      salonId: salonId,
+      staffId:Id,
+      image: image,
+    });
 
-     console.log(response.data);
+     console.log(response.data ,responseTwo.data);
      navigation.goBack();
     } catch (error) {
       console.log(error);
@@ -179,7 +210,9 @@ export default function EditProfile({ navigation ,route }) {
         }}
       >
         <Image
-          source={image}
+          source={image === null
+            ? require("../../../../../../../assets/images.jpg")
+            : { uri: image }}
           style={{
             width: 150,
             height: 150,

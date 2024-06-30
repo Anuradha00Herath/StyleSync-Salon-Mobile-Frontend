@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Image, Text, TouchableOpacity,StyleSheet } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
@@ -7,11 +7,15 @@ import Icon from "react-native-vector-icons/AntDesign";
 
 export function AppointmentBlock({ appointment, navigation }) {
   const { id, customerAppointmentBlock, staff, serviceAppointmentBlock, gender } = appointment;
+  
+
  
   return (
     <View style={styles.mainView}>
       <View>
-        <Image source={require("../../../assets/man2.jpg")}
+        <Image source={ staff.image=== null
+              ? require("../../../assets/images.jpg")
+              : { uri:staff.image }}
                style={styles.SImage}>
         </Image>
         <Text style={styles.SText}>
@@ -21,7 +25,9 @@ export function AppointmentBlock({ appointment, navigation }) {
 
       <View style={styles.subView2}>
         <View style={styles.View1}>
-            <Image source={require("../../../assets/man1.jpg")}
+            <Image source={customerAppointmentBlock[0].customer.image=== null
+              ? require("../../../assets/images.jpg")
+              : { uri:customerAppointmentBlock[0].customer.image }}
                   style={styles.CImage}>
             </Image>
           <View style={styles.view2}>

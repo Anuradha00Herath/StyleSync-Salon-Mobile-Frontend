@@ -18,7 +18,6 @@ import { globaleStyles } from "../../components/globaleStyles";
 import { SelectList } from "react-native-dropdown-select-list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { FlatButton } from "../../components/FlatButton";
-import { styles } from "./styles";
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 import axios from "axios";
 
@@ -31,6 +30,9 @@ export default function PersanalInformation({ route }) {
   const [gender, setGender] = useState("");
   const [staffContact, setStaffContact] = useState("");
   const [error, setError] = useState("");
+  const [nameError , setNameError] =useState("");
+  const [genderError , setGenderError] =useState("");
+  const[numberError , setNumberError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -38,37 +40,33 @@ export default function PersanalInformation({ route }) {
     setGender("");
     setName("");
     setStaffContact("");
-  }, [id]); // Dependency array with 'topic' as a dependency
+  }, [id,topic]); // Dependency array with 'topic' as a dependency
 
   const validateInputs = () => {
     let isValid = true;
 
     if (!name.trim()) {
-      setError("*Name field is required");
+      setNameError("*Name field is required");
       isValid = false;
-      alert("Name field is required");
     } else {
-      setError("");
+      setNameError("");
     }
 
     if (!gender.trim()) {
-      setError("*Gender field is required");
+      setGenderError("*Gender field is required");
       isValid = false;
-      alert("Gender field is required");
     } else {
-      setError("");
+      setGenderError("");
     }
 
     if (!staffContact.trim()) {
-      setError("*Conatct field is required");
+      setNumberError("*Conatct field is required");
       isValid = false;
-      alert("Conatct field is required");
     } else if (!/^(\+94)[0-9]{9}$/.test(staffContact)) {
-      setError("*Number Should be in correct format");
+      setNumberError("*Number Should be in correct format");
       isValid = false;
-      alert("Number Should be in correct format");
     } else {
-      setError("");
+      setNumberError("");
     }
     return isValid;
   };
@@ -117,7 +115,8 @@ export default function PersanalInformation({ route }) {
 
   const data = [
     { key: "1", value: "Male" },
-    { key: "2", value: "Female" },
+    { key: "2", value: "Female"},
+    { key: "3", value: "Both"},
   ];
   return (
     <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
@@ -144,12 +143,21 @@ export default function PersanalInformation({ route }) {
               <KeyboardAvoidingView behavior="height">
                 <ScrollView>
                   <Text style={globaleStyles.topic}>{topic}</Text>
+                  
                   <TextInput
-                    style={styles.Text}
+                    style={{ height: 48,
+                            width: "100%",
+                            marginTop: 20,
+                            padding: 10,
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            fontSize: 12,
+                            borderColor: nameError ? '#E32222'  : null}}
                     placeholder="Enter Your Name"
                     value={name}
                     onChangeText={(text) => setName(text)}
                   />
+                  {nameError  ? <Text style={{color:"#E32222",fontSize:12,marginLeft:12}}>{nameError}</Text> : null}
                   <View>
                     <SelectList
                       setSelected={(value) => setGender(value)}
@@ -160,21 +168,38 @@ export default function PersanalInformation({ route }) {
                         color: gender ? "#2E2528" : "#999999",
                         fontSize: 12,
                       }}
-                      boxStyles={styles.boxStyles}
+                      boxStyles={{borderRadius: 10,
+                                  height: 48,
+                                  width: "100%",
+                                  marginTop: 20,
+                                  padding: 15,
+                                  borderWidth: 1, 
+                                  borderColor: genderError? "#E32222" :"#000000"}}
                       search={false}
                       //closeicon={false}
-                      dropdownStyles={styles.dropdownStyles}
-                      dropdownTextStyles={styles.dropdownTextStyles}
+                      dropdownStyles={{borderRadius: 10,
+                                        borderWidth: 1,
+                                        borderColor: "#000000",
+                                        shadowColor: "#808080",}}
+                      dropdownTextStyles={{fontSize: 12}}
                     />
                   </View>
-
+                  {genderError ? <Text style={{color:"#E32222",fontSize:12,marginLeft:12}}>{genderError}</Text> : null}
                   <TextInput
-                    style={styles.Text}
+                    style={{ height: 48,
+                              width: "100%",
+                              marginTop: 20,
+                              padding: 10,
+                              borderWidth: 1,
+                              borderRadius: 10,
+                              fontSize: 12,
+                              borderColor: numberError ? '#E32222'  : null}}
                     placeholder="Contact Number"
                     keyboardType="numeric"
                     value={staffContact}
                     onChangeText={(text) => setStaffContact(text)}
                   />
+                  {numberError ? <Text style={{color:"#E32222",fontSize:12,marginLeft:12}}>{numberError}</Text> : null}
                   <View style={{
                   marginTop:30,
                   marginBottom:190

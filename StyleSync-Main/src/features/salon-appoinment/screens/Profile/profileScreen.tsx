@@ -26,8 +26,34 @@ const [loading, setLoading] = useState(false);
 const [toggleStates, setToggleStates] = useState({});
 const [openHour, setOpenHour] = useState('');
 const [closeHour, setCloseHour] = useState('');
+const [image, setImage] = useState(null);
+const [staffImage , setStaffImage] = useState({});
 
 const {salonId} = route.params;
+
+const calculateOpenAndCloseTimes = (staff) => {
+  let earliestOpen = '23:59';
+  let latestClose = '00:00';
+
+  staff.forEach(member => {
+    if (member.openDays[0].isOpen) {
+      if (member.openDays[0].openHour < earliestOpen) {
+        earliestOpen = member.openDays[0].openHour;
+      }
+      if (member.openDays[0].closeHour > latestClose) {
+        latestClose = member.openDays[0].closeHour;
+      }
+    }
+  });
+   
+  if(earliestOpen == '23:59' || latestClose == '00:00'){
+    setCloseHour('');
+    setOpenHour('')
+  }else{
+    setOpenHour(earliestOpen);
+    setCloseHour(latestClose);
+  } 
+};
 
 const fetchDetails = async () => {
   try {
@@ -41,12 +67,19 @@ const fetchDetails = async () => {
     const response = await axios.get(url, { params: {  salonId:salonId , date: currentDate} });
     setDetails(response.data.data);
     console.log(response.data);
+    setImage(response.data.data.salon[0].image)
     const initialToggleStates = {};
+    const initialStaffImage ={};
     response.data.data.staff.forEach(staff => {
     initialToggleStates[staff.staffID] = staff.openDays[0].isOpen;
+    initialStaffImage[staff.staffID] = staff.image;
     });
-      setToggleStates(initialToggleStates);
+    setToggleStates(initialToggleStates);
+    setStaffImage(initialStaffImage);
 
+    console.log(initialStaffImage)
+      
+  
       if (response.data.data.staff.length > 0) {
         calculateOpenAndCloseTimes(response.data.data.staff);
       }
@@ -106,29 +139,7 @@ const toggleSwitch = async (staffId) => {
   }
 };
 
-const calculateOpenAndCloseTimes = (staff) => {
-  let earliestOpen = '23:59';
-  let latestClose = '00:00';
 
-  staff.forEach(member => {
-    if (member.openDays[0].isOpen) {
-      if (member.openDays[0].openHour < earliestOpen) {
-        earliestOpen = member.openDays[0].openHour;
-      }
-      if (member.openDays[0].closeHour > latestClose) {
-        latestClose = member.openDays[0].closeHour;
-      }
-    }
-  });
-   
-  if(earliestOpen == '23:59' || latestClose == '00:00'){
-    setCloseHour('');
-    setOpenHour('')
-  }else{
-    setOpenHour(earliestOpen);
-    setCloseHour(latestClose);
-  } 
-};
 
 const SalonToggle = () => {
   staff.forEach(staff => {
@@ -210,7 +221,9 @@ return (
           }}
         >
           <Image
-            source={require("../../../../assets/images.jpg")}
+            source={ image === null
+              ? require("../../../../assets/images.jpg")
+              : { uri: image }}
             style={{
               width: 107,
               height: 107,
@@ -412,12 +425,15 @@ return (
               }}
             >
               <Image
-                source={require("../../../../assets/images.jpg")}
+                source={ image === null
+                  ? require("../../../../assets/images.jpg")
+                  : { uri: image }}
                 style={{
                   width: 47,
                   height: 47,
                   backgroundColor: "#FDFDFD",
-                  borderRadius: 5,
+                  //borderRadius: 5,
+                  borderRadius:100,
                   alignSelf: "center",
                   borderWidth: 1,
                   borderColor: "rgba(10, 10, 10, 0.1)",
@@ -493,7 +509,9 @@ return (
               }}
             >
               <Image
-                source={require("../../../../assets/images.jpg")}
+                source={staffImage[staff.staffID] === null
+                  ? require("../../../../assets/images.jpg")
+                  : { uri:staffImage[staff.staffID] }}
                 style={{
                   width: 47,
                   height: 47,

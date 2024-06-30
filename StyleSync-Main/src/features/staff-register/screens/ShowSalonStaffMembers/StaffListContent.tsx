@@ -5,6 +5,8 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Image,
+  ScrollView
 } from "react-native";
 import { globaleStyles } from "../../components/globaleStyles";
 import { useNavigation } from "@react-navigation/native";
@@ -55,17 +57,17 @@ export function StaffContent({ staffName, salonId ,fetchServiceName }) {
       }}
     >
       <View>
+        
         <Text style={globaleStyles.topic}>Your Staff</Text>
         <Text style={globaleStyles.Stopic}>When can clients book with you</Text>
-        <View style={{ justifyContent: "flex-start" }}>
+        <View style={{ justifyContent: "flex-start", height:"77%" }}>
           <FlatList
             data={flattenedStaff}
             renderItem={({ item }) => (
               <StaffComponent
                 name={item.name}
+                image={item.image}
                 handleDelete={() =>handleDelete(item.id)}
-                
-                // You can pass other props here if needed
               />
             )}
             ListFooterComponent={() => (
@@ -73,7 +75,7 @@ export function StaffContent({ staffName, salonId ,fetchServiceName }) {
                 <AddMore
                   onPress={() =>
                     navigation.navigate("PersanalInformation", {
-                      name: "Staff personal Information",
+                      topic: "Staff personal Information",
                       id:salonId
                     })
                   }
@@ -82,7 +84,7 @@ export function StaffContent({ staffName, salonId ,fetchServiceName }) {
             )}
           />
         </View>
-      </View>
+      </View>      
       <FlatButton
         text="Continue"
         onPress={() => navigation.navigate("Main", { salonId:salonId })}
@@ -91,13 +93,28 @@ export function StaffContent({ staffName, salonId ,fetchServiceName }) {
   );
 }
 
-export function StaffComponent({ name,handleDelete }) {
+export function StaffComponent({ name,handleDelete,image }) {
   //console.log(name);
   return (
     <View>
       <View style={ContainerStyles.mainView}>
         <View style={ContainerStyles.subView1}>
-          <View style={ContainerStyles.imageView}></View>
+        {/* <View style={ContainerStyles.imageView}></View> */}
+        <Image
+                source={image === null
+                  ? require("../../../../assets/images.jpg")
+                  : { uri:image}}
+                style={{
+                  width: 40,
+                  height: 40,
+                  backgroundColor: "#FDFDFD",
+                  borderRadius: 100,
+                  alignSelf: "center",
+                  borderWidth: 1,
+                  borderColor: "rgba(10, 10, 10, 0.1)",
+                  marginLeft: 5,
+                }}
+              ></Image>
           <View style={ContainerStyles.text}>
             <Text>{name}</Text>
           </View>

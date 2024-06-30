@@ -12,7 +12,7 @@ import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
 export function ShowSevicesContent({
-  Service,
+  serviceType,
   service,
   staffId,
   handleFetchService,
@@ -33,7 +33,7 @@ export function ShowSevicesContent({
       }}
     >
       <View>
-        <Text style={globaleStyles.topic}>{Service} - Your Services</Text>
+        <Text style={globaleStyles.topic}>{serviceType} - Your Services</Text>
         <Text style={globaleStyles.Stopic}>When can client book with you</Text>
         <View style={{ height: 300, justifyContent: "flex-start" }}>
           <FlatList
@@ -51,7 +51,7 @@ export function ShowSevicesContent({
             ListFooterComponent={() => (
               <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
                 <AddMore
-                  onPress={() => navigation.navigate("AddMoreDetails")}
+                  onPress={() => navigation.navigate("AddMoreDetails", {serviceType:serviceType ,staffId:staffId})}
                 />
               </View>
             )}

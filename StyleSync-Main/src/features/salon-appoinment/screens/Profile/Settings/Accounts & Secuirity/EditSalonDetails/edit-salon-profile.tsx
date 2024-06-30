@@ -25,7 +25,9 @@ export default function EditSalonProfile({ navigation ,route}) {
   const [name, setName]       =useState("");
   const [contactNo, setContactNo] =useState("");
   const [error, setError] = useState("");
-  const [gender, setGender]=useState("All")
+  const [gender, setGender]=useState("All");
+  const [image, setImage] = useState(null);
+  
 
   const fetchDetails = async() =>{
     try{
@@ -37,6 +39,7 @@ export default function EditSalonProfile({ navigation ,route}) {
       setDetails(addressData);
       setName(addressData.name);
       setContactNo(addressData.contactNo);
+      setImage(addressData.image)
       console.log(response.data)
 
     }catch(error){
@@ -90,8 +93,14 @@ export default function EditSalonProfile({ navigation ,route}) {
         name,
         contactNo
       });
+      const urlTwo =
+        "https://stylesync-backend-test.onrender.com/app/v1/salon/update-salon-image";
+      const responseTwo = await axios.put(urlTwo, {
+        salonId: salonId,
+        image: image,
+      });
 
-     console.log(response.data);
+     console.log(response.data ,responseTwo.data);
      navigation.goBack()
     } catch (error) {
       console.log(error);
@@ -110,7 +119,7 @@ export default function EditSalonProfile({ navigation ,route}) {
 
 
 
-    const [image, setImage] = useState(require("../../../../../../../assets/images.jpg"));
+    
     useEffect(() => {
         (async () => {
           if (Platform.OS !== 'android') {
@@ -129,16 +138,38 @@ export default function EditSalonProfile({ navigation ,route}) {
 
       const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,
         });
     
         if (!result.canceled) {
-          setImage(result);
+          let newfile = {
+            uri: result.assets[0].uri,
+            type: `test/${result.assets[0].uri.split(".")[1]}`,
+            name: `test.${result.assets[0].uri.split(".")[1]}`,
+          };
+          imageUpload(newfile);
         }
       };
+
+    const imageUpload = (image) => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "StyleSync");
+    data.append("cloud_name", "dtnhlsuin");
+
+    fetch("https://api.cloudinary.com/v1_1/dtnhlsuin/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setImage(data.url);
+        console.log(data.url);
+      });
+  };
 
 
   return (
@@ -178,7 +209,11 @@ export default function EditSalonProfile({ navigation ,route}) {
         }}
       >
         <Image
-          source={image}
+          source={
+            image === null
+              ? require("../../../../../../../assets/images.jpg")
+              : { uri: image }
+          }
           style={{
             width: 150,
             height: 150,

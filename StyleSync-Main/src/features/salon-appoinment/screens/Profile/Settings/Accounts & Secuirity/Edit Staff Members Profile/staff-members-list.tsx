@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { TextInputArea } from "../../../../../components/text-input-area-in-settings";
 import { StaffMember } from "../../../../../components/list-view-of-staff-members";
+import { AddMore } from "../../../../../components/AddMore";
 import axios from "axios";
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
@@ -20,6 +21,7 @@ export default function StaffListView({ navigation, route}) {
   const [refresh, setRefresh] = useState(false);
   const [Details , setDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [staffImage , setStaffImage] = useState({});
 
   const fetchDetails = async () => {
     try {
@@ -31,8 +33,16 @@ export default function StaffListView({ navigation, route}) {
         date:currentDate
       });
       const response = await axios.get(url, { params: {  salonId: salonId, date: currentDate} });
-      setDetails(response.data.data);
-      console.log(response.data);
+      const data = response.data.data;
+      setDetails(data);
+      console.log('Response data:', data);
+
+      const initialStaffImage = {};
+      data.forEach(staff => {
+        initialStaffImage[staff.staffID] = staff.staff.image;
+      });
+      setStaffImage(initialStaffImage);
+      console.log('Staff images set:', initialStaffImage);
     } catch (error) {
       console.error(error);
     }finally {
@@ -99,11 +109,22 @@ export default function StaffListView({ navigation, route}) {
                     openHour={details.staff.openDays[0].openHour} 
                     closeHour={details.staff.openDays[0].closeHour}
                     fetchDetails={fetchDetails}
+                    image={staffImage[details.staffID]}
                     onPress={() => navigation.navigate("EditStaffProfile" ,{name:details.staff.name ,
                                                                             Id:details.staffID ,
                                                                             salonId:details.salonId})}/>
       </View>
       ))}
+       <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
+                <AddMore
+                  onPress={() =>
+                    navigation.navigate("PersanalInformation", {
+                      name: "Staff personal Information",
+                      id:salonId
+                    })
+                  }
+                />
+              </View>
         </View>
       </ScrollView>
     </View>

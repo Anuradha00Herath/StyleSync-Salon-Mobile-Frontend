@@ -15,7 +15,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { AppointmentBlock } from "../../components/appointmentBlock";
 import axios from 'axios';
 import { BACKGROUND_IMAGE} from '../../components/BackGroundImage'
-import { styles } from "../../../staff-register/screens/PersonalInformation/styles";
 import { CustomerStyle } from "./style";
 const { width, height } = Dimensions.get("screen");
 
@@ -23,7 +22,7 @@ const { width, height } = Dimensions.get("screen");
 export default function CustomerInfo({ route ,navigation}) { 
  
   const {appointment} = route.params;
-  const {customerId, customerAppointmentBlock, staff, serviceAppointmentBlock, gender,date,endTime } = appointment;
+  const {customerAppointmentBlock, staff, serviceAppointmentBlock,endTime } = appointment;
 
   const [refresh, setRefresh] = useState(false);
   const [appointmentsHistory, setAppointmentsHistory] = useState([]);

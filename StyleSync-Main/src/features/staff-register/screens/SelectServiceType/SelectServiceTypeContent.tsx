@@ -33,7 +33,7 @@ export function SelectServicesTypeContent({ staffId, salonId }) {
       };
       fetchBusinessHours();
       return () => {
-        // Clean up function
+         // Clean up function
       };
     }, [staffId])
   );

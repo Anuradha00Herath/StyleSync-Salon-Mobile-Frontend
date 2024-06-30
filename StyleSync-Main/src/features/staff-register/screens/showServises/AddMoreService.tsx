@@ -8,16 +8,14 @@ import{BACKGROUND_IMAGE} from "../../components/BackGroundImage"
 
 //const backImg=require("../../../../assets/StyleSync.jpeg")
 
-export default function AddMoreDetails(){
+export default function AddMoreDetails({route}){
+    const { serviceType, staffId, salonId } = route.params;
     return(
-       
-       
-           
            <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container} >
             <StatusBar/>
             <AppName/>
              <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1}} contentInsetAdjustmentBehavior='scrollableAxes'>
-                <AddMoreContant/> 
+                <AddMoreContant serviceType={serviceType} staffId={staffId}/> 
             </KeyboardAwareScrollView> 
            </ImageBackground>
          

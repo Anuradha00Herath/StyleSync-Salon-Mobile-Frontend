@@ -3,12 +3,13 @@ import React ,{ useState} from "react";
 import { Image, View, Text,TouchableOpacity  } from "react-native";
 import axios from "axios";
 
-export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,fetchDetails}) {
+export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,fetchDetails,image}) {
   const [loading, setLoading] = useState(false);
 
   const OpenTime = () => {
     return isOpen ? `${openHour} - ${closeHour}` : "Closed";
   }
+  console.log(image)
 
   const handleDelete = async () => {
     try{
@@ -48,11 +49,15 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
           }}
         >
           <Image
-            source={require("../../../assets/images.jpg")}
+          
+            source={image === null
+              ? require("../../../assets/images.jpg")
+              : { uri:image }}
             style={{
-              width: 60,
-              height: 60,
+              width: 40,
+              height: 40,
               alignSelf: "center",
+              borderRadius: 100,
             }}
           ></Image>
           <View
@@ -63,7 +68,7 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
           >
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: "bold",
               }}
             >
@@ -77,10 +82,10 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
             >
               <Ionicons style={{
                 padding: 3
-              }} name="time-outline" size={15} color="black" />
+              }} name="time-outline" size={14} color="black" />
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 14,
                 }}
               >
              {OpenTime()}
@@ -97,7 +102,7 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
             paddingRight:10
           }}
           name="trash"
-          size={25}
+          size={20}
           color="#000000"
         />
         </TouchableOpacity>
@@ -107,7 +112,7 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
             paddingVertical: 17,
           }}
           name="chevron-forward"
-          size={25}
+          size={20}
           color="#000000"
         />
         </TouchableOpacity>

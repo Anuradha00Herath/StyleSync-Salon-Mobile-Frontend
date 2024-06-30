@@ -66,7 +66,7 @@ export default function ShowSevices({ route }) {
           }}
         >
           <ShowSevicesContent
-            Service={serviceType}
+            serviceType={serviceType}
             service={service}
             staffId={staffId}
             salonId ={salonId}

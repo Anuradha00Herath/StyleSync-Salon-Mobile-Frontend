@@ -20,13 +20,37 @@ export function EditServiceDetailsContent({
   const [serviceName, setServiceName] = useState(initialServiceName);
   const [duration, setDuration] = useState(initialDuration);
   const [price, setPrice] = useState(initialPrice);
+  const[serviceError , setServiceError] =useState("")
+  const[durationError , setDurationError] =useState("");
+  const[priceError , setPriceError]=useState("");
+
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!serviceName) {
+      setServiceError("*service is required");
+      isValid = false;
+    } else {
+      setServiceError("");
+    }
+    if (!duration) {
+      setDurationError("*Duration is required");
+      isValid = false;
+    } else {
+      setDurationError("");
+    }
+    if (!price) {
+      setPriceError("*Price is required");
+      isValid = false;
+    } else {
+      setPriceError("");
+    }
+    return isValid;
+  };
   
 
   const handleSave = async () => {
-    if (!serviceName || !duration || !price) {
-      alert("Please fill in all fields."); 
-      return; 
-    }
+    if (validateInputs()) {
     try {
       const url =
         "https://stylesync-backend-test.onrender.com/app/v1/service/update-staff-service-info";
@@ -45,8 +69,10 @@ export function EditServiceDetailsContent({
     } catch (error) {
       console.log(error);
     }
-
     navigation.goBack(); 
+  }else {
+    console.log("error");
+  }
   };
   return (
     <View style={[
@@ -60,14 +86,18 @@ export function EditServiceDetailsContent({
         <Text style={styles.text1}>Service Name</Text>
         <TextInput
           style={styles.input}
+          placeholder={serviceError}
+          placeholderTextColor="#E32222" 
           value={serviceName}
           onChangeText={(text) => setServiceName(text)}
         />
         <SeparatorLineWithText/>
-
+        
         <Text style={styles.text1}>Service duration</Text>
         <TextInput
           style={styles.input}
+          placeholder={durationError}
+          placeholderTextColor="#E32222"
           value={duration}
           onChangeText={(text) => setDuration(text)}
         />
@@ -76,6 +106,8 @@ export function EditServiceDetailsContent({
         <Text style={styles.text1}>Price</Text>
         <TextInput
           style={styles.input}
+          placeholder={priceError}
+          placeholderTextColor="#E32222"
           value={price.toString()}
           onChangeText={(text) => setPrice(text)}
           keyboardType="decimal-pad"

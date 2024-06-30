@@ -2,7 +2,8 @@ import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 
 export function AppointmentBlockTwo({ appointment , navigation}) {
-  const { startTime, endTime, gender,customerAppointmentBlock, serviceAppointmentBlock} = appointment;
+  const { startTime, endTime,customerAppointmentBlock, serviceAppointmentBlock,staff} = appointment;
+ 
 
   return (
     <View style={{  
@@ -33,7 +34,9 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
               
             }}>
               <Image
-                source={require("../../../assets/man1.jpg")}
+                source={customerAppointmentBlock[0].customer.image=== null
+                  ? require("../../../assets/images.jpg")
+                  : { uri:customerAppointmentBlock[0].customer.image }}
                 style={{
                   width: 45,
                   height: 45,
@@ -68,8 +71,7 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
               margin: 5,
               marginBottom: 10
             }}
-            onPress={() =>
-              navigation.navigate("CustomerInfo", {appointment:appointment})}
+            onPress={() => navigation.navigate("CustomerInfo", {appointment: appointment})}
             >
               <Text style={{
                 color: 'white',

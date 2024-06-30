@@ -51,26 +51,7 @@ export default function EditLoginDetails({ navigation, route }) {
       setLoading(false);
     }
   };
-  const handleSubmit = async () => {
-    
-    try {
-      setLoading(true);
-      const url =
-        "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-ConfirmationInformation";
-      const response = await axios.put(url, {
-        salonId: salonId,
-        username:username,
-        password:password
-      });
-
-     console.log(response.data);
-     navigation.goBack()
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-    };
+ 
   useEffect(() => {
     fetchDetails();
   }, []);
@@ -115,7 +96,7 @@ export default function EditLoginDetails({ navigation, route }) {
           alignSelf: "center",
         }}
       ></Image>
-      <KeyboardAvoidingView behavior="height">
+      <KeyboardAvoidingView behavior='padding'>
         <ScrollView
           style={{
             alignSelf: "center",
@@ -138,18 +119,75 @@ export default function EditLoginDetails({ navigation, route }) {
             placeholder={""}
             onChangeText={(text) => setUsername(text)}
           />
-          <EditPassword isEdit={isEdit} setIsEdit={setIsEdit} password={password}/>
+          <EditPassword isEdit={isEdit} 
+                        setIsEdit={setIsEdit} 
+                        password={password} 
+                        navigation={navigation}
+                        salonId={salonId}
+                        username={username}/>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
   );
 }
-function EditPassword({ isEdit, setIsEdit,password }) {
+function EditPassword({ isEdit, setIsEdit,password,navigation,salonId, username }) {
     const onPress = () => setIsEdit(false);
     const onPress2 = () => setIsEdit(true);
+    const [loading, setLoading] = useState(false);
     const[CurrentPassword ,setCurrentPasswod] =useState("");
     const[newPassword ,setNewPasswod] =useState("");
     const[ConfirmPassword,setConfirmPassword]=useState("");
+    const [error, setError] = useState("");
+
+    const validateInputs = () => {
+      let isValid = true;
+      if (!username || !CurrentPassword || !newPassword || !ConfirmPassword) {
+        setError("*All fields are required");
+        isValid = false;
+        alert("All fields are required");
+      } else {
+        setError("");
+      }
+      if (CurrentPassword !== password) {
+        setError("*CurrentPassword is Invalid");
+        isValid = false;
+        alert("CurrentPassword is Invalid");
+      } else {
+        setError("");
+      }
+      if (newPassword !== ConfirmPassword) {
+        setError("*confirmPassword and Passwords does not match");
+        isValid = false;
+        alert("confirmPassword and Passwords does not match");
+      } else {
+        setError("");
+      }
+      return isValid;
+    };
+
+    const handleSubmit = async () => {
+      if (validateInputs()) {
+      try {
+        setLoading(true);
+        const url =
+          "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/Update_salon-ConfirmationInformation";
+        const response = await axios.put(url, {
+          salonId: salonId,
+          username:username,
+          password:ConfirmPassword
+        });
+  
+       console.log(response.data);
+       navigation.goBack();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }else {
+      console.log({ error });
+    }
+      };
     
   if (isEdit === true) {
     return (
@@ -157,7 +195,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
       <View>
         <TextInputArea
           name="Enter Current Password"
-          value={""}
+          value={CurrentPassword}
           editable={true}
           isSecure={true}
           placeholder={"Current Password"}
@@ -165,7 +203,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
         />
         <TextInputArea
           name="Enter new Password"
-          value=""
+          value={newPassword}
           editable={true}
           isSecure={true}
           placeholder={"New Password"}
@@ -173,7 +211,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
         />
         <TextInputArea
           name="Confirm new Password"
-          value=""
+          value={ConfirmPassword}
           editable={true}
           isSecure={true}
           placeholder={"Confirm New Password"}
@@ -191,7 +229,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <View
                 style={{
                   backgroundColor: "#F5F5F5",
@@ -210,7 +248,7 @@ function EditPassword({ isEdit, setIsEdit,password }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={ handleSubmit }>
               <View
                 style={{
                   backgroundColor: "#8B6C58",
