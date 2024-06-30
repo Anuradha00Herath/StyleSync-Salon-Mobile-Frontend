@@ -3,8 +3,13 @@ import React ,{ useState} from "react";
 import { Image, View, Text,TouchableOpacity  } from "react-native";
 import axios from "axios";
 
-export function StaffMember({name,openHour,closeHour,Id,salonId,onPress,fetchDetails}) {
+export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,fetchDetails}) {
   const [loading, setLoading] = useState(false);
+
+  const OpenTime = () => {
+    return isOpen ? `${openHour} - ${closeHour}` : "Closed";
+  }
+
   const handleDelete = async () => {
     try{
       setLoading(true);
@@ -78,8 +83,9 @@ export function StaffMember({name,openHour,closeHour,Id,salonId,onPress,fetchDet
                   fontSize: 15,
                 }}
               >
-                {openHour} - {closeHour}
+             {OpenTime()}
               </Text>
+              
             </View>
           </View>
         </View>

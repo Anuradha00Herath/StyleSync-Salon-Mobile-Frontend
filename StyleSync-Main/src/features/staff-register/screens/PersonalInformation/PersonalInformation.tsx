@@ -38,7 +38,7 @@ export default function PersanalInformation({ route }) {
     setGender("");
     setName("");
     setStaffContact("");
-  }, [topic]); // Dependency array with 'topic' as a dependency
+  }, [id]); // Dependency array with 'topic' as a dependency
 
   const validateInputs = () => {
     let isValid = true;

@@ -23,6 +23,10 @@ export default function ProfileScreen({ navigation,route }) {
 const [refresh, setRefresh] = useState(false);
 const [Details , setDetails] = useState(null);
 const [loading, setLoading] = useState(false);
+const [toggleStates, setToggleStates] = useState({});
+const [openHour, setOpenHour] = useState('');
+const [closeHour, setCloseHour] = useState('');
+
 const {salonId} = route.params;
 
 const fetchDetails = async () => {
@@ -37,6 +41,15 @@ const fetchDetails = async () => {
     const response = await axios.get(url, { params: {  salonId:salonId , date: currentDate} });
     setDetails(response.data.data);
     console.log(response.data);
+    const initialToggleStates = {};
+    response.data.data.staff.forEach(staff => {
+    initialToggleStates[staff.staffID] = staff.openDays[0].isOpen;
+    });
+      setToggleStates(initialToggleStates);
+
+      if (response.data.data.staff.length > 0) {
+        calculateOpenAndCloseTimes(response.data.data.staff);
+      }
   } catch (error) {
     console.error(error);
   }finally {
@@ -50,24 +63,6 @@ useFocusEffect(
   },[salonId])
 );
 
-// useEffect(() => {
-//   fetchDetails();
-// }, [salonId]);
-
-// useEffect(() => {
-//   const intervalId = setInterval(() => {
-//     setRefresh(true);
-//   }, 5000); 
-
-//   return () => clearInterval(intervalId);
-// }, []);
-
-// useEffect(() => {
-//   if (refresh) {
-//     setRefresh(false);
-//   }
-// }, [refresh]);
-
 if (loading || !Details) {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -75,8 +70,108 @@ if (loading || !Details) {
     </View>
   );
 }
-
 const { salon, staffCount, customerCount, staff } = Details;
+
+const toggleSwitch = async (staffId) => {
+  const newToggleStates = {...toggleStates};
+  newToggleStates[staffId] = !newToggleStates[staffId];
+  setToggleStates(newToggleStates);
+  try {
+    setLoading(true);
+    const url =
+      "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/update-staffAvailability";
+      const currentDate = moment.utc().startOf('day').toISOString();
+      console.log('Request Parameters:', { 
+        staffId: staffId,
+        date:currentDate,
+        isOpen: newToggleStates[staffId],
+      });
+    const response = await axios.put(url, {
+      staffId:staffId,
+      date:currentDate,
+      isOpen: newToggleStates[staffId],
+    });
+    const result = response.data;
+    const { message, status } = result;
+    if (status === 200) {
+      fetchDetails();
+      console.log("Success", message);
+    } else {
+      console.log("Error",status);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+const calculateOpenAndCloseTimes = (staff) => {
+  let earliestOpen = '23:59';
+  let latestClose = '00:00';
+
+  staff.forEach(member => {
+    if (member.openDays[0].isOpen) {
+      if (member.openDays[0].openHour < earliestOpen) {
+        earliestOpen = member.openDays[0].openHour;
+      }
+      if (member.openDays[0].closeHour > latestClose) {
+        latestClose = member.openDays[0].closeHour;
+      }
+    }
+  });
+   
+  if(earliestOpen == '23:59' || latestClose == '00:00'){
+    setCloseHour('');
+    setOpenHour('')
+  }else{
+    setOpenHour(earliestOpen);
+    setCloseHour(latestClose);
+  } 
+};
+
+const SalonToggle = () => {
+  staff.forEach(staff => {
+    setOpenHour('');
+    setOpenHour('');
+    setToggleStates({});
+    staffUpdate(staff.staffID)
+    fetchDetails();
+  }); 
+}
+    const staffUpdate = async(staffId) => {
+    try{ 
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/SalonProfile/update-staffAvailability";
+        const currentDate = moment.utc().startOf('day').toISOString();
+        console.log('Request Parameters:', { 
+          staffId: staffId,
+          date:currentDate,
+          isOpen: false
+        });
+      const response = await axios.put(url, {
+        staffId:staffId,
+        date:currentDate,
+        isOpen: false,
+      });
+      const result = response.data;
+      const { message, status } = result;
+      if (status === 200) {
+        console.log("Success", message);
+      } else {
+        console.log("Error",status);
+      }
+
+    }catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  } 
+    
+  
+
   
 return ( 
 
@@ -340,7 +435,7 @@ return (
                     fontWeight: "bold",
                   }}
                 >
-                  {salon.name}
+                  {salon[0].name}
                 </Text>
                 <Text
                   style={{
@@ -360,7 +455,7 @@ return (
                       marginLeft: 5,
                     }}
                   ></Image>{" "}
-                  09:00 - 19:00
+                  { openHour? `${openHour} - ${closeHour}` : "Closed"}
                 </Text>
               </View>
             </View>
@@ -370,8 +465,8 @@ return (
               trackColor={{ false: "#767577", true: "#2e2528" }}
               thumbColor={true ? "#8B6C58" : "#8B6C58"}
               ios_backgroundColor="#3e3e3e"
-              //onValueChange={toggleSwitch}
-              value={true}
+              onValueChange={SalonToggle}
+              value={openHour? true:false}
             />
           </View>
           
@@ -442,7 +537,7 @@ return (
                       marginLeft: 5,
                     }}
                   ></Image>{" "}
-                  {staff.openDays[0].openHour}- {staff.openDays[0].closeHour}
+                 { staff.openDays[0].isOpen ? `${staff.openDays[0].openHour} - ${staff.openDays[0].closeHour}` : "Closed"}
                 </Text>
               </View>
               
@@ -453,8 +548,8 @@ return (
               trackColor={{ false: "#767577", true: "#2e2528" }}
               thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
-              //onValueChange={toggleSwitch}
-              value={false}
+              onValueChange={() =>toggleSwitch(staff.staffID)}
+              value={toggleStates[staff.staffID]}
             />
           </View>
             ))}
