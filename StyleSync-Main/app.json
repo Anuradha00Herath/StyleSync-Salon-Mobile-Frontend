@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "StyleSync-Main",
-    "slug": "StyleSync-Main",
+    "slug": "stylesync-main",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,15 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4302ad6f-c1f5-45a5-89ad-d2bf2b5a33b8"
+      }
+    },
+    "owner": "anuradha00"
   }
 }
