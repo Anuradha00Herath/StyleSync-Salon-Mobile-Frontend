@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 
 export function AppointmentBlockTwo({ appointment , navigation}) {
-  const { startTime, endTime,customerAppointmentBlock, serviceAppointmentBlock,staff} = appointment;
+  const { startTime, endTime,customerAppointmentBlock, serviceAppointmentBlock,staff,date} = appointment;
  
 
   return (

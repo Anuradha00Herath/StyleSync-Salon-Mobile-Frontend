@@ -114,7 +114,7 @@ export default function AppointmentScreen({navigation ,route}) {
 
   const groupedAppointments = {};
   appointments.forEach((appointment) => {
-    const staffName = appointment.staff.name;
+    const staffName = appointment.staff.id;
     if (groupedAppointments[staffName]) {
       groupedAppointments[staffName].push(appointment);
     } else {

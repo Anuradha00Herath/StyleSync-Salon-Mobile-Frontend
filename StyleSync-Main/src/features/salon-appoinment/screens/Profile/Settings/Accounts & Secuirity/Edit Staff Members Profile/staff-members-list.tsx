@@ -59,7 +59,7 @@ export default function StaffListView({ navigation, route}) {
 
  
   return (
-    <View >
+    <View style={{height:"100%"}}>
       <View
         style={{
           flexDirection: "row",
@@ -96,8 +96,9 @@ export default function StaffListView({ navigation, route}) {
           alignSelf: "center",
         }}
       ></Image>
-      <ScrollView>
-        <View style={{marginHorizontal:10}}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={{marginHorizontal:10,justifyContent:'flex-start'}}>
+        
       {Details.map((details, index) =>(
       <View
       key={index}
@@ -115,7 +116,15 @@ export default function StaffListView({ navigation, route}) {
                                                                             salonId:details.salonId})}/>
       </View>
       ))}
-       <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
+       <View style={{ alignItems: "flex-start", 
+                      marginBottom: 20 ,
+                      marginTop: 10,
+                      width: "95%",
+                      marginHorizontal:10,
+                      borderBottomWidth: 1,
+                      borderColor: "grey",
+                      borderRadius: 10,
+                      }}>
                 <AddMore
                   onPress={() =>
                     navigation.navigate("PersanalInformation", {
@@ -125,8 +134,9 @@ export default function StaffListView({ navigation, route}) {
                   }
                 />
               </View>
+              
         </View>
-      </ScrollView>
+        </ScrollView>
     </View>
   );
 }

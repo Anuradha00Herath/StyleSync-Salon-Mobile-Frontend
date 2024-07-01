@@ -13,7 +13,9 @@ import axios from "axios";
 export function SelectServicesTypeContent({ staffId, salonId }) {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [loading, setLoading] = useState(false);
-  const [services, setServices] = useState([]); // Provide a default empty array
+  const [services, setServices] = useState([]); 
+  const [selectedCheck, setSelectedCheck] = useState([]);
+  const [hasSelected, setHasSelected] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -38,8 +40,7 @@ export function SelectServicesTypeContent({ staffId, salonId }) {
     }, [staffId])
   );
 
-  const [selectedCheck, setSelectedCheck] = useState([]);
-  const [hasSelected, setHasSelected] = useState(false);
+ 
 
   const handleCheckboxClick = (index) => {
     const newSelectedCheck = [...selectedCheck];
@@ -47,6 +48,12 @@ export function SelectServicesTypeContent({ staffId, salonId }) {
     setSelectedCheck(newSelectedCheck);
     setHasSelected(newSelectedCheck.some((checked) => checked));
   };
+  //generating an array of selected service names based on the checkboxes
+  const selectedServiceNames = services
+    .filter((service, index) => selectedCheck[index])
+    .map((service) => service);
+    console.log(selectedServiceNames);
+    console.log(staffId);
 
   const handleContinue = async () => {
     if (!hasSelected) {
@@ -77,12 +84,7 @@ export function SelectServicesTypeContent({ staffId, salonId }) {
       }
     }
   };
-  //generating an array of selected service names based on the checkboxes
-  const selectedServiceNames = services
-    .filter((service, index) => selectedCheck[index])
-    .map((service) => service);
-  console.log(selectedServiceNames);
-  console.log(staffId);
+  
 
   const outerSize = 18;
   const innerSize = 12;

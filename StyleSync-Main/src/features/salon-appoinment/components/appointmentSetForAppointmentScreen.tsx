@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { AppointmentBlockTwo } from "./appointmentBlockForAppointmentScreen";
 
 export function AppointmentSetTwo({staffName, appointments, navigation}) {
+  
   return (
     <View style={{
         alignItems: 'center'
@@ -29,7 +30,7 @@ export function AppointmentSetTwo({staffName, appointments, navigation}) {
             fontSize: 12,
           }}
         >
-          {staffName}
+          {appointments[0].staff.name}
         </Text>
         <View
           style={{

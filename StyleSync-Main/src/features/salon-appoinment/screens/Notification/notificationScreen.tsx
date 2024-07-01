@@ -11,6 +11,7 @@ import {
   Switch,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/AntDesign";
 import {BACKGROUND_IMAGE} from "../../components/BackGroundImage"
 
 const { width, height } = Dimensions.get("screen");
@@ -68,16 +69,25 @@ export default function NotificationScreen(){
                 <View style={{marginLeft:10,
                               paddingRight:10,
                               flexDirection:"column",
-                              width:"75%",
+                              width:"85%",
                 }}>
+                  <View style={{flexDirection:"row",
+                                justifyContent:"space-between",
+                                marginBottom:10}}>
+                  
+                  <Text style={{fontSize:16,fontWeight:'bold'}}>Jon</Text>
                   <View>
-                  <Text style={{fontSize:16,fontWeight:'bold'}}>{appointment.salonName}</Text>
+                
+                  <Icon name="right"
+                        size={18}
+                        color={"black"}/>
+                  </View>
                   </View>
                   <View>
-                  <Text>{appointment.massage}</Text>
+                    <Text>{appointment.salonName} has new appointment on {appointment.Date} at {appointment.ATime}</Text>
                   </View>
                   <View>
-                  <Text style={{color:'gray'}}>{appointment.Time}</Text>
+                  <Text style={{color:'gray',marginTop:5}}>{appointment.RTime}</Text>
                   </View>
                 </View>
               </View>
@@ -91,7 +101,7 @@ export default function NotificationScreen(){
               }}>
                 Earlier
               </Text>
-              <View style={{backgroundColor:"#FDFEFE" ,marginBottom:64}}>
+              <View style={{backgroundColor:"#FDFEFE"}}>
               {mockAppointments.map((appointment, index) => (
               <View key={index} style={{flexDirection:'row',
                             justifyContent:'flex-start',
@@ -101,7 +111,7 @@ export default function NotificationScreen(){
                 <View style={{marginHorizontal:5
                 }}>
                 <Image
-                     source={require("../../../../assets/man2.jpg")}
+                     source={BACKGROUND_IMAGE}
                      style={{width: 40,
                              height: 40,
                              borderColor: "green",
@@ -111,23 +121,30 @@ export default function NotificationScreen(){
           }}
         ></Image>
                 </View>
-                
-                <View  style={{marginLeft:10,
+                <View style={{marginLeft:10,
                               paddingRight:10,
                               flexDirection:"column",
-                              width:"75%",
+                              width:"85%",
                 }}>
+                  <View style={{flexDirection:"row",
+                                justifyContent:"space-between",
+                                marginBottom:10}}>
+                  
+                  <Text style={{fontSize:16,fontWeight:'bold'}}>Jon</Text>
                   <View>
-                  <Text style={{fontSize:16,fontWeight:'bold'}}>{appointment.salonName}</Text>
+                
+                  <Icon name="right"
+                        size={18}
+                        color={"black"}/>
+                  </View>
                   </View>
                   <View>
-                  <Text>{appointment.massage}</Text>
+                    <Text>{appointment.salonName} has new appointment on {appointment.Date} at {appointment.ATime}</Text>
                   </View>
                   <View>
-                  <Text style={{color:'gray'}}>{appointment.Time}</Text>
+                  <Text style={{color:'gray',marginTop:5}}>{appointment.RTime}</Text>
                   </View>
                 </View>
-                
               </View>
               ))}
               </View>
@@ -140,25 +157,14 @@ export default function NotificationScreen(){
 }
 
 const mockAppointments = [
-  {salonName:"Leo",
-    massage:"Happy Birthday! Hope your special day is filled with joy and laughter. 🎉",
-    Time:"Today 09.00 a.m"
+  {salonName:"kelvin",
+    massage:"New Appoinment",
+    Date:"2024/07/02",
+    ATime: "09.30",
+    Service:"Hair Cut",
+    Price:"300",
+    RTime:"Today 09.00 a.m"
   },
-  {salonName:"Leo",
-    massage:"I’m really sorry for what happened. I hope we can move past this. 🙏",
-    Time:"Today 09.00 a.m"
-  },
-  {salonName:"Leo",
-    massage:"Thinking of you and all the wonderful times we’ve shared. ❤️",
-    Time:"Today 09.00 a.m"
-  },
-  {salonName:"Leo",
-    massage:"Hi [Anuradha], just a friendly reminder about your appointment with us tomorrow at [09.00]. We look forward to seeing you!",
-    Time:"Today 09.00 a.m"
-  },
-  {salonName:"Leo",
-    massage:"Dear [Customer's Name], this is a gentle reminder of your appointment with [Salon/Place] on [Date] at [Time]. Please let us know if you need to reschedule. Thank you!",
-    Time:"Today 09.00 a.m"
-  },
+  
     
 ]

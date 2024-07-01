@@ -15,14 +15,26 @@ import { Ionicons } from "@expo/vector-icons";
 import { AppointmentBlock } from "../../components/appointmentBlock";
 import axios from 'axios';
 import { BACKGROUND_IMAGE} from '../../components/BackGroundImage'
-import { CustomerStyle } from "./style";
 const { width, height } = Dimensions.get("screen");
 
 
 export default function CustomerInfo({ route ,navigation}) { 
  
   const {appointment} = route.params;
-  const {customerAppointmentBlock, staff, serviceAppointmentBlock,endTime } = appointment;
+  const {customerAppointmentBlock, staff, serviceAppointmentBlock,endTime,date } = appointment;
+  
+  const isFutureAppointment = () => {
+
+    const appointmentDate = moment(customerAppointmentBlock[0].date);
+    const now = moment.utc().startOf('day').toISOString();
+    const currentTime = moment(); 
+    const appointmentTime = moment(endTime, 'HH:mm:ss');
+   
+    if(appointmentDate.isSame(now)){
+     return appointmentTime.isAfter(currentTime);
+    }
+    return appointmentDate.isAfter(now);
+  };
 
   const [refresh, setRefresh] = useState(false);
   const [appointmentsHistory, setAppointmentsHistory] = useState([]);
@@ -67,66 +79,152 @@ export default function CustomerInfo({ route ,navigation}) {
   }, [refresh]);
 
   return (
-    <View style={CustomerStyle.mainView}>
-        <StatusBar />
-        <ImageBackground source={BACKGROUND_IMAGE}
-                         style={CustomerStyle.backgroundI}>
-          <Text style={[CustomerStyle.salonName,{top: StatusBar.currentHeight + 20,}]}>
-            StyleSync
-          </Text>
-          <View style={CustomerStyle.container}>
-            <View style={CustomerStyle.upperView}>
+    <View style={{ flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center"}}>
+         <StatusBar />
+          <View style={{ backgroundColor: "#FDFDFD",
+                          width: "95%",
+                          height: "100%",
+                          bottom: 0,
+                          paddingBottom: "auto",
+                          position: "absolute",
+                          borderTopLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                          marginTop: 10,
+                          marginHorizontal:50}}>
+            <View style={{flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginTop:10}}>
               <TouchableOpacity onPress={()=>navigation.goBack()}>
                 <Ionicons
                   name="arrow-back"
                   size={25}
-                  style={CustomerStyle.backIcon}/>
+                  style={{  marginTop: 10,
+                            marginLeft: 10,}}/>
               </TouchableOpacity>
-              <Text style={CustomerStyle.staffText}>
-                {staff.name}
+              <Text style={{ alignSelf: "center",
+                              fontSize: 16,
+                              marginRight: 10,
+                              fontWeight: "bold",}}>
+                Staff Member -{staff.name}
               </Text>
             </View>
-            <View style={CustomerStyle.downView}>
+            <View style={{ marginTop:30,
+                           alignItems:'center'}}>
               <Image
-                source={require("../../../../assets/images.jpg")}
-                style={CustomerStyle.CImage}>       
+                source={customerAppointmentBlock[0].customer.image === null
+                  ? require("../../../../assets/images.jpg")
+                  : { uri: customerAppointmentBlock[0].customer.image }}
+                style={{height: 100,
+                        width: 100,
+                        borderWidth: 1,
+                        borderColor: "#2E2528",
+                        borderRadius: 100,}}>       
               </Image>
-              <Text style={CustomerStyle.CNameText}>
+              <Text style={{ fontSize: 18,
+                              fontWeight: "bold",
+                              marginTop: 12,}}>
                 {customerAppointmentBlock[0].customer.name}
               </Text>
-              <Text style={CustomerStyle.CNumberText}>
-                {customerAppointmentBlock[0].customer.number}
+              <Text style={{fontSize: 12,}}>
+                {/* {customerAppointmentBlock[0].customer.number} */}
+                +94123678543
               </Text>
             </View>
-            <View style={CustomerStyle.line}></View>
-            <Text style={CustomerStyle.TopicText}>
+            <View style={{ borderTopWidth: 1,
+                            height: 0,
+                            width: "90%",
+                            alignSelf: "center",
+                            marginTop: 12,
+                            borderColor: "#EFEFEF"}}></View>
+            <Text style={{fontSize: 14,
+                          fontWeight: "bold",
+                          marginTop: 12,
+                          marginLeft: 31,}}>
               Appointment Details
             </Text>
-            <View style={CustomerStyle.NPView}>
+            <View style={{ flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "90%",
+                            alignSelf: "center",
+                            marginTop: 12}}>
               <Text>{serviceAppointmentBlock[0].service.name}</Text>
               <Text>{serviceAppointmentBlock[0].service.price}</Text>
             </View>
-            <View style={CustomerStyle.DTView}>
+            <View style={{ flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "90%",
+                            alignSelf: "center",
+                            marginTop: 12,}}>
               <Text>{new Date(customerAppointmentBlock[0].date).toISOString().split('T')[0]}</Text>
               <Text>{customerAppointmentBlock[0].startTime}</Text>
             </View>
-            <View style={CustomerStyle.line}></View>
-            <Text style={CustomerStyle.HistoryText}>
+            {isFutureAppointment()  && (
+            <View style={{flexDirection:"row",
+                          width:"90%",
+                          justifyContent:'space-between',
+                          marginHorizontal:24,
+                          marginVertical:20,
+                          alignItems:"center"
+            }}>
+               <View style={{width: "40%",}}>
+              <TouchableOpacity>
+                <View style={{ backgroundColor: "#F5F5F5",
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                padding: 9,
+                                alignItems: "center",
+                                }}>
+                   <Text>Cancel</Text>
+                </View>
+              </TouchableOpacity>
+              </View>
+              <View style={{width: "40%",}}>
+              <TouchableOpacity>
+                <View style={{ backgroundColor: "#F5F5F5",
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                padding: 9,
+                                alignItems: "center",
+                                }}>
+                   <Text>Reject</Text>
+                </View>
+              </TouchableOpacity>
+              </View>
+            </View>)}
+            <View style={{ borderTopWidth: 1,
+                            height: 0,
+                            width: "90%",
+                            alignSelf: "center",
+                            marginTop: 12,
+                            borderColor: "#EFEFEF"}}></View>
+            <Text style={{  fontSize: 14,
+                            fontWeight: "bold",
+                            marginTop: 12,
+                            marginLeft: 31,}}>
               History
             </Text>
             {appointmentsHistory.map((item, index) => (
             <View key={index}
-                  style={CustomerStyle.HistortMView}>
-              <View style={CustomerStyle.HView1}>
+                  style={{ flexDirection: "row",
+                            justifyContent: "flex-start",
+                            width: "90%",
+                            alignSelf: "center",
+                            marginTop: 12, }}>
+            <View style={{ flexDirection: "row", 
+                           width:"50%"}}>
                 <Ionicons name="sync"
                           size={15}
                           style={{marginTop: 3,}}
                 />
-                <Text style={CustomerStyle.HServiceName}>
+                <Text style={{ marginLeft: 10}}>
                   {item.serviceAppointmentBlock[0].service.name}
                 </Text>
               </View>
-              <View style={CustomerStyle.HDTView}>
+              <View style={{flexDirection: "row", 
+                            flexGrow:1,
+                            justifyContent: "space-between",}}>
               <View>
               <Text>{new Date(item.date).toISOString().split('T')[0]}</Text>
               </View>
@@ -138,12 +236,20 @@ export default function CustomerInfo({ route ,navigation}) {
         
           ))}
           
-          <View style={CustomerStyle.line}></View>
-          <Text style={CustomerStyle.AttachmentText}>
+          <View style={{ borderTopWidth: 1,
+                          height: 0,
+                          width: "90%",
+                          alignSelf: "center",
+                          marginTop: 12,
+                          borderColor: "#EFEFEF"}}></View>
+          <Text style={{ fontSize: 14,
+                        fontWeight: "bold",
+                        marginTop: 12,
+                        marginLeft: 31,}}>
             Attachement
           </Text>
         </View>
-      </ImageBackground>
+    
     </View>
   );
 }
