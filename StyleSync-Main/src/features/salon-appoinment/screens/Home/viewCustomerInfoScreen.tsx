@@ -24,16 +24,18 @@ export default function CustomerInfo({ route ,navigation}) {
   const {customerAppointmentBlock, staff, serviceAppointmentBlock,endTime,date } = appointment;
   
   const isFutureAppointment = () => {
-
     const appointmentDate = moment(customerAppointmentBlock[0].date);
     const now = moment.utc().startOf('day').toISOString();
     const currentTime = moment(); 
     const appointmentTime = moment(endTime, 'HH:mm:ss');
-   
+    if(customerAppointmentBlock[0].isCancel || customerAppointmentBlock[0].isReject){
+       return false
+    }else{
     if(appointmentDate.isSame(now)){
      return appointmentTime.isAfter(currentTime);
-    }
-    return appointmentDate.isAfter(now);
+    }else{
+    return (appointmentDate.isAfter(now));}
+  }
   };
 
   const [refresh, setRefresh] = useState(false);
@@ -66,6 +68,27 @@ export default function CustomerInfo({ route ,navigation}) {
       setLoading(false);
     }
   };
+  
+  const rejectAppointment = async () =>{
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/appointment/reject_appointment";
+        const currentDate = moment.utc().startOf('day').toISOString();
+        const response = await axios.put(url, {
+        customerId:customerAppointmentBlock[0].customerId,
+        date:customerAppointmentBlock[0].date,
+        startTime:customerAppointmentBlock[0].startTime,
+        staffId:staff.salonStaff[0].salonId
+});
+     console.log(response.data);
+     navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
   
 
   useEffect(() => {
@@ -128,8 +151,8 @@ export default function CustomerInfo({ route ,navigation}) {
                 {customerAppointmentBlock[0].customer.name}
               </Text>
               <Text style={{fontSize: 12,}}>
-                {/* {customerAppointmentBlock[0].customer.number} */}
-                +94123678543
+                  {customerAppointmentBlock[0].customer.contactNo}
+                
               </Text>
             </View>
             <View style={{ borderTopWidth: 1,
@@ -181,7 +204,7 @@ export default function CustomerInfo({ route ,navigation}) {
               </TouchableOpacity>
               </View>
               <View style={{width: "40%",}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={rejectAppointment}>
                 <View style={{ backgroundColor: "#F5F5F5",
                                 borderRadius: 10,
                                 borderWidth: 1,

@@ -188,25 +188,25 @@ export default function AddStaffImage({ navigation ,route }) {
           <TextInputArea
             name="Name"
             value={name}
-            editable={true}
+            editable={false}
             isSecure={false}
-            placeholder={""}
+            placeholder={name}
             onChangeText={(text) => setName(text)}
           />
           <TextInputArea
             name="Mobile Number"
             value={contactNo}
-            editable={true}
+            editable={false}
             isSecure={false}
-            placeholder={""}
+            placeholder={contactNo}
             onChangeText={(text) => setContactNo(text)}
           />
           <TextInputArea
             name="Targeting Gender"
             value="All"
-            editable={true}
+            editable={false}
             isSecure={false}
-            placeholder={""}
+            placeholder={"All"}
             onChangeText={(text)=> setGender(text)}
           />
           <View

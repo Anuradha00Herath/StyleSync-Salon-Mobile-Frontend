@@ -13,10 +13,95 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/AntDesign";
 import {BACKGROUND_IMAGE} from "../../components/BackGroundImage"
+import {useFocusEffect} from "@react-navigation/native";
+import axios from 'axios';
+import moment from 'moment';
 
 const { width, height } = Dimensions.get("screen");
 
-export default function NotificationScreen(){
+
+export default function NotificationScreen({route,navigation}){
+  const {salonId} = route.params;
+
+  const [loading, setLoading] = useState(false);
+  const[newAppoinment , setNewAppoinment] = useState([]);
+  const[oldAppointment , setOldAppointment] =useState([]);
+  const [error, setError] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+
+    const fetchNewAppoinment = async () => {
+      try {
+        setLoading(true);
+        const url = "https://stylesync-backend-test.onrender.com/app/v1/notification/get_new_appoinment";
+        const currentDate = moment.utc().startOf('day').toISOString();
+        console.log(currentDate)
+        console.log('Request Parameters:', { 
+          salonId:salonId, 
+          date: currentDate, 
+        });
+        const response = await axios.get(url, { params: { salonId:salonId,
+                                                          date: currentDate, 
+                                                          } });
+        const appointments = response.data.data;
+        appointments.sort((a, b) => (new Date(b.bookingTime).getTime() - new Date(a.bookingTime).getTime()));
+        setNewAppoinment(appointments);
+        console.log(response.data.data);
+      } catch (error) {
+        console.error('Error fetching appointment history:', error);
+        setError(error.message || 'Request failed');
+      }finally {
+        setLoading(false);
+      }
+    };
+    const fetchOldAppoinment = async () => {
+      try {
+        setLoading(true);
+        const url = "https://stylesync-backend-test.onrender.com/app/v1/notification/get_old_appoinment";
+        const currentDate = moment.utc().startOf('day').toISOString();
+        console.log(currentDate)
+        console.log('Request Parameters:', { 
+          salonId:salonId, 
+          date: currentDate, 
+        });
+        const response = await axios.get(url, { params: { salonId:salonId,
+                                                          date: currentDate, 
+                                                          } });
+        const appointments = response.data.data;
+        appointments.sort((a, b) => (new Date(b.bookingTime).getTime() - new Date(a.bookingTime).getTime()));
+        setOldAppointment(appointments);
+        console.log(response.data.data);
+      } catch (error) {
+        console.error('Error fetching appointment history:', error);
+        setError(error.message || 'Request failed');
+      }finally {
+        setLoading(false);
+      }
+    };
+
+
+    useFocusEffect(
+      React.useCallback(()=>{
+        fetchNewAppoinment();
+        fetchOldAppoinment();
+      },[])
+    );
+
+    // // useEffect(() => {
+    // //   const intervalId = setInterval(() => {
+    // //     setRefresh(true);
+    // //   }, 18000); 
+  
+    //   return () => clearInterval(intervalId);
+    // }, []);
+  
+    useEffect(() => {
+      if (refresh) {
+        setRefresh(false);
+        fetchNewAppoinment();
+        fetchOldAppoinment();
+      }
+    }, [refresh]);
+
     return(
         <View style={{marginHorizontal:20}}>
           <View style={{marginVertical:10,
@@ -47,7 +132,7 @@ export default function NotificationScreen(){
                 Today
               </Text>
               <View style={{backgroundColor:"#FDFEFE"}}>
-              {mockAppointments.map((appointment, index) => (
+              {newAppoinment.map((appointment, index) => (
               <View key={index} style={{flexDirection:'row',
                             justifyContent:'flex-start',
                             margin:10,
@@ -56,7 +141,9 @@ export default function NotificationScreen(){
                 <View style={{marginHorizontal:5
                 }}>
                 <Image
-                     source={BACKGROUND_IMAGE}
+                     source={appointment.customerAppointmentBlock[0].customer.image=== null
+                      ? require("../../../../assets/images.jpg")
+                      : { uri:appointment.customerAppointmentBlock[0].customer.image }}
                      style={{width: 40,
                              height: 40,
                              borderColor: "green",
@@ -75,19 +162,26 @@ export default function NotificationScreen(){
                                 justifyContent:"space-between",
                                 marginBottom:10}}>
                   
-                  <Text style={{fontSize:16,fontWeight:'bold'}}>Jon</Text>
+                  <Text style={{fontSize:16,fontWeight:'bold'}}>{appointment.customerAppointmentBlock[0].customer.name}</Text>
                   <View>
-                
-                  <Icon name="right"
-                        size={18}
-                        color={"black"}/>
+                  <TouchableOpacity onPress={() => navigation.navigate("CustomerInfo", {appointment: appointment,})}>
+                    <Icon name="right"
+                          size={18}
+                          color={"black"}/>
+                  </TouchableOpacity>
                   </View>
                   </View>
                   <View>
-                    <Text>{appointment.salonName} has new appointment on {appointment.Date} at {appointment.ATime}</Text>
+                    {appointment.customerAppointmentBlock[0].isCancel? 
+                    (<Text>{appointment.staff.name}'s appointment on 
+                    {' '}{new Date(appointment.customerAppointmentBlock[0].date).toISOString().split('T')[0]}
+                     {' '}at {appointment.startTime} has been canceled</Text>):
+                    (<Text>{appointment.staff.name} has a new appointment on 
+                    {' '}{new Date(appointment.customerAppointmentBlock[0].date).toISOString().split('T')[0]} 
+                    {' '}at {appointment.startTime}</Text>)}
                   </View>
                   <View>
-                  <Text style={{color:'gray',marginTop:5}}>{appointment.RTime}</Text>
+                  <Text style={{color:'gray',marginTop:5}}>Today {new Date(appointment.bookingTime).toISOString().substr(11, 5)}</Text>
                   </View>
                 </View>
               </View>
@@ -102,7 +196,7 @@ export default function NotificationScreen(){
                 Earlier
               </Text>
               <View style={{backgroundColor:"#FDFEFE"}}>
-              {mockAppointments.map((appointment, index) => (
+              {oldAppointment.map((appointment, index) => (
               <View key={index} style={{flexDirection:'row',
                             justifyContent:'flex-start',
                             margin:10,
@@ -111,15 +205,17 @@ export default function NotificationScreen(){
                 <View style={{marginHorizontal:5
                 }}>
                 <Image
-                     source={BACKGROUND_IMAGE}
+                     source={appointment.customerAppointmentBlock[0].customer.image=== null
+                      ? require("../../../../assets/images.jpg")
+                      : { uri:appointment.customerAppointmentBlock[0].customer.image }}
                      style={{width: 40,
                              height: 40,
                              borderColor: "green",
                              borderWidth: 2,
                              borderRadius: 20,
                              marginTop: 8,
-          }}
-        ></Image>
+                    }}
+                  ></Image>
                 </View>
                 <View style={{marginLeft:10,
                               paddingRight:10,
@@ -130,41 +226,37 @@ export default function NotificationScreen(){
                                 justifyContent:"space-between",
                                 marginBottom:10}}>
                   
-                  <Text style={{fontSize:16,fontWeight:'bold'}}>Jon</Text>
+                  <Text style={{fontSize:16,fontWeight:'bold'}}>{appointment.customerAppointmentBlock[0].customer.name}</Text>
                   <View>
-                
-                  <Icon name="right"
-                        size={18}
-                        color={"black"}/>
+                  <TouchableOpacity onPress={() => navigation.navigate("CustomerInfo", {appointment: appointment,})}>
+                    <Icon name="right"
+                          size={18}
+                          color={"black"}/>
+                  </TouchableOpacity>
                   </View>
                   </View>
                   <View>
-                    <Text>{appointment.salonName} has new appointment on {appointment.Date} at {appointment.ATime}</Text>
+                    {appointment.customerAppointmentBlock[0].isCancel? 
+                    (<Text>{appointment.staff.name}'s appointment on 
+                    {' '}{new Date(appointment.customerAppointmentBlock[0].date).toISOString().split('T')[0]}
+                     {' '}at {appointment.startTime} has been canceled</Text>):
+                    (<Text>{appointment.staff.name} has a new appointment on 
+                    {' '}{new Date(appointment.customerAppointmentBlock[0].date).toISOString().split('T')[0]} 
+                    {' '}at {appointment.startTime}</Text>)}
                   </View>
                   <View>
-                  <Text style={{color:'gray',marginTop:5}}>{appointment.RTime}</Text>
+                  <Text style={{color:'gray',marginTop:5}}>
+                  {new Date(appointment.bookingTime).toLocaleString('en-US', 
+                  { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '')}
+                  </Text>
                   </View>
                 </View>
               </View>
               ))}
               </View>
-            
             </View>
           </ScrollView>
-            
         </View>
     )
 }
 
-const mockAppointments = [
-  {salonName:"kelvin",
-    massage:"New Appoinment",
-    Date:"2024/07/02",
-    ATime: "09.30",
-    Service:"Hair Cut",
-    Price:"300",
-    RTime:"Today 09.00 a.m"
-  },
-  
-    
-]

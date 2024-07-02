@@ -83,7 +83,25 @@ export default function AppointmentScreen({navigation ,route}) {
         console.error(error);
       }finally {
         setLoading(false);
+      }
+    } else if(selectedStatus == EventStatus.Rejected){
+      try {
+        setLoading(true);
+        
+        const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get_reject_appointment";
+        console.log('Request Parameters:', { 
+          salonId: salonId, 
+          date:date,  
+        });
+        const response = await axios.get(url, { params: {salonId: salonId,date:date}});
+        setAppointments(response.data.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }finally {
+        setLoading(false);
       }}
+
   };
 
   // useEffect(() => {
@@ -237,6 +255,18 @@ export default function AppointmentScreen({navigation ,route}) {
             </ScrollView>
           )}
           {selectedStatus === EventStatus.Canceled && (
+            <ScrollView>
+              {Object.keys(groupedAppointments).map((staffName, index) => (
+                <AppointmentSetTwo
+                  key={index}
+                  staffName={staffName}
+                  appointments={groupedAppointments[staffName]}
+                 navigation={navigation}
+                />
+              ))}
+            </ScrollView>
+          )}
+          {selectedStatus === EventStatus.Rejected && (
             <ScrollView>
               {Object.keys(groupedAppointments).map((staffName, index) => (
                 <AppointmentSetTwo
