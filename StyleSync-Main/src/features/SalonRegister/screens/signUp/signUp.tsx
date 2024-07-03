@@ -56,10 +56,25 @@ export function SignUp({ navigation, route }) {
     } else {
       setUsernameError("");
     }
+    // if(!email.trim()){
+    //   Alert.alert('Sorry' ,"Email address already exists." ,
+    //     [{text: 'Ok',
+    //       onPress: () => navigation.navigate("CreateAccount")
+    //     },
+    //     {text: 'Cancel',
+    //       onPress: () =>console.log('cancel')
+    //     }
+    //   ])
+    // }
+    
     if (!password) {
       setPasswordError("*Password filed is required");
       isValid = false;
-    } else {
+    }  else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)){
+      setPasswordError('*Password is not strong enough');
+      isValid = false;
+  }
+    else {
       setPasswordError("");
     }
     if (!confirmPassword) {
@@ -121,7 +136,16 @@ export function SignUp({ navigation, route }) {
           console.log("Something went wrong!");
         }
       } catch (error) {
-        console.log(error);
+        console.log(error); 
+          Alert.alert('Sorry' ,"Email address or Contact number already exists." ,
+        [
+        {text: 'Cancel',
+          onPress: () =>console.log('cancel')
+        },
+        {text: 'Ok',
+          onPress: () => navigation.navigate("CreateAccount")
+        },
+      ])
       }
     }
   };

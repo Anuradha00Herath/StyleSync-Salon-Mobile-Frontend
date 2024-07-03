@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React ,{ useState} from "react";
-import { Image, View, Text,TouchableOpacity  } from "react-native";
+import { Image, View, Text,TouchableOpacity,Alert } from "react-native";
 import axios from "axios";
 
 export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,fetchDetails,image}) {
@@ -27,6 +27,18 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
     }finally{
       setLoading(false);
     }
+  }
+  const Delete = () =>{
+    Alert.alert('Delete' ,"Are you sure you want to delete this staff member?  ",
+      [{
+        text:"Cancel",
+        onPress:() =>console.log("Cancel"),
+      },
+    {
+      text:"Ok",
+      onPress:handleDelete,
+    }]
+    )
   }
   return (
     <View>
@@ -95,7 +107,7 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
           </View>
         </View>
         <View style={{ flexDirection: "row",}}>
-          <TouchableOpacity onPress={handleDelete}>
+          <TouchableOpacity onPress={Delete}>
         <Ionicons
           style={{
             paddingVertical: 17,

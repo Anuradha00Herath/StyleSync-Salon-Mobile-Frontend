@@ -188,7 +188,7 @@ export default function NotificationScreen({route,navigation}){
               ))}
               </View>
             </View>
-            <View style={{marginTop:10}}>
+            <View style={{marginTop:10,marginBottom:70}}>
               <Text style={{fontSize:18,
                             fontWeight:'bold',
                             marginBottom:5

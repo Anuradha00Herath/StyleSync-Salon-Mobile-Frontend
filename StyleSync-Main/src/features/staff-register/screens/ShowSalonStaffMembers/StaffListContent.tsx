@@ -6,7 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import { globaleStyles } from "../../components/globaleStyles";
 import { useNavigation } from "@react-navigation/native";
@@ -43,6 +44,18 @@ export function StaffContent({ staffName, salonId ,fetchServiceName }) {
         setLoading(false);
       }
     }
+    const Delete = (staffId:any) =>{
+      Alert.alert('Delete' ,"Are you sure you want to delete this staff member? ",
+        [{
+          text:"Cancel",
+          onPress:() =>console.log("Cancel"),
+        },
+      {
+        text:"Ok",
+        onPress:() => handleDelete(staffId),
+      }]
+      )
+    }
 
   return (
     <View
@@ -67,7 +80,7 @@ export function StaffContent({ staffName, salonId ,fetchServiceName }) {
               <StaffComponent
                 name={item.name}
                 image={item.image}
-                handleDelete={() =>handleDelete(item.id)}
+                handleDelete={() =>Delete(item.id)}
               />
             )}
             ListFooterComponent={() => (

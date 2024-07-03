@@ -1,11 +1,25 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView,Alert } from "react-native";
 
 import { DropdownList, TouchableArea } from "../../../components/touchable-area-in-profile";
+import { styles } from "react-native-gifted-charts/src/LineChart/styles";
 
 export default function SettingsScreen({navigation ,route}) {
   const {salonId} = route.params;
+
+  const LogOut = (staffId:any) =>{
+    Alert.alert('Confirm Logout' ,"Are you sure to log out? ",
+      [{
+        text:"Cancel",
+        onPress:() =>console.log("Cancel"),
+      },
+    {
+      text:"Confirm",
+      onPress:() => navigation.navigate("Login"),
+    }]
+    )
+  }
   return (
     <View>
       <View
@@ -126,6 +140,7 @@ export default function SettingsScreen({navigation ,route}) {
           style={{
             alignSelf: "center",
           }}
+          onPress={LogOut}
         >
           <TouchableArea name="Log Out" iconName="log-out" option=""/>
         </TouchableOpacity>

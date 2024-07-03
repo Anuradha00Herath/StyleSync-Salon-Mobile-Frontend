@@ -20,13 +20,12 @@ export function CreateAccount({ navigation }) {
     const validateInputs = () => {
         let isValid = true;
 
-        if (!name.trim()) {
+        if (!name) {
             setSalonNameError('*Salon name field is required');
             isValid = false;
         } else {
             setSalonNameError('');
         }
-
         if (!contactNo.trim()) {
             setMobileNumberError('*Number field is required');
             isValid = false;
@@ -36,11 +35,10 @@ export function CreateAccount({ navigation }) {
         } else {
             setMobileNumberError('');
         }
-
         if (!email.trim()) {
             setEmailError('*Email field is required');
             isValid = false;
-        } else if (!/\S+@\S+\.\S+/.test(email)){
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
             setEmailError('*Email Should be in correct format');
             isValid = false;
         } else {

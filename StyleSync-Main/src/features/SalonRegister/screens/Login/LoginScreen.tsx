@@ -1,12 +1,14 @@
-import React ,{useState} from "react";
+import React ,{useState,useEffect} from "react";
 import { View, Text, TextInput, TouchableOpacity,StatusBar,ImageBackground} from 'react-native';
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 import { globalStyles } from "../../components/globalstyles";
 import { AppName } from "../../../staff-register/components/AppName";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {useFocusEffect , useNavigation } from "@react-navigation/native";
 import {LoginStyles} from "./styles";
 import { Icon } from '@rneui/themed'
 import { Button } from "../../components/Button";
+
 import axios from "axios";
 
 export function Login({ navigation }) {
@@ -17,6 +19,7 @@ export function Login({ navigation }) {
     const [emailError, setEmailError] = useState('');
     const [errorPassword , setErrorPassword] =useState("")
     const [loading, setLoading] = useState(false)
+    const [validation ,setValidation] =useState("")
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!isPasswordVisible);
@@ -28,9 +31,6 @@ export function Login({ navigation }) {
         if (!email) {
             setEmailError('*Email field is required');
             isValid = false;
-        // } else if (!/\S+@\S+\.\S+/.test(email)){
-        //     setEmailError('*Email Should be in correct format');
-        //     isValid = false;
         } else {
             setEmailError('');
         }
@@ -61,18 +61,29 @@ export function Login({ navigation }) {
                   }
                   else{
                     navigation.navigate("SelectTeam", {id});
-                  }
-                  
-                } else if (status === 400) {
+                  } 
+                } else if (status === 500) {
                   console.log("Failed", message);
                 } else {
                   console.log("Something went wrong!");
                 }
               } catch (error) {
                 console.log(error);
+                setValidation("*Incorrect username or password. please try again.")
+                setPassword("")
+                
               }
             }
         }
+        useFocusEffect(
+            React.useCallback(()=>{
+              setEmail("");
+              setPassword("");
+              setEmailError("");
+              setErrorPassword("");
+              setValidation("");
+            },[])
+          );
    return(
       <ImageBackground source={BACKGROUND_IMAGE} style={globalStyles.background}>
          <StatusBar/>
@@ -91,6 +102,7 @@ export function Login({ navigation }) {
                         </Text>   
                     </View>
                     <View style={{ marginTop: 35 }}>
+                        {validation? <Text style={LoginStyles.ErrorText}>{validation}</Text> : null}
                         <View style={[LoginStyles.PasswordInputArea ,{justifyContent:"flex-start"},emailError? { borderColor: 'red' } : null]}>
                             <View style={{flex:1}}>
                                <TextInput
