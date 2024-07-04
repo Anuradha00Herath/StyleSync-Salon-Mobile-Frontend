@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { imageStyles } from "../../components/globaleStyles";
 import { AppName } from "../../components/AppName";
-//import { PersanalInformationContent } from "./PersanalInformationContent";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import { globaleStyles } from "../../components/globaleStyles";
@@ -21,9 +20,9 @@ import { FlatButton } from "../../components/FlatButton";
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 import axios from "axios";
 
-const backImg = require("../../../../assets/StyleSync.jpeg");
+//const backImg = require("../../../../assets/StyleSync.jpeg");
 
-export default function PersanalInformation({ route }) {
+export default function PersanalInformation({  route }) {
   const { id, topic } = route.params;
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [name, setName] = useState("");
@@ -105,6 +104,7 @@ export default function PersanalInformation({ route }) {
         }
       } catch (error) {
         console.log(error);
+        setNumberError("*Contact number already exists.");
       } finally {
         setLoading(false);
       }

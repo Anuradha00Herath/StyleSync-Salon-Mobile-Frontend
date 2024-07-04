@@ -110,6 +110,7 @@ export default function AddStaffImage({ navigation ,route }) {
 
     }catch(error){
       console.error(error);
+      
     }finally{
       setLoading(false);
     }
@@ -221,7 +222,7 @@ export default function AddStaffImage({ navigation ,route }) {
               width: "40%",
             }}
           >
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.navigate("Staff",{salonId})}>
               <View
                 style={{
                   backgroundColor: "#F5F5F5",
