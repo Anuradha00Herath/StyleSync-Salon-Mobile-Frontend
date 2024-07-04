@@ -148,7 +148,7 @@ export function ShowServicesType({ route }) {
                   <SeparatorLineWithText />
                 </View>
               ))}
-              <AddMore onPress={() => navigation.goBack()} />
+              <AddMore onPress={() => navigation.navigate("AddServicesTypes",{salonId,staffId})} />
             </View>
             <FlatButton
               text="Continue"

@@ -16,6 +16,7 @@ import PersanalInformation from "../features/staff-register/screens/PersonalInfo
 import BusinessHours from "../features/staff-register/screens/BusinessHours/BusinessHours";
 import SelectServicesTypes from "../features/staff-register/screens/SelectServiceType/SelectServiceType";
 import { ShowServicesType } from "../features/staff-register/screens/ShowServiceTypess/showSelectetServicesTypes";
+import AddServicesTypes from "../features/staff-register/screens/SelectServiceType/AddServiceType";
 import ShowSevices from "../features/staff-register/screens/showServises/ShowService";
 import EditServiceDetails from "../features/staff-register/screens/showServises/EditServiseDetails";
 import AddMoreDetails from "../features/staff-register/screens/showServises/AddMoreService";
@@ -123,6 +124,13 @@ export default function SalonRegistorNavigation() {
       <Stack.Screen
         name="SelectServicesTypes"
         component={SelectServicesTypes}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
+        }}
+      />
+       <Stack.Screen
+        name="AddServicesTypes"
+        component={AddServicesTypes}
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
         }}
