@@ -1,12 +1,15 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React from "react";
-import { View, Text, TouchableOpacity, ScrollView,Alert } from "react-native";
+import React, {useState} from "react";
+import { View, Text, TouchableOpacity, ScrollView,Alert,Switch } from "react-native";
 
 import { DropdownList, TouchableArea } from "../../../components/touchable-area-in-profile";
 import { styles } from "react-native-gifted-charts/src/LineChart/styles";
 
 export default function SettingsScreen({navigation ,route}) {
   const {salonId} = route.params;
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const LogOut = (staffId:any) =>{
     Alert.alert('Confirm Logout' ,"Are you sure to log out? ",
@@ -64,10 +67,24 @@ export default function SettingsScreen({navigation ,route}) {
         </Text>
         <TouchableOpacity
           style={{
-            alignSelf: "center",
+            alignSelf: 'flex-start',
+            //backgroundColor:'#2F4F4F',
+            flexDirection:'row',
+            width:'88%',
+            marginHorizontal:10,
+            
           }}
+          onPress={toggleSwitch}
         >
           <TouchableArea name="Dark Mode" iconName="moon" option="switch"/>
+          <Switch
+              style={{}}
+              trackColor={{ false: "#767577", true: "#2e2528" }}
+              thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+      />
         </TouchableOpacity>
         <TouchableOpacity
           style={{
@@ -78,10 +95,24 @@ export default function SettingsScreen({navigation ,route}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            alignSelf: "center",
+            alignSelf: 'flex-start',
+            //backgroundColor:'#2F4F4F',
+            flexDirection:'row',
+            width:'88%',
+            marginHorizontal:10,
+           
           }}
+          onPress={toggleSwitch}
         >
           <TouchableArea name="Notifications" iconName="notifications" option="switch"/>
+          <Switch
+              style={{}}
+              trackColor={{ false: "#767577", true: "#2e2528" }}
+              thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+      />
         </TouchableOpacity>
 
         {/* Account Seetings */}

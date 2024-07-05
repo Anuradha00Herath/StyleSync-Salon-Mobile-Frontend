@@ -120,7 +120,7 @@ export default function PersanalInformation({  route }) {
   ];
   return (
     <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
-      <StatusBar />
+       <StatusBar barStyle="light-content" backgroundColor="#2E2E2E" />
       <View
         style={{
           display:"flex",

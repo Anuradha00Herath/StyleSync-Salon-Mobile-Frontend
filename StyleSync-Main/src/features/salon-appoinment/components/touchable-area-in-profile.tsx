@@ -67,16 +67,17 @@ function Option({ option }) {
       />
     );
   } else if (option === "switch") {
-    return (
-      <Switch
-        style={{}}
-        trackColor={{ false: "#767577", true: "#2e2528" }}
-        thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        //onValueChange={toggleSwitch}
-        value={false}
-      />
-    );
+    return false
+    
+      // <Switch
+      //   style={{}}
+      //   trackColor={{ false: "#767577", true: "#2e2528" }}
+      //   thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
+      //   ios_backgroundColor="#3e3e3e"
+      //   //onValueChange={toggleSwitch}
+      //   value={true}
+      // />
+    
   } else {
     return (
       <Ionicons

@@ -11,14 +11,22 @@ import {
   GestureResponderEvent,
   StyleSheet,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  Switch
 } from "react-native";
 import { TextInputArea } from "../../../../../components/text-input-area-in-settings";
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableArea } from "../../../../../components/touchable-area-in-profile";
+import axios from "axios";
 
 export default function EditStaffProfile({ navigation ,route }) {
   const {name, Id ,salonId} =  route.params; 
+  const[notification , setNotification] =useState(true);
+  const [isEnabled, setIsEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  
+
+
     const [image, setImage] = useState(require("../../../../../../../assets/images.jpg"));
     useEffect(() => {
         (async () => {
@@ -34,6 +42,7 @@ export default function EditStaffProfile({ navigation ,route }) {
             }
           }
         })();
+        fetchDetails();
       }, []);
 
       const pickImage = async () => {
@@ -48,6 +57,65 @@ export default function EditStaffProfile({ navigation ,route }) {
           setImage(result);
         }
       };
+
+      const fetchDetails = async () => {
+        try {
+          setLoading(true);
+          const url = "https://stylesync-backend-test.onrender.com/app/v1/notification/getStaffNotificationAvailability";
+          console.log('Request Parameters:', { 
+            Id:Id  
+          });
+          const response = await axios.get(url, { params: {  Id:Id} });
+          const data = response.data.data;
+          console.log('Response data:', data);
+          console.log(data.notification)
+          if(data.notification === null || data.notification === true){
+            
+            setNotification(true)
+            setIsEnabled(true)
+          }else{
+            setNotification(false);
+            setIsEnabled(false)
+          }
+          
+        } catch (error) {
+          console.error(error);
+        }finally {
+          setLoading(false);
+        }
+      };
+      const toggleSwitch = async() => {
+        setIsEnabled(previousState => !previousState);
+        console.log(!notification);
+        try {
+          setLoading(true);
+          const url =
+            "https://stylesync-backend-test.onrender.com/app/v1/notification/UpdateStaffNotificationAvailability";
+            console.log('Request Parameters:', { 
+              Id:Id,
+              notification:!notification
+             
+            });
+          const response = await axios.put(url, {
+                Id:Id,
+                notification:!notification
+          });
+          const result = response.data;
+          const { message, status } = result;
+          if (status === 201) {
+            console.log("Success", message);
+          } else {
+            console.log("Error",status);
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+
+
   return (
     <View>
       <View
@@ -89,10 +157,25 @@ export default function EditStaffProfile({ navigation ,route }) {
         </Text>
         <TouchableOpacity
           style={{
-            alignSelf: "center",
+            alignSelf: 'flex-start',
+            //backgroundColor:'#2F4F4F',
+            flexDirection:'row',
+            width:'88%',
+            marginHorizontal:10,
           }}
+          onPress={toggleSwitch}
         >
           <TouchableArea name="Notifications" iconName="notifications" option="switch"/>
+          <TouchableOpacity>
+          <Switch
+              style={{}}
+              trackColor={{ false: "#767577", true: "#2e2528" }}
+              thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+      />
+      </TouchableOpacity>
         </TouchableOpacity>
 
       <Text
