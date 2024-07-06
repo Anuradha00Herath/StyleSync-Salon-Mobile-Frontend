@@ -25,7 +25,7 @@ export default function EditProfile({ navigation ,route }) {
     const [name, setName]       =useState("");
     const [contactNo, setContactNo] =useState("");
     const [error, setError] = useState("");
-    const [gender, setGender]=useState("All")
+    const [gender, setGender]=useState("")
     const [image, setImage] = useState(null);
     useEffect(() => {
         (async () => {
@@ -93,6 +93,7 @@ export default function EditProfile({ navigation ,route }) {
       setDetails(addressData);
       setName(addressData.staff.name);
       setContactNo(addressData.staff.staffContact[0].contactNo);
+      setGender(addressData.staff.gender)
       setImage(addressData.staff.image);
       console.log(response.data)
 
@@ -146,7 +147,8 @@ export default function EditProfile({ navigation ,route }) {
         salonId: salonId,
         staffId:Id,
         name,
-        contactNo
+        contactNo,
+        gender
       });
       const urlTwo =
       "https://stylesync-backend-test.onrender.com/app/v1/staff/update-staff-image";
@@ -264,10 +266,10 @@ export default function EditProfile({ navigation ,route }) {
           />
           <TextInputArea
             name="Targeting Gender"
-            value="All"
+            value={gender}
             editable={true}
             isSecure={false}
-            placeholder={""}
+            placeholder={"Male/Female/Both"}
             onChangeText={(text)=> setGender(text)}
           />
           <View

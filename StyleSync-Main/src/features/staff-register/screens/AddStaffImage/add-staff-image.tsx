@@ -91,7 +91,7 @@ export default function AddStaffImage({ navigation ,route }) {
   const [loading, setLoading] = useState(false);
   const [name, setName]       =useState("");
   const [contactNo, setContactNo] =useState("");
-  const [gender, setGender]=useState("All")
+  const [gender, setGender]=useState("")
 
   const fetchDetails = async() =>{
     try{
@@ -105,6 +105,7 @@ export default function AddStaffImage({ navigation ,route }) {
       const addressData =response.data.data[0];
       setDetails(addressData);
       setName(addressData.staff.name);
+      setGender(addressData.staff.gender)
       setContactNo(addressData.staff.staffContact[0].contactNo);
       console.log(response.data)
 
@@ -204,10 +205,10 @@ export default function AddStaffImage({ navigation ,route }) {
           />
           <TextInputArea
             name="Targeting Gender"
-            value="All"
+            value={gender}
             editable={false}
             isSecure={false}
-            placeholder={"All"}
+            placeholder={gender}
             onChangeText={(text)=> setGender(text)}
           />
           <View
