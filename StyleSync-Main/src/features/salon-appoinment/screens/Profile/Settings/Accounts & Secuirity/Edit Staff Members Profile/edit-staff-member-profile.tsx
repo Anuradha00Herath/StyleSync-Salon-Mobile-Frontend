@@ -69,7 +69,7 @@ export default function EditStaffProfile({ navigation ,route }) {
           const data = response.data.data;
           console.log('Response data:', data);
           console.log(data.notification)
-          if(data.notification === null || data.notification === true){
+          if(data.notification === true){
             
             setNotification(true)
             setIsEnabled(true)

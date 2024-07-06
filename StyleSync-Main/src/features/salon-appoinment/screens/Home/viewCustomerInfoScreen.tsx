@@ -192,7 +192,7 @@ export default function CustomerInfo({ route ,navigation}) {
                           alignItems:"center"
             }}>
                <View style={{width: "40%",}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <View style={{ backgroundColor: "#F5F5F5",
                                 borderRadius: 10,
                                 borderWidth: 1,

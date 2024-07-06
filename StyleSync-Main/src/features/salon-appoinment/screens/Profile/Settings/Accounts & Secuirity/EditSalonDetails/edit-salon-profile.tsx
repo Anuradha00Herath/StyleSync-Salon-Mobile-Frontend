@@ -266,7 +266,7 @@ export default function EditSalonProfile({ navigation ,route}) {
           <TextInputArea
             name="Targeting Gender"
             value={gender}
-            editable={true}
+            editable={false}
             isSecure={false}
             placeholder={""}
             onChangeText={(text)=> setGender(text)}

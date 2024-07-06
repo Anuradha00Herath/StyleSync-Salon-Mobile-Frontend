@@ -1,15 +1,79 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import { View, Text, TouchableOpacity, ScrollView,Alert,Switch } from "react-native";
 
 import { DropdownList, TouchableArea } from "../../../components/touchable-area-in-profile";
 import { styles } from "react-native-gifted-charts/src/LineChart/styles";
+import axios from "axios";
 
 export default function SettingsScreen({navigation ,route}) {
   const {salonId} = route.params;
-  const [isEnabled, setIsEnabled] = useState(false);
+  const[notification , setNotification] =useState(true);
+  const [isEnabled, setIsEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const fetchDetails = async () => {
+    try {
+      setLoading(true);
+      const url = "https://stylesync-backend-test.onrender.com/app/v1/notification/salonNotificationAvailability";
+      console.log('Request Parameters:', { 
+        salonId:salonId 
+      });
+      const response = await axios.get(url, { params: {  salonId:salonId } });
+      const data = response.data.data;
+      console.log('Response data:', data);
+      console.log(data.notification)
+      if(data > 0){
+        setNotification(true)
+        setIsEnabled(true)
+      }else{
+        setNotification(false);
+        setIsEnabled(false)
+      }
+      
+    } catch (error) {
+      console.error(error);
+    }finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(()  => {
+    fetchDetails();
+  },[]);
+
+  //const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const toggleSwitch = async() => {
+    setIsEnabled(previousState => !previousState);
+    console.log(!notification);
+    try {
+      setLoading(true);
+      const url =
+        "https://stylesync-backend-test.onrender.com/app/v1/notification/UpdateSalonNotification";
+        console.log('Request Parameters:', { 
+          salonId:salonId ,
+          notification:!notification
+         
+        });
+      const response = await axios.put(url, {
+            salonId:salonId ,
+            notification:!notification
+      });
+      const result = response.data;
+      const { message, status } = result;
+      if (status === 201) {
+        console.log("Success", message);
+      } else {
+        console.log("Error",status);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   const LogOut = (staffId:any) =>{
     Alert.alert('Confirm Logout' ,"Are you sure to log out? ",
@@ -82,8 +146,8 @@ export default function SettingsScreen({navigation ,route}) {
               trackColor={{ false: "#767577", true: "#2e2528" }}
               thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
+              //onValueChange={toggleSwitch}
+              //value={isEnabled}
       />
         </TouchableOpacity>
         <TouchableOpacity
