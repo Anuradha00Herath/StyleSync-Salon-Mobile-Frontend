@@ -89,7 +89,32 @@ export default function AddSalonImage({ navigation, route }) {
         salonId: salonId,
         image: image,
       });
+      const urlTwo =
+      "https://stylesync-backend-test.onrender.com/app/v1/salon/generate-salon-otp";
+    const responseTwo = await axios.put(urlTwo, {
+      salonId: salonId,
+      email: email,
+    });
       console.log(response.data);
+      console.log(responseTwo.data)
+      navigation.navigate("OTP",{contactNo ,email,salonId});
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      setLoading(true);
+      const urlTwo =
+      "https://stylesync-backend-test.onrender.com/app/v1/salon/generate-salon-otp";
+    const responseTwo = await axios.put(urlTwo, {
+      salonId: salonId,
+      email: email,
+    });
+      console.log(responseTwo.data)
       navigation.navigate("OTP",{contactNo ,email,salonId});
     } catch (error) {
       console.log(error);
@@ -200,7 +225,7 @@ export default function AddSalonImage({ navigation, route }) {
                 width: "40%",
               }}
             >
-              <TouchableOpacity onPress={() => navigation.navigate("OTP",{contactNo ,email,salonId})}>
+              <TouchableOpacity onPress={handleCancel}>
                 <View
                   style={{
                     backgroundColor: "#F5F5F5",

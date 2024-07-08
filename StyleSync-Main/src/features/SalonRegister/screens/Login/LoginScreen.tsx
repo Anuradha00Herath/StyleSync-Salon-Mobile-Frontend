@@ -53,11 +53,22 @@ export function Login({ navigation }) {
                 const result = response.data;
                 const id = result.data[0].id;
                 const staffCount = result.count._count.staffID;
+                const emailVerified = result.data[0].emailVerified;
                 const { message, status } = result;
                 if (status == 201) {
                   console.log("Success: ", id);
-                  if(staffCount>0){
+                  if(staffCount>0 && emailVerified == true){
                     navigation.navigate("Main", { salonId:id })
+                  }
+                  else if (emailVerified == null){
+                    const urlTwo =
+                    "https://stylesync-backend-test.onrender.com/app/v1/salon/generate-salon-otp";
+                     const responseTwo = await axios.put(urlTwo, {
+                    salonId: id,
+                    email: email,
+                  });
+                    console.log(responseTwo.data)
+                    navigation.navigate("OTP",{contactNo:null ,email, salonId:id});
                   }
                   else{
                     navigation.navigate("SelectTeam", {id});
