@@ -4,6 +4,8 @@ import {
   createStackNavigator,
 } from "@react-navigation/stack";
 import { Login } from "../features/SalonRegister/screens/Login/LoginScreen";
+import {ForgotPassword} from "../features/SalonRegister/screens/Login/ForgotPassword";
+import {ChangePassword} from '../features/SalonRegister/screens/Login/ChangePassword';
 import { SignUp } from "../features/SalonRegister/screens/signUp/signUp";
 import { CreateAccount } from "../features/SalonRegister/screens/createAccount/createAccount";
 import { OTP } from "../features/SalonRegister/screens/OTP/OTP";
@@ -54,6 +56,20 @@ export default function SalonRegistorNavigation() {
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
+        }}
+      />
+       <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
+        }}
+      />
+        <Stack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
         }}

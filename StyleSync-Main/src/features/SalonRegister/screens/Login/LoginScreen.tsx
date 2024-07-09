@@ -31,6 +31,9 @@ export function Login({ navigation }) {
         if (!email) {
             setEmailError('*Email field is required');
             isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+            setEmailError('*Email Should be in correct format');
+            isValid = false;
         } else {
             setEmailError('');
         }
@@ -163,7 +166,7 @@ function BottomFeild({navigation ,onPress}) {
     return (
         <View>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
                     <Text
                         style={LoginStyles.FogotP}>
                         {'Forgot Password?'}
