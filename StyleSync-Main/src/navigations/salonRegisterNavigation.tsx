@@ -9,6 +9,7 @@ import {ChangePassword} from '../features/SalonRegister/screens/Login/ChangePass
 import { SignUp } from "../features/SalonRegister/screens/signUp/signUp";
 import { CreateAccount } from "../features/SalonRegister/screens/createAccount/createAccount";
 import { OTP } from "../features/SalonRegister/screens/OTP/OTP";
+import{UpdateEmailAddress} from '../features/SalonRegister/screens/OTP/UpdateEmail';
 import { InputAddress } from "../features/SalonRegister/screens/InputAddress/InputAddress";
 import MapText from "../features/SalonRegister/screens/Map/set-location";
 import ConfirmMap from "../features/SalonRegister/screens/Map/confirm-location";
@@ -91,6 +92,13 @@ export default function SalonRegistorNavigation() {
       <Stack.Screen
         name="OTP"
         component={OTP}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
+        }}
+      />
+      <Stack.Screen
+        name="UpdateEmailAddress"
+        component={UpdateEmailAddress}
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
         }}

@@ -16,6 +16,7 @@ export function OTP({ navigation,route }) {
    const [loading, setLoading] = useState(false);
    const [resendCount, setResendCount] = useState(0);
    const inputs = useRef([]);
+   
 
    useEffect(() => {
     const interval = setInterval(() => {
@@ -23,6 +24,7 @@ export function OTP({ navigation,route }) {
     }, 1000);
 
     return () => clearInterval(interval);
+   
     }, []);
 
     useEffect(() => {
@@ -39,6 +41,9 @@ export function OTP({ navigation,route }) {
               )
         }
     }, [countdown]);
+    useEffect(() =>{
+        setCountdown(180);
+    },[salonId,email])
 
     const minutes = Math.floor(countdown / 60);
     const seconds = countdown % 60;
@@ -177,10 +182,10 @@ export function OTP({ navigation,route }) {
                     </View>
                     <View style={globalStyles .line} />
                 </View>
-                <TouchableOpacity onPress={()=>navigation}>
+                <TouchableOpacity onPress={()=> navigation.navigate("UpdateEmailAddress",{email,salonId})}>
                     <Text
                         style={ValidateNumberStyles.TouchbleText}>
-                        {'Change number'}
+                        {'Change email'}
                     </Text>
                 </TouchableOpacity>
             </View>
