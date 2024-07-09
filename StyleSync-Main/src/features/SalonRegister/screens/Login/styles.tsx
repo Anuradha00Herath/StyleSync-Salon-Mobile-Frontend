@@ -62,7 +62,7 @@ export const LoginStyles = StyleSheet.create({
     ErrorText: {
         color: 'red',
         marginTop: 2,
-        fontSize: 14,
+        fontSize: 12,
         marginLeft: '12%', // Adjust the value based on your design
         paddingLeft: 5,
         //fontFamily: 'Poppins',

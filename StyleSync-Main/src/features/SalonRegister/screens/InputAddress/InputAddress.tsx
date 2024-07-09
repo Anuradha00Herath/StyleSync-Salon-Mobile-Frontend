@@ -169,7 +169,7 @@ export function InputAddress({ navigation, route }) {
               <Text style={Address.BottomText}>
                 {"Already have an account?    "}
               </Text>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={()=>navigation.navigate("Login")}>
                 <Text style={Address.BottomLogin}>{"Login"}</Text>
               </TouchableOpacity>
             </View>
