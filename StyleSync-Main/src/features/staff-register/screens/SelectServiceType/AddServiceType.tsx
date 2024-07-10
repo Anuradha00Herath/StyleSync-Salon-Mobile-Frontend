@@ -22,6 +22,8 @@ export default function AddServicesTypes({ route }) {
   const [hasSelected, setHasSelected] = useState(false);
   const [UnselectedServices ,setUnselectedServices]=useState([]);
 
+  console.log("salonId=", {salonId})
+
   useFocusEffect(
     React.useCallback(() => {
       const fetchServiceType = async () => {

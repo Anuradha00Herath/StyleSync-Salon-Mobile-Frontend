@@ -24,6 +24,7 @@ export default function SetTime({ route, onPress }) {
   const [closeTime, setCloseTime] = useState(closeHour);
   const [breaks, setBreaks] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log("salonId=", {salonId})
 
   useFocusEffect(
     React.useCallback(() => {
@@ -74,7 +75,7 @@ export default function SetTime({ route, onPress }) {
       const result = response.data;
       const { message, status } = result;
       if (status === 201) {
-        navigation.navigate("BusinessHours", { staffId: staffId });
+        navigation.navigate("BusinessHours", { staffId: staffId ,salonId:salonId });
         console.log("Success", message);
       } else {
         console.log("Error", message);
@@ -147,6 +148,7 @@ export default function SetTime({ route, onPress }) {
               isOpen: isOpen,
               openHour: openHour,
               closeHour: closeHour,
+              salonId:salonId,
               type: "Update",
             })
           }
@@ -240,6 +242,7 @@ export default function SetTime({ route, onPress }) {
                         isOpen: isOpen,
                         openHour: openHour,
                         closeHour: closeHour,
+                        salonId:salonId,
                         type: "New",
                       })
                     }

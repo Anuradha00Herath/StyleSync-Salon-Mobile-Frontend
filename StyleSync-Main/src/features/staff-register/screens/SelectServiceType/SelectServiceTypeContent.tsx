@@ -17,6 +17,8 @@ export function SelectServicesTypeContent({ staffId, salonId }) {
   const [selectedCheck, setSelectedCheck] = useState([]);
   const [hasSelected, setHasSelected] = useState(false);
 
+  console.log("salonId=", {salonId})
+
   useFocusEffect(
     React.useCallback(() => {
       const fetchServiceType = async () => {

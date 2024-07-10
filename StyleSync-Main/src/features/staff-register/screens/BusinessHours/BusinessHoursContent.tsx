@@ -14,6 +14,7 @@ export function BusinessHoursContent({ staffId, salonId }) {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [businessHours, setBusinessHours] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log("salonId=", {salonId})
 
   useFocusEffect(
     React.useCallback(() => {
@@ -82,6 +83,7 @@ export function BusinessHoursContent({ staffId, salonId }) {
                   isOpen: day.isOpen,
                   openHour: day.openHour,
                   closeHour: day.closeHour,
+                  salonId:salonId
                 })
               }
             />

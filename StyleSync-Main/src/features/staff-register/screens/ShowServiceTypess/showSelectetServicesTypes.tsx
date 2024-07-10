@@ -26,7 +26,7 @@ export function ShowServicesType({ route }) {
   const { staffId, salonId } = route.params;
   const [loading, setLoading] = useState(false);
   const [selectServices, setSelectServices] = useState([]);
-
+  console.log("salonId=", {salonId});
   useFocusEffect(
     React.useCallback(() => {
       fetchBusinessHours();

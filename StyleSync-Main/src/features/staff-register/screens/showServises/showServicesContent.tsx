@@ -11,6 +11,8 @@ import { SeparatorLineWithText } from "../../components/line";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
+
+
 export function ShowSevicesContent({
   serviceType,
   service,
@@ -19,6 +21,7 @@ export function ShowSevicesContent({
   salonId
 }) {
   const navigation = useNavigation<StackNavigationProp<any>>();
+  console.log("salonId=", {salonId});
 
   return (
     <View
@@ -31,7 +34,7 @@ export function ShowSevicesContent({
           justifyContent: "space-between",
           height: "100%",
       }}
-    >
+    >  
       <View>
         <Text style={globaleStyles.topic}>{serviceType} - Your Services</Text>
         <Text style={globaleStyles.Stopic}>When can client book with you</Text>
