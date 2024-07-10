@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import {
   ImageBackground,
   View,
@@ -18,6 +18,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { FlatButton } from "../../components/FlatButton";
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
+import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 
 //const backImg = require("../../../../assets/StyleSync.jpeg");
@@ -34,16 +35,16 @@ export default function PersanalInformation({  route }) {
   const[numberError , setNumberError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Reset state when a new topic is passed
-    setGender("");
-    setName("");
-    setStaffContact("");
-    setGenderError("");
-    setNameError('');
-    setNumberError('')
-    
-  }, [id,topic]); // Dependency array with 'topic' as a dependency
+  useFocusEffect(
+    React.useCallback(() => {
+      setGender("");
+      setName("");
+      setStaffContact("");
+      setGenderError("");
+      setNameError("");
+      setNumberError("");
+    }, [])
+  ); // Dependency array with 'topic' as a dependency
 
   const validateInputs = () => {
     let isValid = true;
