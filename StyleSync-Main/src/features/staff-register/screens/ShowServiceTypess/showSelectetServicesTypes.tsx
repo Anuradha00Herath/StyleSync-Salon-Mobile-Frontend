@@ -26,7 +26,7 @@ export function ShowServicesType({ route }) {
   const { staffId, salonId } = route.params;
   const [loading, setLoading] = useState(false);
   const [selectServices, setSelectServices] = useState([]);
-
+  console.log("salonId=", {salonId});
   useFocusEffect(
     React.useCallback(() => {
       fetchBusinessHours();
@@ -104,7 +104,7 @@ export function ShowServicesType({ route }) {
             }}
           >
             <View>
-              <Text style={globaleStyles.topic}>Your Services</Text>
+              <Text style={globaleStyles.topic}>Your Service Types</Text>
               <Text style={globaleStyles.Stopic}>
                 When can client book with you
               </Text>

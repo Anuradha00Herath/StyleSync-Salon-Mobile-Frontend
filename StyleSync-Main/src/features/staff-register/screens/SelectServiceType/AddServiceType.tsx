@@ -22,6 +22,8 @@ export default function AddServicesTypes({ route }) {
   const [hasSelected, setHasSelected] = useState(false);
   const [UnselectedServices ,setUnselectedServices]=useState([]);
 
+  console.log("salonId=", {salonId})
+
   useFocusEffect(
     React.useCallback(() => {
       const fetchServiceType = async () => {
@@ -131,7 +133,7 @@ export default function AddServicesTypes({ route }) {
       height:"100%"
     }}>
       <View>
-        <Text style={globaleStyles.topic}>Your Services</Text>
+        <Text style={globaleStyles.topic}>Your Service Types</Text>
         <Text style={globaleStyles.Stopic}>Select your service type</Text>
         <View>
           {UnselectedServices &&

@@ -128,7 +128,7 @@ export default function StaffListView({ navigation, route}) {
                 <AddMore
                   onPress={() =>
                     navigation.navigate("PersanalInformation", {
-                      name: "Staff personal Information",
+                      topic: "Staff personal Information",
                       id:salonId
                     })
                   }

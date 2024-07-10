@@ -13,17 +13,19 @@ import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 //const backImg=require("../../../../assets/StyleSync.jpeg")
 
 export default function SetBreakTime({ route }) {
-  const { staffId, dayName, isOpen, openHour, closeHour, type } = route.params;
+  const { staffId, dayName, isOpen, openHour, closeHour, type,salonId } = route.params;
   const [bStart, setBStart] = useState("12:00");
   const [bEnd, setBEnd] = useState("13:00");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<StackNavigationProp<any>>();
+  console.log("salonId=", {salonId})
   const handleOpenTimeValue = (value: any) => {
     setBStart(value);
   };
   const handleCloseTimeValue = (value: any) => {
     setBEnd(value);
   };
+
 
   const onHandleAddBreak = async () => {
     try {
@@ -45,6 +47,7 @@ export default function SetBreakTime({ route }) {
           isOpen: isOpen,
           openHour: openHour,
           closeHour: closeHour,
+          salonId:salonId
         });
         console.log("Success", message);
       } else {
@@ -77,6 +80,7 @@ export default function SetBreakTime({ route }) {
           isOpen: isOpen,
           openHour: openHour,
           closeHour: closeHour,
+          salonId:salonId
         });
         console.log("Success", message);
       } else {
@@ -122,7 +126,14 @@ export default function SetBreakTime({ route }) {
                 text={"Ok"}
                 text1={"Cancel"}
                 onPress={type === "New" ? onHandleAddBreak : onHandleUpdate}
-                onPress1={() => navigation.goBack()}
+                onPress1={() => navigation.navigate("SetTime", {
+                  staffId: staffId,
+                  name: dayName,
+                  isOpen: isOpen,
+                  openHour: openHour,
+                  closeHour: closeHour,
+                  salonId:salonId
+                })}
               />
             </View>
           </View>

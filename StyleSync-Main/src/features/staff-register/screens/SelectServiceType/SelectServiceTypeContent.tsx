@@ -17,6 +17,8 @@ export function SelectServicesTypeContent({ staffId, salonId }) {
   const [selectedCheck, setSelectedCheck] = useState([]);
   const [hasSelected, setHasSelected] = useState(false);
 
+  console.log("salonId=", {salonId})
+
   useFocusEffect(
     React.useCallback(() => {
       const fetchServiceType = async () => {
@@ -100,7 +102,7 @@ export function SelectServicesTypeContent({ staffId, salonId }) {
       height:"100%"
     }}>
       <View>
-        <Text style={globaleStyles.topic}>Your Services</Text>
+        <Text style={globaleStyles.topic}>Your Service Types</Text>
         <Text style={globaleStyles.Stopic}>Select your service type</Text>
         <View>
           {services &&
