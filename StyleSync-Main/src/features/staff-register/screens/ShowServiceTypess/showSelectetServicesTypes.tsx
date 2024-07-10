@@ -104,7 +104,7 @@ export function ShowServicesType({ route }) {
             }}
           >
             <View>
-              <Text style={globaleStyles.topic}>Your Services</Text>
+              <Text style={globaleStyles.topic}>Your Service Types</Text>
               <Text style={globaleStyles.Stopic}>
                 When can client book with you
               </Text>
