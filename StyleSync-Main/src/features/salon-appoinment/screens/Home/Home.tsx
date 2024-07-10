@@ -3,7 +3,7 @@ import {View,ImageBackground,Text,Dimensions,StatusBar,ScrollView,} from "react-
 import Calendar from "../../components/calenderInHome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppointmentSet } from "../../components/appointmentSet";
-import {useFocusEffect , useNavigation } from "@react-navigation/native";
+import {useFocusEffect } from "@react-navigation/native";
 import { BACKGROUND_IMAGE} from '../../components/BackGroundImage'
 import { HomeStyle } from "./style";
 import moment from 'moment';

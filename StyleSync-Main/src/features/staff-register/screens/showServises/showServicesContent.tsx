@@ -18,7 +18,7 @@ export function ShowSevicesContent({
   service,
   staffId,
   handleFetchService,
-  salonId
+  salonId,
 }) {
   const navigation = useNavigation<StackNavigationProp<any>>();
   console.log("salonId=", {salonId});
@@ -31,8 +31,8 @@ export function ShowSevicesContent({
         paddingHorizontal: 24,
         backgroundColor: "#FDFDFD",
         flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100%",
+        justifyContent: "space-between",
+        height: "100%",
       }}
     >  
       <View>
@@ -54,7 +54,12 @@ export function ShowSevicesContent({
             ListFooterComponent={() => (
               <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
                 <AddMore
-                  onPress={() => navigation.navigate("AddMoreDetails", {serviceType:serviceType ,staffId:staffId})}
+                  onPress={() =>
+                    navigation.navigate("AddMoreDetails", {
+                      serviceType: serviceType,
+                      staffId: staffId,
+                    })
+                  }
                 />
               </View>
             )}
@@ -110,34 +115,34 @@ function ServiceContainer({
             <Text style={ContainerStyles.spText}>LKR{price}</Text>
           </View>
           <View style={{ width: 30, alignItems: "center" }}>
-          <Ionicons
-                style={{
-                  marginTop: 5,
-                }}
-                name="trash-outline"
-                size={20}
-                color="black"
-                onPress={handleDelete}
-              />
+            <Ionicons
+              style={{
+                marginTop: 5,
+              }}
+              name="trash-outline"
+              size={20}
+              color="black"
+              onPress={handleDelete}
+            />
           </View>
           <View style={{ width: 30, alignItems: "center" }}>
-          <Ionicons
-                style={{
-                  marginTop: 5,
-                }}
-                name="chevron-forward-outline"
-                size={20}
-                color="black"
-                onPress={() =>
-                  navigation.navigate("EditServiceDetails", {
-                    serviceName: text,
-                    price,
-                    duration,
-                    serviceId,
-                    staffId,
-                  })
-                }
-              />
+            <Ionicons
+              style={{
+                marginTop: 5,
+              }}
+              name="chevron-forward-outline"
+              size={20}
+              color="black"
+              onPress={() =>
+                navigation.navigate("EditServiceDetails", {
+                  serviceName: text,
+                  price,
+                  duration,
+                  serviceId,
+                  staffId,
+                })
+              }
+            />
           </View>
         </View>
       </View>

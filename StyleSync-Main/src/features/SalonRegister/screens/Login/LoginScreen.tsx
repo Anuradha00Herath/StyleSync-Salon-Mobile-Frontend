@@ -1,38 +1,42 @@
-import React ,{useState,useEffect} from "react";
-import { View, Text, TextInput, TouchableOpacity,StatusBar,ImageBackground} from 'react-native';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StatusBar,
+  ImageBackground,
+} from "react-native";
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 import { globalStyles } from "../../components/globalstyles";
 import { AppName } from "../../../staff-register/components/AppName";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {useFocusEffect , useNavigation } from "@react-navigation/native";
-import {LoginStyles} from "./styles";
-import { Icon } from '@rneui/themed'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { LoginStyles } from "./styles";
+import { Icon } from "@rneui/themed";
 import { Button } from "../../components/Button";
+import messaging from "@react-native-firebase/messaging";
 
 import axios from "axios";
 
 export function Login({ navigation }) {
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [validation, setValidation] = useState("");
 
-    const [isPasswordVisible, setPasswordVisible] = useState(false); 
-    const [email, setEmail] =useState("");
-    const [password , setPassword]=useState("");
-    const [emailError, setEmailError] = useState('');
-    const [errorPassword , setErrorPassword] =useState("")
-    const [loading, setLoading] = useState(false)
-    const [validation ,setValidation] =useState("")
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!isPasswordVisible);
+  };
 
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!isPasswordVisible);
-    };
-
-    const validateInputs = () => {
-        let isValid = true;
+  const validateInputs = () => {
+    let isValid = true;
 
         if (!email) {
             setEmailError('*Email field is required');
-            isValid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-            setEmailError('*Email Should be in correct format');
             isValid = false;
         } else {
             setEmailError('');
@@ -56,22 +60,11 @@ export function Login({ navigation }) {
                 const result = response.data;
                 const id = result.data[0].id;
                 const staffCount = result.count._count.staffID;
-                const emailVerified = result.data[0].emailVerified;
                 const { message, status } = result;
                 if (status == 201) {
                   console.log("Success: ", id);
-                  if(staffCount>0 && emailVerified == true){
+                  if(staffCount>0){
                     navigation.navigate("Main", { salonId:id })
-                  }
-                  else if (emailVerified == null){
-                    const urlTwo =
-                    "https://stylesync-backend-test.onrender.com/app/v1/salon/generate-salon-otp";
-                     const responseTwo = await axios.put(urlTwo, {
-                    salonId: id,
-                    email: email,
-                  });
-                    console.log(responseTwo.data)
-                    navigation.navigate("OTP",{contactNo:null ,email, salonId:id});
                   }
                   else{
                     navigation.navigate("SelectTeam", {id});
@@ -166,7 +159,7 @@ function BottomFeild({navigation ,onPress}) {
     return (
         <View>
             <View>
-                <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+                <TouchableOpacity>
                     <Text
                         style={LoginStyles.FogotP}>
                         {'Forgot Password?'}
