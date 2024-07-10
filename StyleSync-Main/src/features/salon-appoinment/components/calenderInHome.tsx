@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 import moment from 'moment';
 
 interface CalendarProps {
-  currentDate: Date;
+  currentDate: string;
 }
 
 const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {

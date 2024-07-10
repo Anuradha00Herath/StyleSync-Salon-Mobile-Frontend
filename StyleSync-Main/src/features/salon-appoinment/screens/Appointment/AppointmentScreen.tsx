@@ -10,34 +10,47 @@ import {
   ScrollView,
 } from "react-native";
 import Calendar from "../../components/calenderInHome";
+import CalenderExpand from "../../components/calenderInAppointment";
 import { BACKGROUND_IMAGE } from "../../components/BackGroundImage";
 const { width, height } = Dimensions.get("screen");
-import { useFocusEffect } from '@react-navigation/native';
-import moment from 'moment';
-import axios from 'axios';
-import { AppointmentSetTwo } from "../../components/appointmentSetForAppointmentScreen";
-import CalenderExpand from "../../components/calenderInAppointment";
-
+import { useFocusEffect } from "@react-navigation/native";
 const EventStatus = {
   All: "All",
   Canceled: "Canceled",
   Rejected: "Rejected",
 };
 
+import { AppointmentSetTwo } from "../../components/appointmentSetForAppointmentScreen";
+import moment from "moment";
+import axios from "axios";
+
 export default function AppointmentScreen({ navigation, route }) {
   const { salonId } = route.params;
   const [refresh, setRefresh] = useState(false);
-  const [isCalendarExpanded, setIsCalendarExpanded] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState<string>(EventStatus.All);
+  const [selectedStatus, setSelectedStatus] = useState(EventStatus.All);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState<string | undefined>(moment().format('YYYY-MM-DD'));
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
+  const [isCalendarExpanded, setIsCalendarExpanded] = useState(false);
 
   const fetchAppointments = async (selectedStatus) => {
+    let url;
+    if (selectedStatus == EventStatus.All) {
+      url =
+        "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-selectedate-appoinment";
+    } else if (selectedStatus == EventStatus.Canceled) {
+      url =
+        "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-selectedate-cancle-appoinment";
+    } else if (selectedStatus == EventStatus.Rejected) {
+      url =
+        "https://stylesync-backend-test.onrender.com/app/v1/appointment/get_reject_appointment";
+    }
+
     try {
       setLoading(true);
-      const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-selectedate-appoinment";
-      const response = await axios.get(url, { params: { salonId: salonId, date: date } });
+      const response = await axios.get(url, {
+        params: { salonId: salonId, date: date },
+      });
       setAppointments(response.data.data);
       console.log(response.data);
     } catch (error) {
@@ -66,8 +79,13 @@ export default function AppointmentScreen({ navigation, route }) {
     }
   }, [refresh]);
 
-  const handleStatusChange = (status: string) => {
+  const handleStatusChange = (status) => {
     setSelectedStatus(status);
+  };
+
+  const handleDateChange = (newDate) => {
+    setDate(newDate);
+    setIsCalendarExpanded(false); // Minimize calendar after selecting a date
   };
 
   const groupedAppointments = {};
@@ -81,38 +99,117 @@ export default function AppointmentScreen({ navigation, route }) {
   });
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <StatusBar barStyle="light-content" backgroundColor="black" />
-      <ImageBackground source={BACKGROUND_IMAGE} style={{ width: width, height: height }}>
-        <Text style={{ color: "white", textAlign: "center", top: StatusBar.currentHeight + 20, fontSize: 20, fontWeight: "bold" }}>
+      <ImageBackground
+        source={BACKGROUND_IMAGE}
+        style={{
+          width: width,
+          height: height,
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            textAlign: "center",
+            top: StatusBar.currentHeight + 20,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
           StyleSync
         </Text>
         <TouchableOpacity
-          style={{ marginTop: 55, marginHorizontal: 30 }}
+          style={{
+            marginTop: 55,
+            marginHorizontal: 30,
+          }}
           onPress={() => setIsCalendarExpanded(!isCalendarExpanded)}
         >
           {isCalendarExpanded ? (
-            <CalenderExpand selectedDate={date} setSelectedDate={(selectedDate) => { setDate(selectedDate); setIsCalendarExpanded(false); }} />
+            <CalenderExpand
+              selectedDate={date}
+              setSelectedDate={handleDateChange}
+              currentDate={undefined}
+            />
           ) : (
-            <Calendar currentDate={new Date()} />
+            <Calendar currentDate={date} />
           )}
         </TouchableOpacity>
-        <View style={styles.appointmentsContainer} key={refresh ? "refreshed" : "initial"}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "white",
+            width: "100%",
+            height: "auto",
+            position: "relative",
+            borderTopLeftRadius: 10,
+            borderBottomRightRadius: 10,
+            marginTop: 20,
+            marginBottom: 44,
+          }}
+          key={refresh ? "refreshed" : "initial"}
+        >
           <View style={styles.optionsContainer}>
-            {Object.values(EventStatus).map(status => (
-              <TouchableOpacity
-                key={status}
-                style={[styles.optionButton, selectedStatus === status && styles.selectedOption]}
-                onPress={() => handleStatusChange(status)}
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.All && styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.All)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.All && styles.selectedText,
+                ]}
               >
-                <Text style={[styles.optionText, selectedStatus === status && styles.selectedText]}>{status}</Text>
-              </TouchableOpacity>
-            ))}
+                All Appointments
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.Canceled && styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.Canceled)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.Canceled && styles.selectedText,
+                ]}
+              >
+                Canceled
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.optionButton,
+                selectedStatus === EventStatus.Rejected && styles.selectedOption,
+              ]}
+              onPress={() => handleStatusChange(EventStatus.Rejected)}
+            >
+              <Text
+                style={[
+                  styles.optionText,
+                  selectedStatus === EventStatus.Rejected && styles.selectedText,
+                ]}
+              >
+                Rejected
+              </Text>
+            </TouchableOpacity>
           </View>
           <ScrollView>
-            {Object.keys(groupedAppointments).map((staffName, index) => (
+            {Object.keys(groupedAppointments).map((staffName) => (
               <AppointmentSetTwo
-                key={index}
+                key={staffName} // Assuming staffName is unique
                 staffName={staffName}
                 appointments={groupedAppointments[staffName]}
                 navigation={navigation}
@@ -145,16 +242,5 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     fontWeight: "bold",
-  },
-  appointmentsContainer: {
-    flex: 1,
-    backgroundColor: "white",
-    width: "100%",
-    height: "auto",
-    position: "relative",
-    borderTopLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    marginTop: 20,
-    marginBottom: 44,
   },
 });
