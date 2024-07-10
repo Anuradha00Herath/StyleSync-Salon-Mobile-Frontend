@@ -78,7 +78,7 @@ export default function AppointmentScreen({navigation ,route}) {
         });
         const response = await axios.get(url, { params: {salonId: salonId,date:date}});
         setAppointments(response.data.data);
-        console.log(response.data);
+        console.log(response.data.data);
       } catch (error) {
         console.error(error);
       }finally {
