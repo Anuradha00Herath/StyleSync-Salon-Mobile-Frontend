@@ -212,7 +212,7 @@ export default function EditStaffProfile({ navigation ,route }) {
         >
           <TouchableArea name="Edit Working Days" iconName="today" option="touch"/>
         </TouchableOpacity>
-        <Text
+        {/* <Text
           style={{
             fontSize: 15,
             fontWeight: "bold",
@@ -242,7 +242,7 @@ export default function EditStaffProfile({ navigation ,route }) {
           }}
         >
           <TouchableArea name="Help" iconName="help-buoy" option="touch"/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
     </View>
   );
 }
