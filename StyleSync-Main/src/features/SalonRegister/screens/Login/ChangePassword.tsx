@@ -52,7 +52,7 @@ export function ChangePassword({navigation,route}) {
     if (!password) {
       setPasswordError("*Password filed is required");
       isValid = false;
-    }  else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)){
+    }  else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/.test(password)){
       setPasswordError('*Password is not strong enough');
       isValid = false;
   }

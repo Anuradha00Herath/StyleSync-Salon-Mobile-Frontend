@@ -103,12 +103,17 @@ function ServiceContainer({
       setLoading(false);
     }
   };
+  const convertMinutesToHours = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return `${hours}H ${remainingMinutes}Min`;
+  };
   return (
     <View>
       <View style={ContainerStyles.mainView}>
         <View style={ContainerStyles.subView1}>
           <Text style={ContainerStyles.spText}>{text}</Text>
-          <Text style={ContainerStyles.durationText}>{duration}Min</Text>
+          <Text style={ContainerStyles.durationText}>{convertMinutesToHours(duration)}</Text>
         </View>
         <View style={ContainerStyles.subView2}>
           <View>

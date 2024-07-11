@@ -96,6 +96,7 @@ export function AddMoreContant({ serviceType, staffId }) {
           style={styles.input}
           value={duration}
           onChangeText={(text) => setDuration(text)}
+           keyboardType="decimal-pad"
           placeholder={durationError ? durationError : "Enter Duration"}
           placeholderTextColor={durationError ? "#E32222" : null}
           //placeholder="Enter Duration"

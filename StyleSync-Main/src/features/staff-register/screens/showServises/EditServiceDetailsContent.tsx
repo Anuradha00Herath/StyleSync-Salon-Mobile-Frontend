@@ -89,6 +89,7 @@ export function EditServiceDetailsContent({
           placeholder={serviceError}
           placeholderTextColor="#E32222" 
           value={serviceName}
+          editable={false}
           onChangeText={(text) => setServiceName(text)}
         />
         <SeparatorLineWithText/>
@@ -100,6 +101,7 @@ export function EditServiceDetailsContent({
           placeholderTextColor="#E32222"
           value={duration}
           onChangeText={(text) => setDuration(text)}
+           keyboardType="decimal-pad"
         />
         <SeparatorLineWithText/>
 

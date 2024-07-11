@@ -103,7 +103,7 @@ if (loading || !Details) {
     </View>
   );
 }
-const { salon, staffCount, customerCount, staff } = Details;
+const { salon, staffCount, customerCount, staff,totalAppointmentCount } = Details;
 
 const toggleSwitch = async (staffId) => {
   const newToggleStates = {...toggleStates};
@@ -344,7 +344,7 @@ return (
                   fontSize: 15,
                 }}
               >
-                40
+                {totalAppointmentCount}
               </Text>
               <Text
                 style={{
@@ -360,7 +360,7 @@ return (
                   fontSize: 10,
                 }}
               >
-                Likes
+                Appointment
               </Text>
             </View>
             <View
