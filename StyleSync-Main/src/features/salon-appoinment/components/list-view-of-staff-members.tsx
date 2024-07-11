@@ -35,7 +35,7 @@ export function StaffMember({name,isOpen ,openHour,closeHour,Id,salonId,onPress,
         onPress:() =>console.log("Cancel"),
       },
     {
-      text:"Ok",
+      text:"Yes",
       onPress:handleDelete,
     }]
     )

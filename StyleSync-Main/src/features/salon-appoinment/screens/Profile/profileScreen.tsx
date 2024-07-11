@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Switch,
+  Alert
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons.js";
 import moment from 'moment';
@@ -139,8 +140,6 @@ const toggleSwitch = async (staffId) => {
   }
 };
 
-
-
 const SalonToggle = () => {
   staff.forEach(staff => {
     setOpenHour('');
@@ -149,6 +148,20 @@ const SalonToggle = () => {
     staffUpdate(staff.staffID)
     fetchDetails();
   }); 
+}
+const Update = () =>{
+  if(openHour){
+  Alert.alert('Close Salon','Are you sure you want to close the salon?',
+    [{
+      text:"Cancel",
+      onPress:() =>console.log("Cancel"),
+    },
+  {
+    text:"Yes",
+    onPress:() => SalonToggle(),
+  }]
+  )
+}
 }
     const staffUpdate = async(staffId) => {
     try{ 
@@ -481,7 +494,7 @@ return (
               trackColor={{ false: "#767577", true: "#2e2528" }}
               thumbColor={true ? "#8B6C58" : "#8B6C58"}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={SalonToggle}
+              onValueChange={Update}
               value={openHour? true:false}
             />
           </View>

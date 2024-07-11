@@ -52,15 +52,14 @@ export default function EditSalonProfile({ navigation ,route}) {
   const validateInputs = () => {
     let isValid = true;
 
-    if (!name.trim()) {
+    if (!name) {
       setError("*Name field is required");
       isValid = false;
       alert("Name field is required");
     } else {
       setError("");
     }
-
-    if (!gender.trim()) {
+    if (!gender) {
       setError("*Gender field is required");
       isValid = false;
       alert("Gender field is required");

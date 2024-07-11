@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { Image, View, Text } from "react-native";
+import { Image, View, Text,Alert } from "react-native";
 import { SeparatorLineWithText } from "./line";
 import { useState } from 'react';
 import axios from 'axios';
@@ -26,6 +26,19 @@ export function ServiceShow({service,navigation ,fetchService}) {
     }finally{
       setLoading(false);
     }
+  }
+
+  const Delete = () =>{
+    Alert.alert('Delete' ,"Are you sure you want to delete this service type? ",
+      [{
+        text:"Cancel",
+        onPress:() =>console.log("Cancel"),
+      },
+    {
+      text:"Yes",
+      onPress:() => handleDelete(),
+    }]
+    )
   }
   return (
     <View>
@@ -58,7 +71,7 @@ export function ServiceShow({service,navigation ,fetchService}) {
                         size={20}
                         color={"#71797E"}
                         style={{ width: 20, height: 20 }}
-                        onPress={handleDelete}
+                        onPress={Delete}
                       />
                   </View>
                   <View style={{ width: 30, alignItems: "center" }}>
