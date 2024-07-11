@@ -75,11 +75,17 @@ export default function CustomerInfo({ route ,navigation}) {
       const url =
         "https://stylesync-backend-test.onrender.com/app/v1/appointment/reject_appointment";
         const currentDate = moment.utc().startOf('day').toISOString();
+        console.log('Request Parameters:', { 
+          customerId:customerAppointmentBlock[0].customerId,
+        date:customerAppointmentBlock[0].date,
+        startTime:customerAppointmentBlock[0].startTime,
+        staffId:staff.id
+        });
         const response = await axios.put(url, {
         customerId:customerAppointmentBlock[0].customerId,
         date:customerAppointmentBlock[0].date,
         startTime:customerAppointmentBlock[0].startTime,
-        staffId:staff.salonStaff[0].salonId
+        staffId:staff.id
 });
      console.log(response.data);
      navigation.goBack();
