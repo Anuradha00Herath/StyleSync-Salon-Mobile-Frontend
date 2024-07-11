@@ -26,6 +26,7 @@ export default function HomeScreen({navigation,route}) {
       const url = "https://stylesync-backend-test.onrender.com/app/v1/appointment/get-appointment-to-salon";
       const currentDate = moment.utc().startOf('day').toISOString();
       const currentTime = moment().format('HH:mm:ss');
+
       console.log('Request Parameters:', { 
         salonId: salonId, 
         date: currentDate, 
@@ -33,7 +34,6 @@ export default function HomeScreen({navigation,route}) {
       });
       const response = await axios.get(url, { params: {  salonId: salonId,date: currentDate, time: currentTime  } });
       setAppointments(response.data.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }finally {
@@ -44,13 +44,15 @@ export default function HomeScreen({navigation,route}) {
   useFocusEffect(
     React.useCallback(()=>{
       setAppointments([]);
-      fetchAppointments();
+      
     },[salonId])
   );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setRefresh(true);
+      fetchAppointments();
+      
     }, 5000); 
 
     return () => clearInterval(intervalId);
