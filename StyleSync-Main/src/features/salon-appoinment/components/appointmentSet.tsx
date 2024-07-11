@@ -4,6 +4,7 @@ import { AppointmentBlock } from "./appointmentBlock";
 import { useNavigation } from "@react-navigation/native";
 
 export function AppointmentSet({ startTime, appointments, navigation}) {
+  
   return (
     <View style={styles.mainView}>
       <View style={styles.subView1}>
