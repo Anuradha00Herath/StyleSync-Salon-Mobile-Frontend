@@ -49,7 +49,7 @@ export function AppointmentSetTwo({staffName, appointments, navigation}) {
             flexWrap: 'wrap'
         }}> 
         {appointments.map(appointment => (
-  <AppointmentBlockTwo key={appointment.id} appointment={appointment} navigation={navigation} />
+  <AppointmentBlockTwo key={appointment.customerAppointmentBlock[0].customerId} appointment={appointment} navigation={navigation} />
 ))}
         </View>
     </View>

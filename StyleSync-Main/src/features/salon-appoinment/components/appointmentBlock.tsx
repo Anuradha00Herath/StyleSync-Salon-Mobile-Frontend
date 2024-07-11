@@ -42,7 +42,7 @@ export function AppointmentBlock({ appointment, navigation }) {
                   LKR{serviceAppointmentBlock[0].service.price}
                 </Text>
                 <Text style={styles.CGenderText}>
-                {customerAppointmentBlock[0].customer.gender === null? (customerAppointmentBlock[0].customer.gender):null} | 1 attempts
+                {customerAppointmentBlock[0].customer.gender === null? null :(customerAppointmentBlock[0].customer.gender)} | 1 attempts
                 </Text>
             </View>
             <View style={styles.view4}>

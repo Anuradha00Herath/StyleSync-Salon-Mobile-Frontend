@@ -56,7 +56,7 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
                   marginLeft: 5,
                   fontWeight: "bold",
                 }}>
-                  {customerAppointmentBlock[0].customer.gender === null? (customerAppointmentBlock[0].customer.gender):null}
+                  {customerAppointmentBlock[0].customer.gender === null? null:(customerAppointmentBlock[0].customer.gender)}
                 </Text>
               </View>
             </View>
@@ -94,7 +94,7 @@ export function AppointmentBlockTwo({ appointment , navigation}) {
             }}>{serviceAppointmentBlock[0].service.name}</Text>
               <Text style={{
               marginTop: 4,
-            }}>{customerAppointmentBlock[0].customer.gender === null? (customerAppointmentBlock[0].customer.gender): (" -- ")}</Text>
+            }}>{customerAppointmentBlock[0].customer.gender === null?  (" -- "):(customerAppointmentBlock[0].customer.gender)}</Text>
               <Text style={{
               marginTop: 4,
             }}>{serviceAppointmentBlock[0].service.price}</Text>
