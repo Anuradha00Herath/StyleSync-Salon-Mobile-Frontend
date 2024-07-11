@@ -207,9 +207,9 @@ export default function AppointmentScreen({ navigation, route }) {
             </TouchableOpacity>
           </View>
           <ScrollView>
-            {Object.keys(groupedAppointments).map((staffName) => (
+            {Object.keys(groupedAppointments).map((staffName,index) => (
               <AppointmentSetTwo
-                key={staffName} // Assuming staffName is unique
+                key={index} // Assuming staffName is unique
                 staffName={staffName}
                 appointments={groupedAppointments[staffName]}
                 navigation={navigation}

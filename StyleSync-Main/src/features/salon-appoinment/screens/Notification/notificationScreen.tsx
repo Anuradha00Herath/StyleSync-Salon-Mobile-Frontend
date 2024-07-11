@@ -242,7 +242,9 @@ export default function NotificationScreen({ route, navigation }) {
   };
 
   return (
-    <View style={{ marginHorizontal: 20 }}>
+    <View style={{ marginHorizontal: 20,
+       backgroundColor: "#FFFFFF",
+     }}>
       <View
         style={{
           marginVertical: 10,
@@ -251,18 +253,18 @@ export default function NotificationScreen({ route, navigation }) {
         }}
       >
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>Notification</Text>
-        <Ionicons
+        {/* <Ionicons
           name="search"
           size={20}
           style={{ textAlign: "center", marginTop: 5 }}
-        />
+        /> */}
       </View>
       <ScrollView>
         <View>
           <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 5 }}>
             Today
           </Text>
-          <View style={{ backgroundColor: "#FDFEFE" }}>
+          <View style={{ backgroundColor: "#FFFFFF" }}>
             {todayAppointments.map(renderAppointment)}
           </View>
         </View>
