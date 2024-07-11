@@ -4,6 +4,7 @@ import {
   Text,
   ImageBackground,
   StatusBar,
+  Alert
 } from "react-native";
 import { globaleStyles, imageStyles } from "../../components/globaleStyles";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -69,6 +70,18 @@ export function ShowServicesType({ route }) {
       setLoading(false);
     }
   };
+  const Delete = (serviceType:any) =>{
+    Alert.alert('Delete' ,"Are you sure you want to delete this service type? ",
+      [{
+        text:"Cancel",
+        onPress:() =>console.log("Cancel"),
+      },
+    {
+      text:"Yes",
+      onPress:() => handleDelete(serviceType),
+    }]
+    )
+  }
 
   return (
     <ImageBackground source={BACKGROUND_IMAGE} style={imageStyles.container}>
@@ -123,7 +136,7 @@ export function ShowServicesType({ route }) {
                           name="trash-outline"
                           size={20}
                           color="black"
-                          onPress={() => handleDelete(serviceType)}
+                          onPress={() => Delete(serviceType)}
                         />
                       </View>
                       <View style={{ width: 40, alignItems: "center" }}>

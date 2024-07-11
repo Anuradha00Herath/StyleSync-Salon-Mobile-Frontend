@@ -51,7 +51,7 @@ export function StaffContent({ staffName, salonId ,fetchServiceName }) {
           onPress:() =>console.log("Cancel"),
         },
       {
-        text:"Ok",
+        text:"Yes",
         onPress:() => handleDelete(staffId),
       }]
       )

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, FlatList, ScrollView } from "react-native";
+import { View, StyleSheet, Text, FlatList, ScrollView ,Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { globaleStyles } from "../../components/globaleStyles";
@@ -103,6 +103,18 @@ function ServiceContainer({
       setLoading(false);
     }
   };
+  const Delete = () =>{
+    Alert.alert('Delete' ,"Are you sure you want to delete this service? ",
+      [{
+        text:"Cancel",
+        onPress:() =>console.log("Cancel"),
+      },
+    {
+      text:"Yes",
+      onPress:() => handleDelete(),
+    }]
+    )
+  }
   const convertMinutesToHours = (minutes) => {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -127,7 +139,7 @@ function ServiceContainer({
               name="trash-outline"
               size={20}
               color="black"
-              onPress={handleDelete}
+              onPress={Delete}
             />
           </View>
           <View style={{ width: 30, alignItems: "center" }}>
