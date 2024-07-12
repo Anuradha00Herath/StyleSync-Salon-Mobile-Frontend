@@ -60,12 +60,6 @@ export default function AppointmentScreen({ navigation, route }) {
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchAppointments(selectedStatus);
-    }, [salonId, selectedStatus, date])
-  );
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       setRefresh(true);
@@ -79,8 +73,9 @@ export default function AppointmentScreen({ navigation, route }) {
     }
   }, [refresh]);
 
-  const handleStatusChange = (status) => {
+  const handleStatusChange = (status: React.SetStateAction<string>) => {
     setSelectedStatus(status);
+    fetchAppointments(status);
   };
 
   const handleDateChange = (newDate) => {
@@ -162,7 +157,7 @@ export default function AppointmentScreen({ navigation, route }) {
                 styles.optionButton,
                 selectedStatus === EventStatus.All && styles.selectedOption,
               ]}
-              onPress={() => handleStatusChange(EventStatus.All)}
+              onPress={() => {handleStatusChange(EventStatus.All),fetchAppointments(EventStatus.All)}}
             >
               <Text
                 style={[
@@ -178,7 +173,7 @@ export default function AppointmentScreen({ navigation, route }) {
                 styles.optionButton,
                 selectedStatus === EventStatus.Canceled && styles.selectedOption,
               ]}
-              onPress={() => handleStatusChange(EventStatus.Canceled)}
+              onPress={() => {handleStatusChange(EventStatus.Canceled),fetchAppointments(EventStatus.Canceled)}}
             >
               <Text
                 style={[
@@ -194,7 +189,7 @@ export default function AppointmentScreen({ navigation, route }) {
                 styles.optionButton,
                 selectedStatus === EventStatus.Rejected && styles.selectedOption,
               ]}
-              onPress={() => handleStatusChange(EventStatus.Rejected)}
+              onPress={() => {handleStatusChange(EventStatus.Rejected),fetchAppointments(EventStatus.Rejected)}}
             >
               <Text
                 style={[
@@ -207,9 +202,9 @@ export default function AppointmentScreen({ navigation, route }) {
             </TouchableOpacity>
           </View>
           <ScrollView>
-            {Object.keys(groupedAppointments).map((staffName) => (
+            {Object.keys(groupedAppointments).map((staffName,index) => (
               <AppointmentSetTwo
-                key={staffName} // Assuming staffName is unique
+                key={index} // Assuming staffName is unique
                 staffName={staffName}
                 appointments={groupedAppointments[staffName]}
                 navigation={navigation}

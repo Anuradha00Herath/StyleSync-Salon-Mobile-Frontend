@@ -142,6 +142,11 @@ export default function NotificationScreen({ route, navigation }) {
   );
 
   const renderAppointment = (appointment: Appointment) => {
+    if (!appointment.customerAppointmentBlock || appointment.customerAppointmentBlock.length === 0) {
+      return null;
+    }
+
+    const customerBlock = appointment.customerAppointmentBlock[0];
     const isNew = highlightNew && lastVisited && new Date(appointment.bookingTime) > lastVisited;
 
     return (
@@ -158,9 +163,9 @@ export default function NotificationScreen({ route, navigation }) {
         <View style={{ marginHorizontal: 5 }}>
           <Image
             source={
-              appointment.customerAppointmentBlock[0].customer.image === null
+              customerBlock.customer.image === null
                 ? require("../../../../assets/images.jpg")
-                : { uri: appointment.customerAppointmentBlock[0].customer.image }
+                : { uri: customerBlock.customer.image }
             }
             style={{
               width: 40,
@@ -188,7 +193,7 @@ export default function NotificationScreen({ route, navigation }) {
             }}
           >
             <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-              {appointment.customerAppointmentBlock[0].customer.name}
+              {customerBlock.customer.name}
             </Text>
             <View>
               <TouchableOpacity
@@ -201,11 +206,11 @@ export default function NotificationScreen({ route, navigation }) {
             </View>
           </View>
           <View>
-            {appointment.customerAppointmentBlock[0].isCancel ? (
+            {customerBlock.isCancel ? (
               <Text>
                 {appointment.staff.name}'s appointment on{" "}
                 {
-                  new Date(appointment.customerAppointmentBlock[0].date)
+                  new Date(customerBlock.date)
                     .toISOString()
                     .split("T")[0]
                 }{" "}
@@ -215,7 +220,7 @@ export default function NotificationScreen({ route, navigation }) {
               <Text>
                 {appointment.staff.name} has a new appointment on{" "}
                 {
-                  new Date(appointment.customerAppointmentBlock[0].date)
+                  new Date(customerBlock.date)
                     .toISOString()
                     .split("T")[0]
                 }{" "}
@@ -242,7 +247,7 @@ export default function NotificationScreen({ route, navigation }) {
   };
 
   return (
-    <View style={{ marginHorizontal: 20 }}>
+    <View style={{ marginHorizontal: 20, backgroundColor: "#FFFFFF" }}>
       <View
         style={{
           marginVertical: 10,
@@ -251,18 +256,18 @@ export default function NotificationScreen({ route, navigation }) {
         }}
       >
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>Notification</Text>
-        <Ionicons
+        {/* <Ionicons
           name="search"
           size={20}
           style={{ textAlign: "center", marginTop: 5 }}
-        />
+        /> */}
       </View>
       <ScrollView>
         <View>
           <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 5 }}>
             Today
           </Text>
-          <View style={{ backgroundColor: "#FDFEFE" }}>
+          <View style={{ backgroundColor: "#FDFDFD" }}>
             {todayAppointments.map(renderAppointment)}
           </View>
         </View>
@@ -270,7 +275,7 @@ export default function NotificationScreen({ route, navigation }) {
           <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 5 }}>
             Yesterday
           </Text>
-          <View style={{ backgroundColor: "#FDFEFE" }}>
+          <View style={{ backgroundColor: "#FDFDFD" }}>
             {yesterdayAppointments.map(renderAppointment)}
           </View>
         </View>
@@ -278,7 +283,7 @@ export default function NotificationScreen({ route, navigation }) {
           <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 5 }}>
             Earlier
           </Text>
-          <View style={{ backgroundColor: "#FDFEFE" }}>
+          <View style={{ backgroundColor: "#FDFDFD" }}>
             {earlierAppointments.map(renderAppointment)}
           </View>
         </View>

@@ -129,7 +129,7 @@ export default function SettingsScreen({navigation ,route}) {
         >
           General
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             alignSelf: 'flex-start',
             //backgroundColor:'#2F4F4F',
@@ -140,8 +140,8 @@ export default function SettingsScreen({navigation ,route}) {
           }}
           onPress={toggleSwitch}
         >
-          <TouchableArea name="Dark Mode" iconName="moon" option="switch"/>
-          <Switch
+          <TouchableArea name="Dark Mode" iconName="moon" option="switch"/> */}
+          {/* <Switch
               style={{}}
               trackColor={{ false: "#767577", true: "#2e2528" }}
               thumbColor={true ? "#f4f3f4" : "#f4f3f4"}
@@ -149,14 +149,14 @@ export default function SettingsScreen({navigation ,route}) {
               //onValueChange={toggleSwitch}
               //value={isEnabled}
       />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           style={{
             alignSelf: "center",
           }}
         >
           <DropdownList name="Language" iconName="language" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={{
             alignSelf: 'flex-start',
@@ -241,7 +241,7 @@ export default function SettingsScreen({navigation ,route}) {
         </TouchableOpacity>
 
         {/* Other Settings */}
-        <Text
+        {/* <Text
           style={{
             fontSize: 15,
             fontWeight: "bold",
@@ -271,7 +271,7 @@ export default function SettingsScreen({navigation ,route}) {
           }}
         >
           <TouchableArea name="Help" iconName="help-buoy" option="touch"/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
     </View>
   );
